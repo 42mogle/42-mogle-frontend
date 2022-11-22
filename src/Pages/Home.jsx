@@ -9,12 +9,10 @@ const Home = (props) => {
         sx={{ width: 100, height: 100, mb: 3 }}
         src="https://i.ytimg.com/vi/AwrFPJk_BGU/maxresdefault.jpg"
       ></Avatar>
-      <Typography component="body1">
-        {props.name} 모닝글로리 님
-      </Typography>
-	  <Box>
-		
-	  </Box>
+      <Typography component="body1">{props.name} 모닝글로리 님</Typography>
+      <Box>
+
+      </Box>
     </>
   );
 };

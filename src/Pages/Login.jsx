@@ -7,18 +7,31 @@ import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+import { useSearchParams } from "react-router-dom";
+import { useState, useEffect } from "react";
 
-const _url = "10.19.213.129";
-const _oauth = "https://api.intra.42.fr/oauth/authorize?client_id=u-s4t2ud-ffa1eb7dfe8ca1260f9d27ba33051536d23c76cd1ab09f489cb233c7e8e5e065&redirect_uri=http%3A%2F%2Fwww.42mogle.com&response_type=code";
+const _oauth =
+  "https://api.intra.42.fr/oauth/authorize?client_id=u-s4t2ud-ffa1eb7dfe8ca1260f9d27ba33051536d23c76cd1ab09f489cb233c7e8e5e065&redirect_uri=http%3A%2F%2F10.19.220.34%3A3000&response_type=code";
 const Login = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     axios
-      .get("10.19.213.129/user/", {
+      .get("http://42mogle.com:3000/user/", {
         withCredentials: true,
       })
       .then((response) => console.log(response.data));
   };
+
+  const [searchParams] = useSearchParams();
+  const token = searchParams.get("code");
+  if (token !== null) {
+    console.log(token);
+    axios
+      .get(`http://10.19.247.186:3000/auth/firstJoin/?code=${token}`, {
+        withCredentials: true,
+      })
+      .then((response) => console.log(response));
+  }
 
   return (
     <>
