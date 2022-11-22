@@ -1,4 +1,3 @@
-import { useState } from "react";
 import axios from "axios";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -10,11 +9,12 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 
 const _url = "10.19.213.129";
+const _oauth = "https://api.intra.42.fr/oauth/authorize?client_id=u-s4t2ud-ffa1eb7dfe8ca1260f9d27ba33051536d23c76cd1ab09f489cb233c7e8e5e065&redirect_uri=http%3A%2F%2Fwww.42mogle.com&response_type=code";
 const Login = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     axios
-      .get("http://10.19.213.129:3000/user/", {
+      .get("10.19.213.129/user/", {
         withCredentials: true,
       })
       .then((response) => console.log(response.data));
@@ -30,10 +30,10 @@ const Login = () => {
           margin="normal"
           required
           fullWidth
-          id="intraID"
+          id="intraId"
           label="Intra ID"
-          name="intraID"
-          autoComplete="intraID"
+          name="intraId"
+          autoComplete="intraId"
           autoFocus
         />
         <TextField
@@ -67,7 +67,7 @@ const Login = () => {
         </Button>
         <Button
           component={Link}
-          to="/signIn"
+          href={_oauth}
           fullWidth
           variant="outlined"
           sx={{ mt: 1, mb: 2 }}
