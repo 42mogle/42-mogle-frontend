@@ -10,7 +10,7 @@ import Typography from "@mui/material/Typography";
 import { useState, useEffect } from "react";
 
 const _oauth =
-  "https://api.intra.42.fr/oauth/authorize?client_id=u-s4t2ud-ffa1eb7dfe8ca1260f9d27ba33051536d23c76cd1ab09f489cb233c7e8e5e065&redirect_uri=http%3A%2F%2F10.19.210.0%3A3000%2Fauth&response_type=code";
+  "https://api.intra.42.fr/oauth/authorize?client_id=u-s4t2ud-ffa1eb7dfe8ca1260f9d27ba33051536d23c76cd1ab09f489cb233c7e8e5e065&redirect_uri=http%3A%2F%2F10.19.220.34%3A3000%2Fauth&response_type=code";
 const Login = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -18,7 +18,7 @@ const Login = () => {
       .get("http://42mogle.com:3000/user/", {
         withCredentials: true,
       })
-      .then((response) => console.log(response.data));
+      .then((response) => console.log(response.data))
   };
 
   return (
