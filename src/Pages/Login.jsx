@@ -14,6 +14,8 @@ const _oauth =
 const Login = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
+    const intraId = event.intraId.value;
+    const password = event.password.value;
     axios
       .get("http://42mogle.com:3000/user/", {
         withCredentials: true,
