@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -12,15 +13,27 @@ import { useState, useEffect } from "react";
 const _oauth =
   "https://api.intra.42.fr/oauth/authorize?client_id=u-s4t2ud-ffa1eb7dfe8ca1260f9d27ba33051536d23c76cd1ab09f489cb233c7e8e5e065&redirect_uri=http%3A%2F%2F10.19.220.34%3A3000%2Fauth&response_type=code";
 const Login = () => {
-  const handleSubmit = (event) => {
+  const navigate = useNavigate();
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const intraId = event.intraId.value;
-    const password = event.password.value;
-    axios
-      .get("http://42mogle.com:3000/user/", {
-        withCredentials: true,
-      })
-      .then((response) => console.log(response.data))
+    const _intraId = event.target.intraId.value;
+    const _password = event.target.password.value;
+    console.log(_intraId);
+    console.log(_password);
+    const response = await axios.post("http://10.19.247.186:3042/auth/login/", {
+      intraId: _intraId,
+      password: _password,
+    });
+    console.log(response);
+    if (response.status === 201) {
+      navigate("/home");
+    }
+    // axios
+    //   .get("http://10.19.247.186:3042/auth/login/", {
+    //     intraId: _intraId,
+    //     password: _password,
+    //   })
+    //   .then((response) => console.log(response.data));
   };
 
   return (
