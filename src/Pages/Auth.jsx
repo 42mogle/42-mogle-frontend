@@ -3,6 +3,8 @@ import axios from "axios";
 import { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Typography } from "@mui/material";
+import CircularProgress from "@mui/material/CircularProgress";
+import Box from "@mui/material/Box";
 
 const Auth = () => {
   const [searchParams] = useSearchParams();
@@ -31,9 +33,10 @@ const Auth = () => {
   });
 
   return (
-    <Typography component="h1" variant="h4">
-      Loading...
-    </Typography>
+    <>
+      <CircularProgress sx={{ mb: 3 }} />
+      <Typography>모닝글로리와 함께 아침을 맞이하는 중입니다!</Typography>
+    </>
   );
 };
 
