@@ -12,18 +12,26 @@ const Auth = () => {
   useEffect(() => {
     (async () => {
       const _serverUrl = `http://10.19.247.186:3042/auth/firstJoin/?code=${token}`;
-      console.log(token);
       if (token) {
-        // TODO [try ... catch] 문으로 사용하기
-        const response = await axios.get(_serverUrl);
-        console.log(response);
-        navigate("/home");
+        try {
+          const response = await axios.get(_serverUrl);
+          // TODO 유저가 회원가입 되어있는지 status code 로 판단할지, response 데이터에 추가로 변수를 줄지?
+          if (response.status === 200) {
+            if (response.data.isSignedUp === true) {
+              navigate("/");
+            } else {
+              navigate("/signup", { state: response.data });
+            }
+          }
+        } catch (error) {
+          console.log(error);
+        }
       }
     })();
   });
 
   return (
-    <Typography component="h1" variant="h3">
+    <Typography component="h1" variant="h4">
       Loading...
     </Typography>
   );
