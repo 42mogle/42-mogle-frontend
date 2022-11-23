@@ -7,6 +7,7 @@ import { Route, Routes } from "react-router-dom";
 import Login from "./Pages/Login";
 import Home from "./Pages/Home";
 import Signup from "./Pages/Signup";
+import Auth from "./Pages/Auth";
 import Copyright from "./Components/Copyright";
 
 const theme = createTheme({
@@ -19,6 +20,7 @@ const theme = createTheme({
 });
 
 const App = () => {
+  const _authUrl = "https://api.intra.42.fr/oauth/authorize?client_id=u-s4t2ud-ffa1eb7dfe8ca1260f9d27ba33051536d23c76cd1ab09f489cb233c7e8e5e065&redirect_uri=http%3A%2F%2F10.19.220.34%3A3000&response_type=code";
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
@@ -36,6 +38,7 @@ const App = () => {
             <Route path="/" element={<Login />} />
             <Route path="/home" element={<Home />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/auth" element={<Auth />} />
           </Routes>
           <Copyright sx={{ mt: 8, mb: 4 }} />
         </Box>
