@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Avatar, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 
-const Home = (props) => {
+const Home = ({ props }) => {
   return (
     <>
       <Avatar
@@ -10,9 +10,7 @@ const Home = (props) => {
         src="https://i.ytimg.com/vi/AwrFPJk_BGU/maxresdefault.jpg"
       ></Avatar>
       <Typography component="body1">{props.name} 모닝글로리 님</Typography>
-      <Box>
-
-      </Box>
+      <Box></Box>
     </>
   );
 };
