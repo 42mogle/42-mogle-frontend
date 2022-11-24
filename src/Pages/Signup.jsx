@@ -10,8 +10,46 @@ import Typography from "@mui/material/Typography";
 import { List, ListItem, ListItemIcon, ListItemText } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
 import { Input } from "@mui/material";
+import { useState } from "react";
+
 
 const Signup = () => {
+  
+  // 비밀번호 규칙 확인용 State (boolean)
+  const [isValidPassword, setIsValidPassword] = useState(true);
+  const [isSamePassword, setIsSamePassword] = useState(true);
+  // 사용자 입력 비밀번호 저장 State (string)
+  const [firstPassword, setFirstPassword] = useState("");
+  const [secondPassword, setSecondPassword] = useState("");
+  // 비밀번호 규칙 검증용 State (boolean)
+  const [isLengthGood, setLengthGood] = useState(true);
+  const [isRuleGood, sesRuleGood] = useState(true);
+
+  const onChangePassword = (event) => {
+    setFirstPassword(event.target.value);
+    console.log(firstPassword);
+    // TODO 비밀번호 규칙에 맞는가? => 정규식
+    const ruleRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$");
+    // Length Check Login
+    (firstPassword.length > 6 && firstPassword.length < 20 ?  setLengthGood(true) : setLengthGood(false))
+    
+    if(isLengthGood && isRuleGood)
+      return(null);
+    else
+      return("error");
+    // return(`<TextField
+    //   margin="normal"
+    //   variant="filled"
+    //   ${isError}
+    //   value="인트라 ID"
+    //   fullWidth
+    //   id="intraId"
+    //   name="intraId"
+    //   autoComplete="intraId"
+    //   autoFocus
+    // />`);
+  }
+  
   const handleSubmit = (event) => {
     event.preventDefault();
     axios
@@ -43,11 +81,13 @@ const Signup = () => {
           margin="normal"
           required
           fullWidth
+          // {onChangePassword();}
           name="password"
           label="Password"
           type="password"
           id="password"
           autoComplete="new-password"
+          onChange={onChangePassword}
         />
         <TextField
           margin="normal"
@@ -65,13 +105,13 @@ const Signup = () => {
         <List
           sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
         >
-          <ListItem>
+          <ListItem sx={{ pt: 0, pb: 0 }}>
             <ListItemIcon>
               <CheckIcon></CheckIcon>
             </ListItemIcon>
-            <ListItemText secondary="10~20자 사이" />
+            <ListItemText secondary="8~20자 사이" />
           </ListItem>
-          <ListItem>
+          <ListItem sx={{ pt: 0, pb: 0 }}>
             <ListItemIcon>
               <CheckIcon></CheckIcon>
             </ListItemIcon>
