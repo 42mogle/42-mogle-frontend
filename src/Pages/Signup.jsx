@@ -8,10 +8,11 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { List, ListItem, ListItemIcon, ListItemText } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
+import Alert from "@mui/material/Alert";
 
 const Signup = () => {
   const navigate = useNavigate();
-  const { state } = useLocation();
+  const { state, isErrorOccured } = useLocation();
   // 비밀번호 규칙 확인용 State (boolean)
   // const [isValidPassword, setIsValidPassword] = useState(true);
   const [isSamePassword, setIsSamePassword] = useState(true);
@@ -23,6 +24,7 @@ const Signup = () => {
   const [isRuleGood, setRuleGood] = useState(true);
   // 비밀번호 검증 시 에러 메세지 설정용 State (string)
   const [validPasswordMessage, setValidPasswordMessage] = useState("");
+  const [backPasswordError, setBackPasswordError] = useState(false);
 
   const onChangePassword = useCallback((event) => {
     const currentPassword = event.target.value;
@@ -71,30 +73,30 @@ const Signup = () => {
     event.preventDefault();
     const _serverUrl = `http://10.19.247.186:3042/auth/secondJoin/`;
     // TODO 비밀번호 규칙 검사하기
-    //   if (isSamePassword && isValidPassword) {
-    //     console.log("OK");
-    //     try {
-    //       const response = await axios.post(_serverUrl, {
-    //         intraId: state.intraId,
-    //         password: password,
-    //         imageURL: null,
-    //       });
-    //       console.log(response);
-    //       if (response.status === 201) {
-    //         // TODO 서버에서 받은 JWT 토큰 상태관리하기
-    //         navigate("/");
-    //       }
-    //     } catch (error) {
-    //       console.log(error);
-    //     }
-    //   } else {
-    //     console.log("비밀번호가 일치하지 않습니다.");
-    //   }
+    try {
+      const response = await axios.post(_serverUrl, {
+        intraId: state.intraId,
+        password: secondPassword,
+        imageURL: null,
+      });
+      console.log(response);
+      if (response.status === 201) {
+        navigate("/");
+      }
+    } catch (error) {
+      setBackPasswordError(true);
+      console.log(error);
+    }
   };
 
   // if (state.intraId !== undefined) {
   return (
     <>
+      {backPasswordError && (
+        <Alert severity="error" sx={{ mb: 3, width: "100%" }}>
+          오류가 발생했습니다. 다시 시도해주세요.
+        </Alert>
+      )}
       <Typography component="h1" variant="h5">
         회원가입
       </Typography>
@@ -103,7 +105,7 @@ const Signup = () => {
           margin="normal"
           variant="filled"
           disabled
-          // value={state.intraId}
+          value={state.intraId}
           fullWidth
           id="intraId"
           name="intraId"

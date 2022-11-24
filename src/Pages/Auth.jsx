@@ -17,16 +17,12 @@ const Auth = () => {
       if (token) {
         try {
           const response = await axios.get(_serverUrl);
-          // TODO 유저가 회원가입 되어있는지 status code 로 판단할지, response 데이터에 추가로 변수를 줄지?
           if (response.status === 200) {
-            if (response.data.isSignedUp === true) {
-              navigate("/");
-            } else {
-              navigate("/signup", { state: response.data });
-            }
+            navigate("/signup", { state: response.data });
           }
         } catch (error) {
           console.log(error);
+          navigate("/", { state: { isAlreadySignedUp: true } });
         }
       }
     })();
