@@ -22,7 +22,7 @@ const Home = () => {
         src="https://i.ytimg.com/vi/AwrFPJk_BGU/maxresdefault.jpg"
       ></Avatar>
       <Typography variant="body1">모닝글로리 님</Typography>
-      <Typography variant="subtitle1" color="primary.main" sx={{ mt: 1 }}>
+      <Typography variant="subtitle1" sx={{ mt: 1, fontWeight: "bold" }}>
         {todayDate}
       </Typography>
       <AttendanceTable />
