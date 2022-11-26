@@ -29,7 +29,7 @@ const Home = () => {
       <AttendanceTable />
       {/* TODO 출석 상태에 따라 메세지도 다르게 설정 */}
       {/* TODO 출석 상태에 버튼 활성화 여부도 다르게 설정 */}
-	  <AttendanceButton />
+      <AttendanceButton />
       {/* TODO 오퍼레이터일때만 버튼 보이도록 설정 */}
       <Button variant="outlined" sx={{ mt: 3, width: 1 / 2 }}>
         오늘의 단어 설정

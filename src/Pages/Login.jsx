@@ -30,6 +30,8 @@ const Login = () => {
         }
       );
       if (response.status === 201) {
+        console.log(response);
+        localStorage.setItem("accessToken", response.data.accessToken);
         navigate("/home");
       }
     } catch (error) {
