@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
@@ -21,7 +22,21 @@ const AttendanceButton = () => {
 
   // TODO 서버와 통신해서 오늘의 단어 정답 여부 처리하기
   // TODO 오답일 경우 setIsSameWithTodayWord(false) 처리하기
-  const handleSubmit = () => {
+  const handleSubmit = async (event) => {
+    const inputValue = document.getElementById("todayWord").value;
+    console.log(inputValue);
+    try {
+      const response = await axios.post(
+        "http://10.19.202.231:3000/attendance/userAttendance",
+        {
+          intraId: "joonhan",
+          todayWord: inputValue,
+        }
+      );
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
     setOpen(false);
   };
 
