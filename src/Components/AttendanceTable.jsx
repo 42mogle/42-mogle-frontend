@@ -58,7 +58,7 @@ const Row = (props) => {
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
               <Table size="small" aria-label="attendanceLog">
-                <TableHead sx={{bgcolor: '#EBEBF0'}}>
+                <TableHead sx={{ bgcolor: "#EBEBF0" }}>
                   <TableRow>
                     <TableCell>일시</TableCell>
                     <TableCell>시간</TableCell>
@@ -91,9 +91,13 @@ const AttendanceTable = () => {
       <Table aria-label="collapsible table">
         <TableHead sx={{ bgcolor: "text.disabled" }}>
           <TableRow>
-            <TableCell>출석 기록</TableCell>
-            <TableCell align="center">이번 달 개근 일수</TableCell>
-            <TableCell align="center">이번 달 개근 여부</TableCell>
+            <TableCell sx={{ color: "white" }}>출석 기록</TableCell>
+            <TableCell align="center" sx={{ color: "white" }}>
+              이번 달 개근 일수
+            </TableCell>
+            <TableCell align="center" sx={{ color: "white" }}>
+              이번 달 개근 여부
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
