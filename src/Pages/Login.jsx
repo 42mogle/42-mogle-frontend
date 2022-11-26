@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -12,7 +12,7 @@ import Typography from "@mui/material/Typography";
 import Alert from "@mui/material/Alert";
 
 const _oauth =
-  "https://api.intra.42.fr/oauth/authorize?client_id=u-s4t2ud-ffa1eb7dfe8ca1260f9d27ba33051536d23c76cd1ab09f489cb233c7e8e5e065&redirect_uri=http%3A%2F%2F10.19.210.0%3A3000%2Fauth&response_type=code";
+  "https://api.intra.42.fr/oauth/authorize?client_id=u-s4t2ud-ffa1eb7dfe8ca1260f9d27ba33051536d23c76cd1ab09f489cb233c7e8e5e065&redirect_uri=http%3A%2F%2F10.19.220.34%3A3000%2Fauth&response_type=code";
 const Login = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
@@ -23,7 +23,7 @@ const Login = () => {
     const _password = event.target.password.value;
     try {
       const response = await axios.post(
-        "http://10.19.247.186:3042/auth/login/",
+        "http://10.19.247.186:3000/auth/login/",
         {
           intraId: _intraId,
           password: _password,
@@ -39,12 +39,12 @@ const Login = () => {
       console.log(error);
     }
 
-    // axios
-    //   .get("http://10.19.247.186:3042/auth/login/", {
-    //     intraId: _intraId,
-    //     password: _password,
-    //   })
-    //   .then((response) => console.log(response.data));
+    axios
+      .get("http://10.19.247.186:3000/auth/login/", {
+        intraId: _intraId,
+        password: _password,
+      })
+      .then((response) => console.log(response.data));
   };
 
   return (

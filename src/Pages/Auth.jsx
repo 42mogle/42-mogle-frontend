@@ -13,7 +13,7 @@ const Auth = () => {
 
   useEffect(() => {
     (async () => {
-      const _serverUrl = `http://10.19.247.186:3042/auth/firstJoin/?code=${token}`;
+      const _serverUrl = `http://10.19.247.186:3000/auth/firstJoin/?code=${token}`;
       if (token) {
         try {
           const response = await axios.get(_serverUrl);
