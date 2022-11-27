@@ -24,7 +24,8 @@ const Home = () => {
   const todayDate = getTodayDate();
   const [summary, setSummary] = useState({});
   const [attendanceLog, setAttendanceLog] = useState({});
-  
+  const [isOperator, setIsOperator] = useState(false);
+
   const getSummary = async () => {
     try {
       const response = await axios.get(
@@ -36,7 +37,7 @@ const Home = () => {
       console.log(error);
     }
   };
-  
+
   const getAttendanceLog = async () => {
     const attendanceList = [];
     try {
@@ -62,9 +63,22 @@ const Home = () => {
     }
   };
 
+  const getUserInfo = async () => {
+    try {
+      const response = await axios.get("http://10.19.202.231:3000/user/mgo");
+      console.log(response.data);
+      if (response.data.isOperator) {
+        setIsOperator(true);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     getSummary();
     getAttendanceLog();
+    getUserInfo();
   }, []);
 
   const handleRequest = async () => {
@@ -108,10 +122,12 @@ const Home = () => {
       {/* TODO 출석 상태에 따라 메세지도 다르게 설정 */}
       {/* TODO 출석 상태에 버튼 활성화 여부도 다르게 설정 */}
       <AttendanceButton />
-      {/* TODO 오퍼레이터일때만 버튼 보이도록 설정 */}
-      <Button variant="outlined" sx={{ mt: 3, width: 1 / 2 }}>
-        오늘의 단어 설정
-      </Button>
+      {isOperator && (
+        <Button variant="outlined" sx={{ mt: 3, width: 1 / 2 }}>
+          오늘의 단어 설정
+        </Button>
+      )}
+
       <Button
         variant="contained"
         color="warning"
