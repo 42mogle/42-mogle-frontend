@@ -16,7 +16,7 @@ const AttendanceTable = ({ summary, attendanceLog }) => {
           <TableRow>
             <TableCell sx={{ color: "white" }}>출석 기록</TableCell>
             <TableCell align="center" sx={{ color: "white" }}>
-              이번 달 개근 일수
+              이번 달 출석 일수
             </TableCell>
             <TableCell align="center" sx={{ color: "white" }}>
               이번 달 개근 여부
