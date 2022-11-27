@@ -4,6 +4,8 @@ import { Avatar, Typography } from "@mui/material";
 import Button from "@mui/material/Button";
 import AttendanceTable from "../Components/AttendanceTable";
 import AttendanceButton from "../Components/AttendanceButton";
+import TodayWordButton from "../Components/TodayWordButton";
+import useStore from "../store.js";
 
 const getTodayDate = () => {
   const todayDate = new Date();
@@ -21,6 +23,7 @@ const timeChanger = (number) => {
 };
 
 const Home = () => {
+  const { _intraId, _server } = useStore((state) => state);
   const todayDate = getTodayDate();
   const [summary, setSummary] = useState({});
   const [attendanceLog, setAttendanceLog] = useState({});
@@ -29,7 +32,7 @@ const Home = () => {
   const getSummary = async () => {
     try {
       const response = await axios.get(
-        "http://10.19.202.231:3000/statistic/susong/userAttendanceState"
+        `http://10.19.202.231:3000/statistic/${_intraId}/userAttendanceState`
       );
       console.log(response.data);
       setSummary(response.data);
@@ -42,7 +45,7 @@ const Home = () => {
     const attendanceList = [];
     try {
       const response = await axios.get(
-        "http://10.19.202.231:3000/statistic/susong/userAttendanceList"
+        `http://10.19.202.231:3000/statistic/${_intraId}/userAttendanceList`
       );
       response.data.forEach((obj) => {
         const originDate = new Date(obj.timelog);
@@ -65,8 +68,9 @@ const Home = () => {
 
   const getUserInfo = async () => {
     try {
-      const response = await axios.get("http://10.19.202.231:3000/user/mgo");
-      console.log(response.data);
+      const response = await axios.get(
+        `http://10.19.202.231:3000/user/${_intraId}`
+      );
       if (response.data.isOperator) {
         setIsOperator(true);
       }
@@ -84,7 +88,7 @@ const Home = () => {
   const handleRequest = async () => {
     try {
       const response = await axios.post(
-        "http://10.19.247.186:3000/auth/test2/",
+        "https://10.19.247.186:3000/auth/test2/",
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
@@ -100,9 +104,9 @@ const Home = () => {
   const handleUserData = async () => {
     try {
       const response = await axios.get(
-        "http://10.19.202.231:3000/statistic/joonhan/userAttendanceState"
+        `http://10.19.202.231:3000/statistic/${_intraId}/userAttendanceState`
       );
-      console.log(response);
+      console.log("handleUserData", response);
     } catch (error) {
       console.log(error);
     }
@@ -114,19 +118,13 @@ const Home = () => {
         sx={{ width: 100, height: 100, mb: 3 }}
         src="https://i.ytimg.com/vi/AwrFPJk_BGU/maxresdefault.jpg"
       ></Avatar>
-      <Typography variant="body1">모닝글로리 님</Typography>
+      <Typography variant="body1">{_intraId} 님</Typography>
       <Typography variant="subtitle1" sx={{ mt: 1, fontWeight: "bold" }}>
         {todayDate}
       </Typography>
       <AttendanceTable summary={summary} attendanceLog={attendanceLog} />
-      {/* TODO 출석 상태에 따라 메세지도 다르게 설정 */}
-      {/* TODO 출석 상태에 버튼 활성화 여부도 다르게 설정 */}
       <AttendanceButton />
-      {isOperator && (
-        <Button variant="outlined" sx={{ mt: 3, width: 1 / 2 }}>
-          오늘의 단어 설정
-        </Button>
-      )}
+      {isOperator && <TodayWordButton />}
 
       <Button
         variant="contained"

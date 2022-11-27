@@ -15,7 +15,7 @@ const AttendanceButton = () => {
   const [buttonStatus, setButton] = useState(true);
   const [buttonLetter, setLetter] = useState("출석체크");
   const [isSameWithTodayWord, setIsSameWithTodayWord] = useState(true);
-  const { _intraId } = useStore((state) => state);
+  const { _intraId, _server } = useStore((state) => state);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -25,8 +25,6 @@ const AttendanceButton = () => {
     setOpen(false);
   };
 
-  // TODO 서버와 통신해서 오늘의 단어 정답 여부 처리하기
-  // TODO 오답일 경우 setIsSameWithTodayWord(false) 처리하기
   const handleSubmit = async (event) => {
     event.preventDefault();
     const inputValue = event.target.todayWord.value;
@@ -39,10 +37,14 @@ const AttendanceButton = () => {
           todayWord: inputValue,
         }
       );
-      if (response.status === 200) {
-        setOpen(false);
-      } else if (response.data.statusAttendance === 2) {
-        setIsSameWithTodayWord(false);
+	  console.log(response);
+      if (response.status === 201) {
+        if (response.data.statusAttendance === 0) {
+          setOpen(false);
+		  buttonChecker();
+        } else if (response.data.statusAttendance === 2) {
+          setIsSameWithTodayWord(false);
+        }
       }
     } catch (error) {
       console.log(error);
@@ -52,7 +54,7 @@ const AttendanceButton = () => {
   const buttonChecker = async () => {
     try {
       const response = await axios.get(
-        "http://10.19.202.231:3000/attendance/mgo/buttonStatus"
+    	`http://10.19.202.231:3000/attendance/${_intraId}/buttonStatus`
       );
       setButton(response.data);
 
@@ -66,7 +68,7 @@ const AttendanceButton = () => {
   };
   useEffect(() => {
     buttonChecker();
-  }, []);
+  }, [buttonStatus]);
 
   return (
     <>
