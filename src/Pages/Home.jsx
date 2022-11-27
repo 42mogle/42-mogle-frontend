@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Avatar, Typography } from "@mui/material";
 import Button from "@mui/material/Button";
@@ -15,15 +15,69 @@ const getTodayDate = () => {
   return `${year}년 ${month + 1}월 ${date}일 ${dayOfWeek[day]}요일`;
 };
 
+const timeChanger = (number) => {
+  if (number < 10) return `0${number}`;
+  else return `${number}`;
+};
+
 const Home = () => {
   const todayDate = getTodayDate();
+  const [summary, setSummary] = useState({});
+  const [attendanceLog, setAttendanceLog] = useState({});
+  
+  const getSummary = async () => {
+    try {
+      const response = await axios.get(
+        "http://10.19.202.231:3000/statistic/susong/userAttendanceState"
+      );
+      console.log(response.data);
+      setSummary(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  
+  const getAttendanceLog = async () => {
+    const attendanceList = [];
+    try {
+      const response = await axios.get(
+        "http://10.19.202.231:3000/statistic/susong/userAttendanceList"
+      );
+      response.data.forEach((obj) => {
+        const originDate = new Date(obj.timelog);
+        const _date = `${originDate.getFullYear()}-${timeChanger(
+          originDate.getMonth() + 1
+        )}-${timeChanger(originDate.getDate())}`;
+        const _time = `${timeChanger(originDate.getHours())}:${timeChanger(
+          originDate.getMinutes()
+        )}:${timeChanger(originDate.getSeconds())}`;
+        attendanceList.push({
+          date: _date,
+          time: _time,
+        });
+      });
+      setAttendanceLog(attendanceList);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getSummary();
+    getAttendanceLog();
+  }, []);
+
   const handleRequest = async () => {
     try {
-      await axios.get("http://10.19.247.186:3000/auth/test2/", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
-      });
+      const response = await axios.post(
+        "http://10.19.247.186:3000/auth/test2/",
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        }
+      );
+      console.log(response);
     } catch (error) {
       console.log(error);
     }
@@ -31,7 +85,9 @@ const Home = () => {
 
   const handleUserData = async () => {
     try {
-      const response = await axios.get("http://10.19.202.231:3000/statistic/joonhan/userAttendanceState");
+      const response = await axios.get(
+        "http://10.19.202.231:3000/statistic/joonhan/userAttendanceState"
+      );
       console.log(response);
     } catch (error) {
       console.log(error);
@@ -48,7 +104,7 @@ const Home = () => {
       <Typography variant="subtitle1" sx={{ mt: 1, fontWeight: "bold" }}>
         {todayDate}
       </Typography>
-      <AttendanceTable />
+      <AttendanceTable summary={summary} attendanceLog={attendanceLog} />
       {/* TODO 출석 상태에 따라 메세지도 다르게 설정 */}
       {/* TODO 출석 상태에 버튼 활성화 여부도 다르게 설정 */}
       <AttendanceButton />

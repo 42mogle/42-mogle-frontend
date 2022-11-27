@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import Collapse from "@mui/material/Collapse";
 import IconButton from "@mui/material/IconButton";
@@ -11,14 +11,17 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import axios from "axios";
+import { Typography } from "@mui/material";
 
 const createData = (attendanceCount, isFullAttendance) => {
   return {
-    attendanceCount,
+    name: "hi",
+    attendanceCount: 2,
     isFullAttendance,
     history: [
       {
-        date: "2022-11-01",
+        date: "2022-12-01",
         time: "08:30:20",
       },
       {
@@ -84,7 +87,7 @@ const Row = (props) => {
   );
 };
 
-const AttendanceTable = () => {
+const AttendanceTable = ({ summary, attendanceLog }) => {
   return (
     <TableContainer component={Paper} sx={{ mt: 3 }}>
       <Table aria-label="collapsible table">
