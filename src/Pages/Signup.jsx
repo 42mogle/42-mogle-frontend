@@ -9,9 +9,11 @@ import Typography from "@mui/material/Typography";
 import { List, ListItem, ListItemIcon, ListItemText } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
 import Alert from "@mui/material/Alert";
+import useStore from "../store.js";
 
 const Signup = () => {
   const navigate = useNavigate();
+  const { _intraId, _server } = useStore((state) => state);
   const { state, isErrorOccured } = useLocation();
   // 비밀번호 규칙 확인용 State (boolean)
   const [isSamePassword, setIsSamePassword] = useState(true);
@@ -29,8 +31,6 @@ const Signup = () => {
   const onChangePassword = (event) => {
     const currentPassword = event.target.value;
     setFirstPassword(currentPassword);
-    console.log(`first: ${firstPassword} / second: ${secondPassword}`);
-
     const ruleRegex =
       /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^*+=-])[\da-zA-Z!@#$%^*+=-]{8,}$/;
     // Explain : 비밀번호 길이는 8자 ~ 20자 사이
@@ -77,16 +77,19 @@ const Signup = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const _serverUrl = `http://10.19.247.186:3000/auth/secondJoin/`;
-    // TODO 비밀번호 규칙 검사하기
+    const _serverUrl = `https://10.19.247.186:3000/auth/secondJoin/`;
     try {
+      const defaultImage =
+        "https://i.ytimg.com/vi/AwrFPJk_BGU/maxresdefault.jpg";
       const response = await axios.post(_serverUrl, {
         intraId: state.intraId,
         password: secondPassword,
-        imageURL: null,
+        photoUrl: state.photoUrl === null ? defaultImage : state.photoUrl,
+        isAdmin: false,
       });
       console.log(response);
       if (response.status === 201) {
+        // TODO 회원가입 정상적으로 진행되면 login 페이지에서 회원가입 완료 안내 문구 띄워주기
         navigate("/");
       }
     } catch (error) {
@@ -95,31 +98,31 @@ const Signup = () => {
     }
   };
 
-  // if (state) {
-  return (
-    <>
-      {backPasswordError && (
-        <Alert severity="error" sx={{ mb: 3, width: "100%" }}>
-          오류가 발생했습니다. 다시 시도해주세요.
-        </Alert>
-      )}
-      <Typography component="h1" variant="h5">
-        회원가입
-      </Typography>
-      <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-        <TextField
-          margin="normal"
-          variant="filled"
-          disabled
-          // value={state.intraId}
-          fullWidth
-          id="intraId"
-          name="intraId"
-          autoComplete="intraId"
-          autoFocus
-        />
-        {/* TODO state 값에 따라 컴포넌트가 자동으로 바뀌도록 수정하기 */}
-        {/* <TextField
+  if (state) {
+    return (
+      <>
+        {backPasswordError && (
+          <Alert severity="error" sx={{ mb: 3, width: "100%" }}>
+            오류가 발생했습니다. 다시 시도해주세요.
+          </Alert>
+        )}
+        <Typography component="h1" variant="h5">
+          회원가입
+        </Typography>
+        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <TextField
+            margin="normal"
+            variant="filled"
+            disabled
+            value={state.intraId}
+            fullWidth
+            id="intraId"
+            name="intraId"
+            autoComplete="intraId"
+            autoFocus
+          />
+          {/* TODO state 값에 따라 컴포넌트가 자동으로 바뀌도록 수정하기 */}
+          {/* <TextField
           margin="normal"
           error={!isLengthGood || !isRuleGood ? true : false}
           required
@@ -132,146 +135,148 @@ const Signup = () => {
           autoComplete="new-password"
           helperText={isValidPassword ? "" : validPasswordMessage}
         /> */}
-        {isLengthGood && isRuleGood ? (
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            onChange={onChangePassword}
-            autoComplete="new-password"
-          />
-        ) : (
-          <TextField
-            margin="normal"
-            error
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            onChange={onChangePassword}
-            autoComplete="new-password"
-            helperText={validPasswordMessage}
-          />
-        )}
+          {isLengthGood && isRuleGood ? (
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              onChange={onChangePassword}
+              autoComplete="new-password"
+            />
+          ) : (
+            <TextField
+              margin="normal"
+              error
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              onChange={onChangePassword}
+              autoComplete="new-password"
+              helperText={validPasswordMessage}
+            />
+          )}
 
-        {isSamePassword ? (
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            name="validatePassword"
-            label="Re-enter Password"
-            type="password"
-            id="validatePassword"
-            autoComplete="new-password"
-            onChange={checkSecondPassword}
-          />
-        ) : (
-          <TextField
-            margin="normal"
-            error
-            required
-            fullWidth
-            name="validatePassword"
-            label="Re-enter Password"
-            type="password"
-            id="validatePassword"
-            autoComplete="new-password"
-            onChange={checkSecondPassword}
-            helperText="비밀번호가 일치하지 않습니다."
-          />
-        )}
+          {isSamePassword ? (
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="validatePassword"
+              label="Re-enter Password"
+              type="password"
+              id="validatePassword"
+              autoComplete="new-password"
+              onChange={checkSecondPassword}
+            />
+          ) : (
+            <TextField
+              margin="normal"
+              error
+              required
+              fullWidth
+              name="validatePassword"
+              label="Re-enter Password"
+              type="password"
+              id="validatePassword"
+              autoComplete="new-password"
+              onChange={checkSecondPassword}
+              helperText="비밀번호가 일치하지 않습니다."
+            />
+          )}
 
-        <Typography component="h6" variant="body2">
-          비밀번호는 아래의 규칙에 맞게 작성해주세요.
-        </Typography>
-        <List
-          sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
-        >
-          <ListItem color="success">
-            <ListItemIcon>
-              <CheckIcon
-                color={
-                  isLengthGood && firstPassword !== "" ? "success" : "disabled"
-                }
-              ></CheckIcon>
-            </ListItemIcon>
-            <ListItemText
-              disableTypography
-              secondary={
-                <Typography
-                  type="body2"
-                  variant="subtitle2"
-                  style={
+          <Typography component="h6" variant="body2">
+            비밀번호는 아래의 규칙에 맞게 작성해주세요.
+          </Typography>
+          <List
+            sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
+          >
+            <ListItem color="success">
+              <ListItemIcon>
+                <CheckIcon
+                  color={
                     isLengthGood && firstPassword !== ""
-                      ? { color: "green" }
-                      : { color: "grey" }
+                      ? "success"
+                      : "disabled"
                   }
-                >
-                  8 ~ 20자 사이
-                </Typography>
-              }
-            />
-          </ListItem>
-          <ListItem>
-            <ListItemIcon>
-              <CheckIcon
-                color={
-                  isRuleGood && firstPassword !== "" ? "success" : "disabled"
+                ></CheckIcon>
+              </ListItemIcon>
+              <ListItemText
+                disableTypography
+                secondary={
+                  <Typography
+                    type="body2"
+                    variant="subtitle2"
+                    style={
+                      isLengthGood && firstPassword !== ""
+                        ? { color: "green" }
+                        : { color: "grey" }
+                    }
+                  >
+                    8 ~ 20자 사이
+                  </Typography>
                 }
-              ></CheckIcon>
-            </ListItemIcon>
-            <ListItemText
-              disableTypography
-              secondary={
-                <Typography
-                  type="body2"
-                  variant="subtitle2"
-                  style={
-                    isRuleGood && firstPassword !== ""
-                      ? { color: "green" }
-                      : { color: "grey" }
+              />
+            </ListItem>
+            <ListItem>
+              <ListItemIcon>
+                <CheckIcon
+                  color={
+                    isRuleGood && firstPassword !== "" ? "success" : "disabled"
                   }
-                >
-                  영문 대/소문자, 숫자, 특수문자 조합
-                </Typography>
-              }
-            />
-            <ListItemText secondary="" />
-          </ListItem>
-        </List>
-        <Button
-          type="submit"
-          fullWidth
-          variant="contained"
-          disabled={
-            !(
-              isLengthGood &&
-              isRuleGood &&
-              isSamePassword &&
-              secondPassword !== ""
-            )
-          }
-          sx={{ mt: 3, mb: 2 }}
-        >
-          확인
-        </Button>
-      </Box>
-    </>
-  );
-  // } else {
-  //   return (
-  //     <Typography component="h1" variant="h4">
-  //       잘못된 접근입니다.
-  //     </Typography>
-  //   );
-  // }
+                ></CheckIcon>
+              </ListItemIcon>
+              <ListItemText
+                disableTypography
+                secondary={
+                  <Typography
+                    type="body2"
+                    variant="subtitle2"
+                    style={
+                      isRuleGood && firstPassword !== ""
+                        ? { color: "green" }
+                        : { color: "grey" }
+                    }
+                  >
+                    영문 대/소문자, 숫자, 특수문자 조합
+                  </Typography>
+                }
+              />
+              <ListItemText secondary="" />
+            </ListItem>
+          </List>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            disabled={
+              !(
+                isLengthGood &&
+                isRuleGood &&
+                isSamePassword &&
+                secondPassword !== ""
+              )
+            }
+            sx={{ mt: 3, mb: 2 }}
+          >
+            확인
+          </Button>
+        </Box>
+      </>
+    );
+  } else {
+    return (
+      <Typography component="h1" variant="h4">
+        잘못된 접근입니다.
+      </Typography>
+    );
+  }
 };
 
 export default Signup;
