@@ -18,7 +18,7 @@ const getTodayDate = () => {
 };
 
 const Home = () => {
-  const { _intraId } = useStore((state) => state);
+  const { _intraId, _server } = useStore((state) => state);
   console.log(_intraId);
   const todayDate = getTodayDate();
   const [summary, setSummary] = useState({});
@@ -27,7 +27,7 @@ const Home = () => {
   const getSummary = async () => {
     try {
       const response = await axios.get(
-        `http://10.19.202.231:3000/statistic/${_intraId}/userAttendanceState`
+        `${_server}/statistic/${_intraId}/userAttendanceState`
       );
       console.log(response.data);
       setSummary(response.data);
@@ -39,7 +39,7 @@ const Home = () => {
   const getUserInfo = async () => {
     try {
       const response = await axios.get(
-        `http://10.19.202.231:3000/user/${_intraId}`
+        `${_server}/user/${_intraId}`
       );
       if (response.data.isOperator) {
         setIsOperator(true);
@@ -73,7 +73,7 @@ const Home = () => {
   const handleUserData = async () => {
     try {
       const response = await axios.get(
-        `http://10.19.202.231:3000/statistic/${_intraId}/userAttendanceState`
+        `${_server}/statistic/${_intraId}/userAttendanceState`
       );
       console.log("handleUserData", response);
     } catch (error) {

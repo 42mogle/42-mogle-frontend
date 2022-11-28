@@ -16,7 +16,7 @@ const timeChanger = (number) => {
 };
 
 const AttendanceTable = ({ summary }) => {
-  const { _intraId, _attendanceLog, _isAttended, setAttendanceLog } = useStore(
+  const { _intraId, _attendanceLog, _isAttended, setAttendanceLog, _server } = useStore(
     (state) => state
   );
 
@@ -25,7 +25,7 @@ const AttendanceTable = ({ summary }) => {
       const attendanceList = [];
       try {
         const response = await axios.get(
-          `http://10.19.202.231:3000/statistic/${_intraId}/userAttendanceList`
+          `${_server}/statistic/${_intraId}/userAttendanceList`
         );
         response.data.forEach((obj) => {
           const originDate = new Date(obj.timelog);

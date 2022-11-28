@@ -11,14 +11,11 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Alert from "@mui/material/Alert";
 import useStore from "../store.js";
-import { SettingsInputAntennaTwoTone } from "@mui/icons-material";
 
-const _oauth =
-  "https://api.intra.42.fr/oauth/authorize?client_id=u-s4t2ud-ffa1eb7dfe8ca1260f9d27ba33051536d23c76cd1ab09f489cb233c7e8e5e065&redirect_uri=http%3A%2F%2F10.19.210.0%3A3000%2Fauth&response_type=code";
 const Login = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
-  const { _intraId, setIntraId } = useStore((state) => state);
+  const { _intraId, setIntraId, _oauth, _server } = useStore((state) => state);
   const [ inputIntraId, setInputIntraId ] = useState("");
   const [isErrorOccurred, setisErrorOccurred] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -27,14 +24,14 @@ const Login = () => {
   const handleInputIntraId = (event) => {
     setInputIntraId(event.target.value);
   };
-  
+
   const handleLoginSubmit = async (event) => {
     event.preventDefault();
     const _intraId = event.target.intraId.value;
     const _password = event.target.password.value;
     try {
       const response = await axios.post(
-        "http://10.19.247.186:3000/auth/login/",
+        `${_server}/auth/login/`,
         {
           intraId: _intraId,
           password: _password,
