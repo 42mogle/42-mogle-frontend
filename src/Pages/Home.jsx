@@ -23,7 +23,8 @@ const timeChanger = (number) => {
 };
 
 const Home = () => {
-  const { _intraId, _server } = useStore((state) => state);
+  const { _intraId } = useStore((state) => state);
+  console.log(_intraId);
   const todayDate = getTodayDate();
   const [summary, setSummary] = useState({});
   const [attendanceLog, setAttendanceLog] = useState({});

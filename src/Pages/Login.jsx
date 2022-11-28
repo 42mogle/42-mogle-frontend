@@ -13,12 +13,13 @@ import Alert from "@mui/material/Alert";
 import useStore from "../store.js";
 
 const _oauth =
-  "https://api.intra.42.fr/oauth/authorize?client_id=u-s4t2ud-ffa1eb7dfe8ca1260f9d27ba33051536d23c76cd1ab09f489cb233c7e8e5e065&redirect_uri=http%3A%2F%2F10.19.220.34%3A3000%2Fauth&response_type=code";
+  "https://api.intra.42.fr/oauth/authorize?client_id=u-s4t2ud-ffa1eb7dfe8ca1260f9d27ba33051536d23c76cd1ab09f489cb233c7e8e5e065&redirect_uri=http%3A%2F%2F10.19.210.0%3A3000%2Fauth&response_type=code";
 const Login = () => {
-  const { setIntraId, _server } = useStore((state) => state);
+  const { _intraId, setIntraId } = useStore((state) => state);
   const navigate = useNavigate();
   const { state } = useLocation();
   const [isErrorOccurred, setisErrorOccurred] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const [findPassword, clickFindPassword] = useState(false);
   const handleLoginSubmit = async (event) => {
     event.preventDefault();
@@ -33,14 +34,13 @@ const Login = () => {
         }
       );
       if (response.status === 201) {
-        console.log(response);
         setIntraId(_intraId);
         localStorage.setItem("accessToken", response.data.accessToken);
         navigate("/home");
       }
     } catch (error) {
-      setisErrorOccurred(error.response.data);
-      console.log(error.response.data);
+      setErrorMessage(error.response.data.message);
+      setisErrorOccurred(true);
     }
   };
 
@@ -53,7 +53,7 @@ const Login = () => {
       )}
       {isErrorOccurred && (
         <Alert severity="error" sx={{ mb: 3, width: "100%" }}>
-          ID 혹은 Password가 틀렸습니다!
+          {errorMessage}
         </Alert>
       )}
       <Typography component="h1" variant="h5">
@@ -72,8 +72,9 @@ const Login = () => {
           id="intraId"
           label="Intra ID"
           name="intraId"
+          value={_intraId === "" ? "" : _intraId}
           autoComplete="intraId"
-          autoFocus
+          autoFocus={_intraId === "" ? false : true}
         />
         <TextField
           margin="normal"
@@ -84,6 +85,7 @@ const Login = () => {
           type="password"
           id="password"
           autoComplete="current-password"
+          autoFocus={_intraId && true}
         />
         <FormControlLabel
           control={<Checkbox value="remember" color="primary" />}
