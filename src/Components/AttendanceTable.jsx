@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import axios from "axios";
 import AttendanceTableSummary from "./AttedanceTableSummary";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -7,8 +8,45 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import useStore from "../store.js";
 
-const AttendanceTable = ({ summary, attendanceLog }) => {
+const timeChanger = (number) => {
+  if (number < 10) return `0${number}`;
+  else return `${number}`;
+};
+
+const AttendanceTable = ({ summary }) => {
+  const { _intraId, _attendanceLog, setAttendanceLog } = useStore(
+    (state) => state
+  );
+  useEffect(() => {
+    const getAttendanceLog = async () => {
+      const attendanceList = [];
+      try {
+        const response = await axios.get(
+          `http://10.19.202.231:3000/statistic/${_intraId}/userAttendanceList`
+        );
+        response.data.forEach((obj) => {
+          const originDate = new Date(obj.timelog);
+          const _date = `${originDate.getFullYear()}-${timeChanger(
+            originDate.getMonth() + 1
+          )}-${timeChanger(originDate.getDate())}`;
+          const _time = `${timeChanger(originDate.getHours())}:${timeChanger(
+            originDate.getMinutes()
+          )}:${timeChanger(originDate.getSeconds())}`;
+          attendanceList.push({
+            date: _date,
+            time: _time,
+          });
+        });
+        setAttendanceLog(attendanceList);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getAttendanceLog();
+  }, []);
+
   return (
     <TableContainer component={Paper} sx={{ mt: 3 }}>
       <Table aria-label="collapsible table">
@@ -26,7 +64,7 @@ const AttendanceTable = ({ summary, attendanceLog }) => {
         <TableBody>
           <AttendanceTableSummary
             summary={summary}
-            attendanceLog={attendanceLog}
+            attendanceLog={_attendanceLog}
           />
         </TableBody>
       </Table>

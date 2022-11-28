@@ -17,17 +17,11 @@ const getTodayDate = () => {
   return `${year}년 ${month + 1}월 ${date}일 ${dayOfWeek[day]}요일`;
 };
 
-const timeChanger = (number) => {
-  if (number < 10) return `0${number}`;
-  else return `${number}`;
-};
-
 const Home = () => {
   const { _intraId } = useStore((state) => state);
   console.log(_intraId);
   const todayDate = getTodayDate();
   const [summary, setSummary] = useState({});
-  const [attendanceLog, setAttendanceLog] = useState({});
   const [isOperator, setIsOperator] = useState(false);
 
   const getSummary = async () => {
@@ -37,31 +31,6 @@ const Home = () => {
       );
       console.log(response.data);
       setSummary(response.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const getAttendanceLog = async () => {
-    const attendanceList = [];
-    try {
-      const response = await axios.get(
-        `http://10.19.202.231:3000/statistic/${_intraId}/userAttendanceList`
-      );
-      response.data.forEach((obj) => {
-        const originDate = new Date(obj.timelog);
-        const _date = `${originDate.getFullYear()}-${timeChanger(
-          originDate.getMonth() + 1
-        )}-${timeChanger(originDate.getDate())}`;
-        const _time = `${timeChanger(originDate.getHours())}:${timeChanger(
-          originDate.getMinutes()
-        )}:${timeChanger(originDate.getSeconds())}`;
-        attendanceList.push({
-          date: _date,
-          time: _time,
-        });
-      });
-      setAttendanceLog(attendanceList);
     } catch (error) {
       console.log(error);
     }
@@ -80,11 +49,11 @@ const Home = () => {
     }
   };
 
-  useEffect(() => {
-    getSummary();
-    getAttendanceLog();
-    getUserInfo();
-  }, []);
+  // useEffect(() => {
+  //   getSummary();
+  //   getAttendanceLog();
+  //   getUserInfo();
+  // }, []);
 
   const handleRequest = async () => {
     try {
@@ -123,7 +92,7 @@ const Home = () => {
       <Typography variant="subtitle1" sx={{ mt: 1, fontWeight: "bold" }}>
         {todayDate}
       </Typography>
-      <AttendanceTable summary={summary} attendanceLog={attendanceLog} />
+      <AttendanceTable summary={summary} />
       <AttendanceButton />
       {isOperator && <TodayWordButton />}
 

@@ -6,6 +6,9 @@ const useStore = create(
     (set) => ({
       _intraId: "",
       setIntraId: (intraId) => set({ _intraId: intraId }),
+      _attendanceLog: [],
+      setAttendanceLog: (attendanceLog) =>
+        set({ _attendanceLog: attendanceLog }),
     }),
     {
       name: "user-data",
