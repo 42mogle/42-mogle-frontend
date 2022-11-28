@@ -87,7 +87,7 @@ const Signup = () => {
         intraId: state.intraId,
         password: secondPassword,
         photoUrl: state.photoUrl === null ? defaultImage : state.photoUrl,
-        isAdmin: false,
+        isOperator: false,
       });
       console.log(response);
       if (response.status === 201) {
