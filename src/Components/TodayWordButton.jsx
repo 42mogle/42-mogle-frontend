@@ -1,0 +1,78 @@
+import React, { useState } from "react";
+import axios from "axios";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+import useStore from "../store.js";
+
+const TodayWordButton = () => {
+	const { _intraId, _server } = useStore((state) => state);
+
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const inputValue = event.target.setTodayWord.value;
+    try {
+      const response = await axios.patch(
+        "http://10.19.202.231:3000/operator/setTodayWord",
+        {
+          intraId: _intraId,
+          todayWord: inputValue,
+        }
+      );
+      if (response.status === 200) {
+        setOpen(false);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  return (
+	
+    <>
+      <Button
+        onClick={handleClickOpen}
+        variant="outlined"
+        align="center"
+        sx={{ mt: 3, width: 1 / 2 }}
+      >
+        오늘의 단어 설정
+      </Button>
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>오늘의 단어를 설정해주세요.</DialogTitle>
+        <Box component="form" onSubmit={handleSubmit}>
+          <DialogContent>
+            <TextField
+              autoFocus
+              margin="dense"
+              id="setTodayWord"
+              label="오늘의 단어"
+              fullWidth
+              variant="standard"
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose}>취소</Button>
+            <Button type="submit">제출</Button>
+          </DialogActions>
+        </Box>
+      </Dialog>
+    </>
+  );
+};
+
+export default TodayWordButton;
