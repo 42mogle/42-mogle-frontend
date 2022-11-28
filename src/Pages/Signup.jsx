@@ -10,10 +10,11 @@ import { List, ListItem, ListItemIcon, ListItemText } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
 import Alert from "@mui/material/Alert";
 import useStore from "../store.js";
+import PasswordField from "../Components/PasswordField.jsx";
 
 const Signup = () => {
   const navigate = useNavigate();
-  const { _intraId, _server } = useStore((state) => state);
+  const { _intraId, setIntraId, _server } = useStore((state) => state);
   const { state, isErrorOccured } = useLocation();
   // 비밀번호 규칙 확인용 State (boolean)
   const [isSamePassword, setIsSamePassword] = useState(true);
@@ -29,6 +30,7 @@ const Signup = () => {
   const [backPasswordError, setBackPasswordError] = useState(false);
 
   const onChangePassword = (event) => {
+    // console.log("PasswordCHanging");
     const currentPassword = event.target.value;
     setFirstPassword(currentPassword);
     const ruleRegex =
@@ -77,7 +79,7 @@ const Signup = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const _serverUrl = `https://10.19.247.186:3000/auth/secondJoin/`;
+    const _serverUrl = `http://10.19.247.186:3000/auth/secondJoin/`;
     try {
       const defaultImage =
         "https://i.ytimg.com/vi/AwrFPJk_BGU/maxresdefault.jpg";
@@ -90,6 +92,7 @@ const Signup = () => {
       console.log(response);
       if (response.status === 201) {
         // TODO 회원가입 정상적으로 진행되면 login 페이지에서 회원가입 완료 안내 문구 띄워주기
+        setIntraId(state.intraId);
         navigate("/");
       }
     } catch (error) {
@@ -121,75 +124,24 @@ const Signup = () => {
             autoComplete="intraId"
             autoFocus
           />
-          {/* TODO state 값에 따라 컴포넌트가 자동으로 바뀌도록 수정하기 */}
-          {/* <TextField
-          margin="normal"
-          error={!isLengthGood || !isRuleGood ? true : false}
-          required
-          fullWidth
-          name="password"
-          label="Password"
-          type="password"
-          id="password"
-          onChange={onChangePassword}
-          autoComplete="new-password"
-          helperText={isValidPassword ? "" : validPasswordMessage}
-        /> */}
-          {isLengthGood && isRuleGood ? (
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              onChange={onChangePassword}
-              autoComplete="new-password"
-            />
-          ) : (
-            <TextField
-              margin="normal"
-              error
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              onChange={onChangePassword}
-              autoComplete="new-password"
-              helperText={validPasswordMessage}
-            />
-          )}
-
-          {isSamePassword ? (
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="validatePassword"
-              label="Re-enter Password"
-              type="password"
-              id="validatePassword"
-              autoComplete="new-password"
-              onChange={checkSecondPassword}
-            />
-          ) : (
-            <TextField
-              margin="normal"
-              error
-              required
-              fullWidth
-              name="validatePassword"
-              label="Re-enter Password"
-              type="password"
-              id="validatePassword"
-              autoComplete="new-password"
-              onChange={checkSecondPassword}
-              helperText="비밀번호가 일치하지 않습니다."
-            />
-          )}
+          <PasswordField
+            id="password"
+            name="password"
+            label="Password"
+            onChange={onChangePassword}
+            isLengthGood={isLengthGood}
+            isRuleGood={isRuleGood}
+            helperText={validPasswordMessage}
+          />
+          <PasswordField
+            id="validatePassword"
+            name="validatePassword"
+            label="Re-enter password"
+            onChange={checkSecondPassword}
+            isSamePassword={isSamePassword}
+            isRuleGood={isRuleGood}
+            helperText="비밀번호가 일치하지 않습니다."
+          />
 
           <Typography component="h6" variant="body2">
             비밀번호는 아래의 규칙에 맞게 작성해주세요.
