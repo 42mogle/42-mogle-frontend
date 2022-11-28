@@ -15,7 +15,7 @@ const AttendanceButton = () => {
   const [buttonStatus, setButton] = useState(true);
   const [buttonLetter, setLetter] = useState("출석체크");
   const [isSameWithTodayWord, setIsSameWithTodayWord] = useState(true);
-  const { _intraId, _server } = useStore((state) => state);
+  const { _intraId, setIsAttended } = useStore((state) => state);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -37,11 +37,12 @@ const AttendanceButton = () => {
           todayWord: inputValue,
         }
       );
-	  console.log(response);
+      console.log(response);
       if (response.status === 201) {
         if (response.data.statusAttendance === 0) {
           setOpen(false);
-		  buttonChecker();
+          buttonChecker();
+          setIsAttended(true);
         } else if (response.data.statusAttendance === 2) {
           setIsSameWithTodayWord(false);
         }
@@ -54,7 +55,7 @@ const AttendanceButton = () => {
   const buttonChecker = async () => {
     try {
       const response = await axios.get(
-    	`http://10.19.202.231:3000/attendance/${_intraId}/buttonStatus`
+        `http://10.19.202.231:3000/attendance/${_intraId}/buttonStatus`
       );
       setButton(response.data);
 

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import AttendanceTableSummary from "./AttedanceTableSummary";
 import Table from "@mui/material/Table";
@@ -16,9 +16,10 @@ const timeChanger = (number) => {
 };
 
 const AttendanceTable = ({ summary }) => {
-  const { _intraId, _attendanceLog, setAttendanceLog } = useStore(
+  const { _intraId, _attendanceLog, _isAttended, setAttendanceLog } = useStore(
     (state) => state
   );
+
   useEffect(() => {
     const getAttendanceLog = async () => {
       const attendanceList = [];
@@ -45,7 +46,7 @@ const AttendanceTable = ({ summary }) => {
       }
     };
     getAttendanceLog();
-  }, []);
+  }, [_isAttended]);
 
   return (
     <TableContainer component={Paper} sx={{ mt: 3 }}>

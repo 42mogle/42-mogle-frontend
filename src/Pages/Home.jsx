@@ -49,11 +49,10 @@ const Home = () => {
     }
   };
 
-  // useEffect(() => {
-  //   getSummary();
-  //   getAttendanceLog();
-  //   getUserInfo();
-  // }, []);
+  useEffect(() => {
+    getSummary();
+    getUserInfo();
+  }, []);
 
   const handleRequest = async () => {
     try {
@@ -95,7 +94,6 @@ const Home = () => {
       <AttendanceTable summary={summary} />
       <AttendanceButton />
       {isOperator && <TodayWordButton />}
-
       <Button
         variant="contained"
         color="warning"
