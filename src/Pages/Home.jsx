@@ -94,7 +94,7 @@ const Home = () => {
       <AttendanceTable summary={summary} />
       <AttendanceButton />
       {isOperator && <TodayWordButton />}
-      <Button
+      {/* <Button
         variant="contained"
         color="warning"
         onClick={handleRequest}
@@ -109,7 +109,7 @@ const Home = () => {
         sx={{ mt: 3, width: 1 / 2 }}
       >
         유저 로그 데이터 가져오기
-      </Button>
+      </Button> */}
     </>
   );
 };
