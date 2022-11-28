@@ -79,7 +79,7 @@ const Signup = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const _serverUrl = `http://10.19.247.186:3000/auth/secondJoin/`;
+    const _serverUrl = `${_server}/auth/secondJoin/`;
     try {
       const defaultImage =
         "https://i.ytimg.com/vi/AwrFPJk_BGU/maxresdefault.jpg";
@@ -87,7 +87,7 @@ const Signup = () => {
         intraId: state.intraId,
         password: secondPassword,
         photoUrl: state.photoUrl === null ? defaultImage : state.photoUrl,
-        isAdmin: false,
+        isOperator: false,
       });
       console.log(response);
       if (response.status === 201) {
