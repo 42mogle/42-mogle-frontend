@@ -6,19 +6,17 @@ import AttendanceTable from "../components/AttendanceTable";
 import AttendanceButton from "../components/AttendanceButton";
 import TodayWordButton from "../components/TodayWordButton";
 import useStore from "../store.js";
+import { format } from "date-fns";
+import { ko } from "date-fns/locale";
 
+// 오늘 날짜를 "yyyy년 MM월 dd일 e요일" 형식으로 변환
 const getTodayDate = () => {
   const todayDate = new Date();
-  const year = todayDate.getFullYear();
-  const month = todayDate.getMonth();
-  const date = todayDate.getDate();
-  const day = todayDate.getDay();
-  const dayOfWeek = ["일", "월", "화", "수", "목", "금", "토"];
-  return `${year}년 ${month + 1}월 ${date}일 ${dayOfWeek[day]}요일`;
+  return `${format(todayDate, "PPP EEEE", { locale: ko })}`;
 };
 
 const Home = () => {
-  const { _intraId, _server } = useStore((state) => state);
+  const { _intraId } = useStore((state) => state);
   console.log(_intraId);
   const todayDate = getTodayDate();
   const [summary, setSummary] = useState({});
@@ -38,7 +36,9 @@ const Home = () => {
 
   const getUserInfo = async () => {
     try {
-      const response = await axios.get(`https://${process.env.REACT_APP_AWS_BACKEND_SERVER}/user/${_intraId}`);
+      const response = await axios.get(
+        `https://${process.env.REACT_APP_AWS_BACKEND_SERVER}/user/${_intraId}`
+      );
       if (response.data.isOperator) {
         setIsOperator(true);
       }
@@ -55,7 +55,9 @@ const Home = () => {
   const handleRequest = async () => {
     try {
       console.log(process.env.REACT_APP_AWS_BACKEND_SERVER);
-      const response = await axios.get(`https://${process.env.REACT_APP_AWS_BACKEND_SERVER}/serverAuth/test0/`);
+      const response = await axios.get(
+        `https://${process.env.REACT_APP_AWS_BACKEND_SERVER}/serverAuth/test0/`
+      );
       console.log(response);
     } catch (error) {
       console.log(error);
@@ -78,7 +80,7 @@ const Home = () => {
       <Avatar
         sx={{ width: 100, height: 100, mb: 3 }}
         src="https://i.ytimg.com/vi/AwrFPJk_BGU/maxresdefault.jpg"
-      ></Avatar>
+      />
       <Typography variant="body1">{_intraId} 님</Typography>
       <Typography variant="subtitle1" sx={{ mt: 1, fontWeight: "bold" }}>
         {todayDate}

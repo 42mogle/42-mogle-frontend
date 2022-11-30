@@ -9,37 +9,43 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import useStore from "../store.js";
-
-const timeChanger = (number) => {
-  if (number < 10) return `0${number}`;
-  else return `${number}`;
-};
+import { format } from "date-fns";
+import { ko } from "date-fns/locale";
 
 const AttendanceTable = ({ summary }) => {
-  const { _intraId, _attendanceLog, _isAttended, setAttendanceLog, _server } = useStore(
+  const { _attendanceLog, _isAttended, setAttendanceLog } = useStore(
     (state) => state
   );
 
   useEffect(() => {
     const getAttendanceLog = async () => {
-      const attendanceList = [];
       try {
-        const response = await axios.get(
-          `https://${process.env.REACT_APP_AWS_BACKEND_SERVER}/statistic/${_intraId}/userAttendanceList`
-        );
-        response.data.forEach((obj) => {
-          const originDate = new Date(obj.timelog);
-          const _date = `${originDate.getFullYear()}-${timeChanger(
-            originDate.getMonth() + 1
-          )}-${timeChanger(originDate.getDate())}`;
-          const _time = `${timeChanger(originDate.getHours())}:${timeChanger(
-            originDate.getMinutes()
-          )}:${timeChanger(originDate.getSeconds())}`;
-          attendanceList.push({
-            date: _date,
-            time: _time,
-          });
+        // const response = await axios.get(
+        //   `https://${process.env.REACT_APP_AWS_BACKEND_SERVER}/statistic/${_intraId}/userAttendanceList`
+        // );
+
+        // Dummy data for test
+        const response = {
+          data: [
+            {
+              timelog: "2022-11-01 13:01:04",
+            },
+            {
+              timelog: "2022-11-02 13:01:04",
+            },
+            {
+              timelog: "2022-11-03 13:01:04",
+            },
+          ],
+        };
+
+        const attendanceList = response.data.map(({ timelog }) => {
+          const attendanceDate = new Date(timelog);
+          const _date = format(attendanceDate, "PPP EEEE", { locale: ko });
+          const _time = format(attendanceDate, "HH:mm:ss");
+          return { date: _date, time: _time };
         });
+
         setAttendanceLog(attendanceList);
       } catch (error) {
         console.log(error);
