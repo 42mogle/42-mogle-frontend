@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import AttendanceTableSummary from "./AttedanceTableSummary";
+import AttendanceSummary from "./AttendanceSummary";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -69,10 +69,7 @@ const AttendanceTable = ({ summary }) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          <AttendanceTableSummary
-            summary={summary}
-            attendanceLog={_attendanceLog}
-          />
+          <AttendanceSummary summary={summary} attendanceLog={_attendanceLog} />
         </TableBody>
       </Table>
     </TableContainer>

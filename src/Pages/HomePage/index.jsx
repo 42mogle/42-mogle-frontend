@@ -5,10 +5,11 @@ import AttendanceButton from "./AttendanceButton";
 import SetTodayWordButton from "./SetTodayWordButton";
 import UserProfile from "./UserProfile";
 import TodayDate from "./TodayDate";
+import AttendaceSummary from "./AttendanceSummary";
 import TestButtons from "./TestButtons";
 import useStore from "../../store.js";
 
-const Home = () => {
+function Home() {
   const { _intraId, _photoUrl } = useStore((state) => state);
   console.log(_intraId);
   const [summary, setSummary] = useState({});
@@ -48,6 +49,7 @@ const Home = () => {
     <>
       <UserProfile intraId={_intraId} photoUrl={_photoUrl} />
       <TodayDate />
+      <AttendanceSummary />
       <AttendanceTable summary={summary} />
       <AttendanceButton />
       {isOperator && <SetTodayWordButton />}
