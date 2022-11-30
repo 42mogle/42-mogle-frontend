@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Avatar, Typography } from "@mui/material";
-import Button from "@mui/material/Button";
 import AttendanceTable from "./AttendanceTable";
 import AttendanceButton from "./AttendanceButton";
 import TodayWordButton from "./TodayWordButton";
+import TestButtons from "./TestButtons";
 import useStore from "../../store.js";
 import { format } from "date-fns";
 import { ko } from "date-fns/locale";
@@ -51,29 +51,6 @@ const Home = () => {
     getUserInfo();
   }, []);
 
-  const handleRequest = async () => {
-    try {
-      console.log(process.env.REACT_APP_AWS_BACKEND_SERVER);
-      const response = await axios.get(
-        `https://${process.env.REACT_APP_AWS_BACKEND_SERVER}/serverAuth/test0/`
-      );
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const handleUserData = async () => {
-    try {
-      const response = await axios.get(
-        `https://${process.env.REACT_APP_AWS_BACKEND_SERVER}/statistic/${_intraId}/userAttendanceState`
-      );
-      console.log("handleUserData", response);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   return (
     <>
       <Avatar
@@ -87,22 +64,7 @@ const Home = () => {
       <AttendanceTable summary={summary} />
       <AttendanceButton />
       {isOperator && <TodayWordButton />}
-      <Button
-        variant="contained"
-        color="warning"
-        onClick={handleRequest}
-        sx={{ mt: 3, width: 1 / 2 }}
-      >
-        서버에 요청 보내기
-      </Button>
-      <Button
-        variant="outlined"
-        color="warning"
-        onClick={handleUserData}
-        sx={{ mt: 3, width: 1 / 2 }}
-      >
-        유저 로그 데이터 가져오기
-      </Button>
+      <TestButtons />
     </>
   );
 };
