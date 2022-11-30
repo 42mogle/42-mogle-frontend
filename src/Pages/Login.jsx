@@ -16,7 +16,7 @@ const Login = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
   const { _intraId, setIntraId, _oauth, _server } = useStore((state) => state);
-  const [ inputIntraId, setInputIntraId ] = useState("");
+  const [inputIntraId, setInputIntraId] = useState("");
   const [isErrorOccurred, setisErrorOccurred] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [findPassword, clickFindPassword] = useState(false);
@@ -30,13 +30,10 @@ const Login = () => {
     const _intraId = event.target.intraId.value;
     const _password = event.target.password.value;
     try {
-      const response = await axios.post(
-        `${_server}/auth/login/`,
-        {
-          intraId: _intraId,
-          password: _password,
-        }
-      );
+      const response = await axios.post(`${_server}/auth/login/`, {
+        intraId: _intraId,
+        password: _password,
+      });
       if (response.status === 201) {
         setIntraId(_intraId);
         localStorage.setItem("accessToken", response.data.accessToken);
