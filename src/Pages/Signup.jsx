@@ -10,7 +10,7 @@ import { List, ListItem, ListItemIcon, ListItemText } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
 import Alert from "@mui/material/Alert";
 import useStore from "../store.js";
-import PasswordField from "../Components/PasswordField.jsx";
+import PasswordField from "../components/PasswordField.jsx";
 
 const Signup = () => {
   const navigate = useNavigate();
