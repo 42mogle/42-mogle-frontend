@@ -8,7 +8,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import Alert from "@mui/material/Alert";
-import useStore from "../store.js";
+import useStore from "../../store.js";
 
 const AttendanceButton = () => {
   const [open, setOpen] = useState(false);
