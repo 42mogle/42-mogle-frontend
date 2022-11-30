@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import AttendanceTableSummary from "./AttedanceTableSummary";
+import AttendanceSummary from "./AttendanceSummary";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -8,7 +8,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import useStore from "../store.js";
+import useStore from "../../store.js";
 import { format } from "date-fns";
 import { ko } from "date-fns/locale";
 
@@ -69,10 +69,7 @@ const AttendanceTable = ({ summary }) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          <AttendanceTableSummary
-            summary={summary}
-            attendanceLog={_attendanceLog}
-          />
+          <AttendanceSummary summary={summary} attendanceLog={_attendanceLog} />
         </TableBody>
       </Table>
     </TableContainer>

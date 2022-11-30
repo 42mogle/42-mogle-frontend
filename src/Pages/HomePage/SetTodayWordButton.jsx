@@ -9,10 +9,10 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
-import useStore from "../store.js";
+import useStore from "../../store.js";
 
-const TodayWordButton = () => {
-  const { _intraId, _server } = useStore((state) => state);
+const SetTodayWordButton = () => {
+  const { _intraId } = useStore((state) => state);
 
   const [open, setOpen] = useState(false);
   const [isSetTodayWord, setIsTodayWord] = useState(false);
@@ -89,4 +89,4 @@ const TodayWordButton = () => {
   );
 };
 
-export default TodayWordButton;
+export default SetTodayWordButton;

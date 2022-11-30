@@ -6,10 +6,7 @@ import TableRow from "@mui/material/TableRow";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 
-const AttendaceTableSummary = ({
-  summary: { attendanceCount, isPerfect },
-  attendanceLog,
-}) => {
+function AttendaceSummary() {
   const [open, setOpen] = useState(false);
   return (
     <React.Fragment>
@@ -31,6 +28,6 @@ const AttendaceTableSummary = ({
       <AttendanceLog open={open} attendanceLog={attendanceLog} />
     </React.Fragment>
   );
-};
+}
 
-export default AttendaceTableSummary;
+export default AttendaceSummary;
