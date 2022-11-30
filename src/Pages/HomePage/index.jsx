@@ -18,7 +18,6 @@ const getTodayDate = () => {
 const Home = () => {
   const { _intraId } = useStore((state) => state);
   console.log(_intraId);
-  const todayDate = getTodayDate();
   const [summary, setSummary] = useState({});
   const [isOperator, setIsOperator] = useState(false);
 
@@ -83,7 +82,7 @@ const Home = () => {
       />
       <Typography variant="body1">{_intraId} 님</Typography>
       <Typography variant="subtitle1" sx={{ mt: 1, fontWeight: "bold" }}>
-        {todayDate}
+        {getTodayDate()}
       </Typography>
       <AttendanceTable summary={summary} />
       <AttendanceButton />
