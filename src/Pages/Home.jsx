@@ -27,7 +27,7 @@ const Home = () => {
   const getSummary = async () => {
     try {
       const response = await axios.get(
-        `${_server}/statistic/${_intraId}/userAttendanceState`
+        `https://${process.env.REACT_APP_AWS_BACKEND_SERVER}/statistic/${_intraId}/userAttendanceState`
       );
       console.log(response.data);
       setSummary(response.data);
@@ -38,9 +38,7 @@ const Home = () => {
 
   const getUserInfo = async () => {
     try {
-      const response = await axios.get(
-        `${_server}/user/${_intraId}`
-      );
+      const response = await axios.get(`https://${process.env.REACT_APP_AWS_BACKEND_SERVER}/user/${_intraId}`);
       if (response.data.isOperator) {
         setIsOperator(true);
       }
@@ -56,14 +54,8 @@ const Home = () => {
 
   const handleRequest = async () => {
     try {
-      const response = await axios.post(
-        "https://10.19.247.186:3000/auth/test2/",
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-          },
-        }
-      );
+      console.log(process.env.REACT_APP_AWS_BACKEND_SERVER);
+      const response = await axios.get(`https://${process.env.REACT_APP_AWS_BACKEND_SERVER}/serverAuth/test0/`);
       console.log(response);
     } catch (error) {
       console.log(error);
@@ -73,7 +65,7 @@ const Home = () => {
   const handleUserData = async () => {
     try {
       const response = await axios.get(
-        `${_server}/statistic/${_intraId}/userAttendanceState`
+        `https://${process.env.REACT_APP_AWS_BACKEND_SERVER}/statistic/${_intraId}/userAttendanceState`
       );
       console.log("handleUserData", response);
     } catch (error) {
@@ -94,7 +86,7 @@ const Home = () => {
       <AttendanceTable summary={summary} />
       <AttendanceButton />
       {isOperator && <TodayWordButton />}
-      {/* <Button
+      <Button
         variant="contained"
         color="warning"
         onClick={handleRequest}
@@ -109,7 +101,7 @@ const Home = () => {
         sx={{ mt: 3, width: 1 / 2 }}
       >
         유저 로그 데이터 가져오기
-      </Button> */}
+      </Button>
     </>
   );
 };

@@ -14,10 +14,11 @@ const Auth = () => {
 
   useEffect(() => {
     (async () => {
-      const _serverUrl = `${_server}/auth/firstJoin/?code=${token}`;
+      const _serverUrl = `https://${process.env.REACT_APP_AWS_BACKEND_SERVER}/serverAuth/firstJoin/?code=${token}`;
       if (token) {
         try {
           const response = await axios.get(_serverUrl);
+          console.log(response);
           if (response.status === 200) {
             navigate("/signup", { state: response.data });
           }

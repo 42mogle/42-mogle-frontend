@@ -15,7 +15,7 @@ import useStore from "../store.js";
 const Login = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
-  const { _intraId, setIntraId, _oauth, _server } = useStore((state) => state);
+  const { _intraId, setIntraId, _server } = useStore((state) => state);
   const [inputIntraId, setInputIntraId] = useState("");
   const [isErrorOccurred, setisErrorOccurred] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -30,7 +30,7 @@ const Login = () => {
     const _intraId = event.target.intraId.value;
     const _password = event.target.password.value;
     try {
-      const response = await axios.post(`${_server}/auth/login/`, {
+      const response = await axios.post(`https://${process.env.REACT_APP_AWS_BACKEND_SERVER}/serverAuth/login/`, {
         intraId: _intraId,
         password: _password,
       });
@@ -118,7 +118,7 @@ const Login = () => {
         </Button>
         <Button
           component={Link}
-          href={_oauth}
+          href="https://api.intra.42.fr/oauth/authorize?client_id=u-s4t2ud-ffa1eb7dfe8ca1260f9d27ba33051536d23c76cd1ab09f489cb233c7e8e5e065&redirect_uri=http%3A%2F%2F10.18.244.166%3A3000%2Fauth&response_type=code"
           fullWidth
           variant="outlined"
           sx={{ mt: 1, mb: 2 }}

@@ -31,7 +31,7 @@ const TodayWordButton = () => {
     const inputValue = event.target.setTodayWord.value;
     try {
       const response = await axios.patch(
-        `${_server}/operator/setTodayWord`,
+        `https://${process.env.REACT_APP_AWS_BACKEND_SERVER}/operator/setTodayWord`,
         {
           intraId: _intraId,
           todayWord: inputValue,

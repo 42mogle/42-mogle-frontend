@@ -25,7 +25,7 @@ const AttendanceTable = ({ summary }) => {
       const attendanceList = [];
       try {
         const response = await axios.get(
-          `${_server}/statistic/${_intraId}/userAttendanceList`
+          `https://${process.env.REACT_APP_AWS_BACKEND_SERVER}/statistic/${_intraId}/userAttendanceList`
         );
         response.data.forEach((obj) => {
           const originDate = new Date(obj.timelog);

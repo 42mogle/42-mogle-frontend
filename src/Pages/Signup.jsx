@@ -79,7 +79,7 @@ const Signup = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const _serverUrl = `${_server}/auth/secondJoin/`;
+    const _serverUrl = `https://${process.env.REACT_APP_AWS_BACKEND_SERVER}/serverAuth/secondJoin/`;
     try {
       const defaultImage =
         "https://i.ytimg.com/vi/AwrFPJk_BGU/maxresdefault.jpg";
