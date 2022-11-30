@@ -17,7 +17,7 @@ const getTodayDate = () => {
 };
 
 const Home = () => {
-  const { _intraId } = useStore((state) => state);
+  const { _intraId, _photoUrl } = useStore((state) => state);
   console.log(_intraId);
   const [summary, setSummary] = useState({});
   const [isOperator, setIsOperator] = useState(false);
@@ -54,7 +54,7 @@ const Home = () => {
 
   return (
     <>
-      <UserProfile intraId={_intraId} imageUrl />
+      <UserProfile intraId={_intraId} photoUrl={_photoUrl} />
       <Typography variant="subtitle1" sx={{ mt: 1, fontWeight: "bold" }}>
         {getTodayDate()}
       </Typography>
