@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Profiler } from "react";
 import axios from "axios";
-import { Avatar, Typography } from "@mui/material";
+import Typography from "@mui/material/Typography";
 import AttendanceTable from "./AttendanceTable";
 import AttendanceButton from "./AttendanceButton";
 import TodayWordButton from "./TodayWordButton";
@@ -8,6 +8,7 @@ import TestButtons from "./TestButtons";
 import useStore from "../../store.js";
 import { format } from "date-fns";
 import { ko } from "date-fns/locale";
+import UserProfile from "./UserProfile";
 
 // 오늘 날짜를 "yyyy년 MM월 dd일 e요일" 형식으로 변환
 const getTodayDate = () => {
@@ -53,11 +54,7 @@ const Home = () => {
 
   return (
     <>
-      <Avatar
-        sx={{ width: 100, height: 100, mb: 3 }}
-        src="https://i.ytimg.com/vi/AwrFPJk_BGU/maxresdefault.jpg"
-      />
-      <Typography variant="body1">{_intraId} 님</Typography>
+      <UserProfile intraId={_intraId} imageUrl />
       <Typography variant="subtitle1" sx={{ mt: 1, fontWeight: "bold" }}>
         {getTodayDate()}
       </Typography>
