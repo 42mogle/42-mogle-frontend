@@ -11,6 +11,8 @@ const useStore = create(
       _attendanceLog: [],
       setAttendanceLog: (attendanceLog) =>
         set({ _attendanceLog: attendanceLog }),
+      _photoUrl: "",
+      setPhotoUrl: (photoUrl) => set({ _photoUrl: photoUrl }),
     }),
     {
       name: "user-data",
