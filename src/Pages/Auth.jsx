@@ -7,7 +7,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import useStore from "../store.js";
 
 const Auth = () => {
-  const { setIntraId, _server } = useStore((state) => state);
+  const { setIntraId } = useStore((state) => state);
   const [searchParams] = useSearchParams();
   const token = searchParams.get("code");
   const navigate = useNavigate();
@@ -25,11 +25,12 @@ const Auth = () => {
           }
         } catch (error) {
           console.log(error);
+          // TODO 이미 가입한 회원일 때는 if 문으로 분기해서 상태값 넘겨주기
           navigate("/", { state: { isAlreadySignedUp: true } });
         }
       }
     })();
-  });
+  }, []);
 
   return (
     <>
