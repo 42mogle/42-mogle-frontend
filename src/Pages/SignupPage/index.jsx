@@ -15,7 +15,7 @@ import PasswordField from "./PasswordField.jsx";
 function Signup() {
   const navigate = useNavigate();
   const { state } = useLocation();
-  const { _intraId, _server } = useStore((state) => state);
+  const { _intraId, setPhotoUrl } = useStore((state) => state);
   // 비밀번호 규칙 확인용 State (boolean)
   const [isSamePassword, setIsSamePassword] = useState(true);
   // 사용자 입력 비밀번호 저장 State (string)
@@ -90,6 +90,7 @@ function Signup() {
       });
       console.log(response);
       if (response.status === 201) {
+        setPhotoUrl(state.photoUrl);
         // TODO 회원가입 정상적으로 진행되면 login 페이지에서 회원가입 완료 안내 문구 띄워주기
         navigate("/");
       }

@@ -8,14 +8,14 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import Alert from "@mui/material/Alert";
-import useStore from "../store.js";
+import useStore from "../../store.js";
 
 const AttendanceButton = () => {
   const [open, setOpen] = useState(false);
   const [buttonStatus, setButton] = useState(true);
   const [buttonLetter, setLetter] = useState("출석체크");
   const [isSameWithTodayWord, setIsSameWithTodayWord] = useState(true);
-  const { _intraId, setIsAttended, _server } = useStore((state) => state);
+  const { _intraId, setIsAttended } = useStore((state) => state);
 
   const handleClickOpen = () => {
     setOpen(true);
