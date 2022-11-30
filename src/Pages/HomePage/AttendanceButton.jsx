@@ -15,7 +15,7 @@ const AttendanceButton = () => {
   const [buttonStatus, setButton] = useState(true);
   const [buttonLetter, setLetter] = useState("출석체크");
   const [isSameWithTodayWord, setIsSameWithTodayWord] = useState(true);
-  const { _intraId, setIsAttended, _server } = useStore((state) => state);
+  const { _intraId, setIsAttended } = useStore((state) => state);
 
   const handleClickOpen = () => {
     setOpen(true);
