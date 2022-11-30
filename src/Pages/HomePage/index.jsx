@@ -5,7 +5,7 @@ import AttendanceButton from "./AttendanceButton";
 import SetTodayWordButton from "./SetTodayWordButton";
 import UserProfile from "./UserProfile";
 import TodayDate from "./TodayDate";
-import AttendaceSummary from "./AttendanceSummary";
+import AttendanceSummary from "./AttendanceSummary";
 import TestButtons from "./TestButtons";
 import useStore from "../../store.js";
 
@@ -49,8 +49,8 @@ function Home() {
     <>
       <UserProfile intraId={_intraId} photoUrl={_photoUrl} />
       <TodayDate />
-      <AttendanceSummary />
-      <AttendanceTable summary={summary} />
+      {/* <AttendanceSummary summary={summary}/> */}
+      <AttendanceTable />
       <AttendanceButton />
       {isOperator && <SetTodayWordButton />}
       <TestButtons />
