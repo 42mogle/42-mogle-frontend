@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Avatar, Typography } from "@mui/material";
 import Button from "@mui/material/Button";
-import AttendanceTable from "../Components/AttendanceTable";
-import AttendanceButton from "../Components/AttendanceButton";
-import TodayWordButton from "../Components/TodayWordButton";
+import AttendanceTable from "../components/AttendanceTable";
+import AttendanceButton from "../components/AttendanceButton";
+import TodayWordButton from "../components/TodayWordButton";
 import useStore from "../store.js";
 
 const getTodayDate = () => {

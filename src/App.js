@@ -1,14 +1,13 @@
-import { useState } from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Route, Routes } from "react-router-dom";
-import Login from "./Pages/Login";
-import Home from "./Pages/Home";
-import Signup from "./Pages/Signup";
-import Auth from "./Pages/Auth";
-import Copyright from "./Components/Copyright";
+import Login from "./pages/Login";
+import Home from "./pages/Home";
+import Signup from "./pages/Signup";
+import Auth from "./pages/Auth";
+import Copyright from "./components/Copyright";
 
 const theme = createTheme({
   palette: {
