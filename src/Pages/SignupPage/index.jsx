@@ -1,21 +1,21 @@
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 import { useLocation } from "react-router";
-import { useState, useCallback, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { List, ListItem, ListItemIcon, ListItemText } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
 import Alert from "@mui/material/Alert";
-import useStore from "../store.js";
-import PasswordField from "../components/PasswordField.jsx";
+import useStore from "../../store.js";
+import IntraIdField from "./IntraIdField.jsx";
+import PasswordField from "./PasswordField.jsx";
 
-const Signup = () => {
+function Signup() {
   const navigate = useNavigate();
-  const { _intraId, setIntraId, _server } = useStore((state) => state);
-  const { state, isErrorOccured } = useLocation();
+  const { state } = useLocation();
+  const { _intraId, _server } = useStore((state) => state);
   // 비밀번호 규칙 확인용 State (boolean)
   const [isSamePassword, setIsSamePassword] = useState(true);
   // 사용자 입력 비밀번호 저장 State (string)
@@ -30,7 +30,6 @@ const Signup = () => {
   const [backPasswordError, setBackPasswordError] = useState(false);
 
   const onChangePassword = (event) => {
-    // console.log("PasswordCHanging");
     const currentPassword = event.target.value;
     setFirstPassword(currentPassword);
     const ruleRegex =
@@ -68,7 +67,7 @@ const Signup = () => {
     }
   }, [isLengthGood, isRuleGood]);
 
-  const checkSecondPassword = useCallback((event) => {
+  const checkSecondPassword = ((event) => {
     const currentPassword = event.target.value;
     setSecondPassword(currentPassword);
 
@@ -92,7 +91,6 @@ const Signup = () => {
       console.log(response);
       if (response.status === 201) {
         // TODO 회원가입 정상적으로 진행되면 login 페이지에서 회원가입 완료 안내 문구 띄워주기
-        setIntraId(state.intraId);
         navigate("/");
       }
     } catch (error) {
@@ -101,7 +99,7 @@ const Signup = () => {
     }
   };
 
-  if (state) {
+  // if (state) {
     return (
       <>
         {backPasswordError && (
@@ -113,17 +111,7 @@ const Signup = () => {
           회원가입
         </Typography>
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-          <TextField
-            margin="normal"
-            variant="filled"
-            disabled
-            value={state.intraId}
-            fullWidth
-            id="intraId"
-            name="intraId"
-            autoComplete="intraId"
-            autoFocus
-          />
+          <IntraIdField intraId={_intraId}/>
           <PasswordField
             id="password"
             name="password"
@@ -222,13 +210,13 @@ const Signup = () => {
         </Box>
       </>
     );
-  } else {
-    return (
-      <Typography component="h1" variant="h4">
-        잘못된 접근입니다.
-      </Typography>
-    );
-  }
+  // } else {
+  //   return (
+  //     <Typography component="h1" variant="h4">
+  //       잘못된 접근입니다.
+  //     </Typography>
+  //   );
+  // }
 };
 
 export default Signup;

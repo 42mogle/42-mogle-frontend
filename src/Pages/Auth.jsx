@@ -7,7 +7,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import useStore from "../store.js";
 
 const Auth = () => {
-  const { _server } = useStore((state) => state);
+  const { setIntraId, _server } = useStore((state) => state);
   const [searchParams] = useSearchParams();
   const token = searchParams.get("code");
   const navigate = useNavigate();
@@ -19,6 +19,7 @@ const Auth = () => {
         try {
           const response = await axios.get(_serverUrl);
           if (response.status === 200) {
+            setIntraId(response.data.intraId);
             navigate("/signup", { state: response.data });
           }
         } catch (error) {
