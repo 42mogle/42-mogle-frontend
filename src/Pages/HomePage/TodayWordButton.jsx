@@ -9,7 +9,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
-import useStore from "../store.js";
+import useStore from "../../store.js";
 
 const TodayWordButton = () => {
   const { _intraId, _server } = useStore((state) => state);

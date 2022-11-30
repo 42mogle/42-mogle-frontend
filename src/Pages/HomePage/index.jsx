@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Avatar, Typography } from "@mui/material";
 import Button from "@mui/material/Button";
-import AttendanceTable from "../components/AttendanceTable";
-import AttendanceButton from "../components/AttendanceButton";
-import TodayWordButton from "../components/TodayWordButton";
-import useStore from "../store.js";
+import AttendanceTable from "./AttendanceTable";
+import AttendanceButton from "./AttendanceButton";
+import TodayWordButton from "./TodayWordButton";
+import useStore from "../../store.js";
 import { format } from "date-fns";
 import { ko } from "date-fns/locale";
 
