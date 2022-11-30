@@ -3,7 +3,7 @@ import axios from "axios";
 import Typography from "@mui/material/Typography";
 import AttendanceTable from "./AttendanceTable";
 import AttendanceButton from "./AttendanceButton";
-import TodayWordButton from "./TodayWordButton";
+import SetTodayWordButton from "./SetSetTodayWordButton";
 import TestButtons from "./TestButtons";
 import useStore from "../../store.js";
 import { format } from "date-fns";
@@ -60,7 +60,7 @@ const Home = () => {
       </Typography>
       <AttendanceTable summary={summary} />
       <AttendanceButton />
-      {isOperator && <TodayWordButton />}
+      {isOperator && <SetTodayWordButton />}
       <TestButtons />
     </>
   );
