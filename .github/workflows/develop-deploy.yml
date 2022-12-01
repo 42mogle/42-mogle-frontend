@@ -28,6 +28,8 @@ jobs:
 
       - name: Build
         run: yarn run build
+        env:
+          CI: ''
 
       - name: Deploy
         env:
