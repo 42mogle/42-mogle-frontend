@@ -32,6 +32,7 @@ const Login = () => {
     if (_password.length === 0) {
       setErrorMessage("비밀번호를 입력해주세요.");
       setisErrorOccurred(true);
+      return ;
     }
     try {
       const response = await axios.post(`https://${process.env.REACT_APP_AWS_BACKEND_SERVER}/serverAuth/login/`, {
