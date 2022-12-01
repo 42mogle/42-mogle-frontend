@@ -23,7 +23,7 @@ function Home() {
       // const response = await requestGet(userAttendanceStateApi);
       const config = {
         headers: {
-          authorization: `Bearer ${localStorage.get("accessToken")}`,
+          authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
       };
       console.log(config);
