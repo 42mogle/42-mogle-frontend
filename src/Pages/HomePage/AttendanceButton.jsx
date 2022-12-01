@@ -30,12 +30,17 @@ const AttendanceButton = () => {
     const inputValue = event.target.todayWord.value;
 
     try {
+      const config = {
+        headers: {
+          authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      };
       const response = await axios.post(
         `https://${process.env.REACT_APP_AWS_BACKEND_SERVER}/attendance/userAttendance`,
         {
           intraId: _intraId,
           todayWord: inputValue,
-        }
+        }, config
       );
       console.log(response);
       if (response.status === 201) {
@@ -54,9 +59,14 @@ const AttendanceButton = () => {
 
   const buttonChecker = async () => {
     try {
+      const config = {
+        headers: {
+          authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      };
       const response = await axios.get(
         `https://${process.env.REACT_APP_AWS_BACKEND_SERVER}/attendance/${_intraId}/buttonStatus`
-      );
+      , config);
       setButton(response.data);
 
       if (response.data === 1) setLetter("출석가능 시간이 아닙니다");
@@ -67,9 +77,10 @@ const AttendanceButton = () => {
       console.log(error);
     }
   };
+  // TODO 출석이 완료되면 출석 정보가 업데이트 되도록 수정하기
   useEffect(() => {
     buttonChecker();
-  }, [buttonStatus]);
+  }, []);
 
   return (
     <>

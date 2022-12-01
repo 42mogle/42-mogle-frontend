@@ -7,10 +7,15 @@ function TestButtons() {
 
   const handleRequest = async () => {
     try {
+      const config = {
+        headers: {
+          authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      };
       console.log(process.env.REACT_APP_AWS_BACKEND_SERVER);
       const response = await axios.get(
         `https://${process.env.REACT_APP_AWS_BACKEND_SERVER}/serverAuth/test0/`
-      );
+      , config);
       console.log(response);
     } catch (error) {
       console.log(error);
@@ -19,9 +24,14 @@ function TestButtons() {
 
   const handleUserData = async () => {
     try {
+      const config = {
+        headers: {
+          authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      };
       const response = await axios.get(
         `https://${process.env.REACT_APP_AWS_BACKEND_SERVER}/statistic/${_intraId}/userAttendanceState`
-      );
+      , config);
       console.log("handleUserData", response);
     } catch (error) {
       console.log(error);

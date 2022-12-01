@@ -22,11 +22,10 @@ function AttendaceSummary(props) {
           </IconButton>
         </TableCell>
         <TableCell component="th" scope="row" align="center">
-          {/* {summary.attendanceCount} */}0
+          {summary.attendanceCount}
         </TableCell>
         <TableCell align="center">
-          {/* {summary.isPerfect ? "✅" : "❌"} */}
-          TEST
+          {summary.isPerfect ? "✅" : "❌"}
         </TableCell>
       </TableRow>
       <AttendanceLog open={open} attendanceLog={attendanceLog} />
