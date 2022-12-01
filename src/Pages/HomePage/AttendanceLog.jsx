@@ -45,7 +45,7 @@ const AttendanceLog = ({ open, attendanceLog }) => {
     getAttendanceLog();
   }, [_isAttended]);
 
-  if (!attendanceLog && attendanceLog.length === 0) {
+  if (attendanceLog === undefined && attendanceLog.length === 0) {
     return;
   } else {
     return (
