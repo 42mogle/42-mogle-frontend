@@ -13,6 +13,8 @@ const useStore = create(
         set({ _attendanceLog: attendanceLog }),
       _photoUrl: "",
       setPhotoUrl: (photoUrl) => set({ _photoUrl: photoUrl }),
+      _summary: {},
+      setSummary: (summary) => set({ _summary: summary}),
     }),
     {
       name: "user-data",
