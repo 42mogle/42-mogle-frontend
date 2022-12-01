@@ -13,31 +13,21 @@ import { format } from "date-fns";
 import { ko } from "date-fns/locale";
 
 const AttendanceTable = ({ summary }) => {
-  const { _attendanceLog, _isAttended, setAttendanceLog } = useStore(
+  const { _intraId, _attendanceLog, _isAttended, setAttendanceLog } = useStore(
     (state) => state
   );
 
   useEffect(() => {
     const getAttendanceLog = async () => {
       try {
-        // const response = await axios.get(
-        //   `https://${process.env.REACT_APP_AWS_BACKEND_SERVER}/statistic/${_intraId}/userAttendanceList`
-        // );
-
-        // Dummy data for test
-        const response = {
-          data: [
-            {
-              timelog: "2022-11-01 13:01:04",
-            },
-            {
-              timelog: "2022-11-02 13:01:04",
-            },
-            {
-              timelog: "2022-11-03 13:01:04",
-            },
-          ],
+        const config = {
+          headers: {
+            authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
         };
+        const response = await axios.get(
+          `https://${process.env.REACT_APP_AWS_BACKEND_SERVER}/statistic/${_intraId}/userAttendanceList`
+        , config);
 
         const attendanceList = response.data.map(({ timelog }) => {
           const attendanceDate = new Date(timelog);
