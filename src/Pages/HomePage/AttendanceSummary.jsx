@@ -22,9 +22,12 @@ function AttendaceSummary(props) {
           </IconButton>
         </TableCell>
         <TableCell component="th" scope="row" align="center">
-          {summary.attendanceCount}
+          {/* {summary.attendanceCount} */}0
         </TableCell>
-        <TableCell align="center">{summary.isPerfect ? "✅" : "❌"}</TableCell>
+        <TableCell align="center">
+          {/* {summary.isPerfect ? "✅" : "❌"} */}
+          TEST
+        </TableCell>
       </TableRow>
       <AttendanceLog open={open} attendanceLog={attendanceLog} />
     </React.Fragment>
