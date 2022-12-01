@@ -8,7 +8,7 @@ import TableBody from "@mui/material/TableBody";
 import TableHead from "@mui/material/TableHead";
 
 const AttendanceLog = ({ open, attendanceLog }) => {
-  if (!attendanceLog.length) {
+  if (!attendanceLog && attendanceLog.length === 0) {
     return;
   } else {
     return (

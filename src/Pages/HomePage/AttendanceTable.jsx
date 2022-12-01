@@ -36,6 +36,8 @@ const AttendanceTable = ({ summary }) => {
           return { date: _date, time: _time };
         });
 
+        console.log(attendanceList);
+
         setAttendanceLog(attendanceList);
       } catch (error) {
         console.log(error);

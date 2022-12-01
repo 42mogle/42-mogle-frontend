@@ -30,7 +30,7 @@ function Home() {
       const response = await axios.get(
         `https://${process.env.REACT_APP_AWS_BACKEND_SERVER}/statistic/${_intraId}/userAttendanceState`
       , config);
-      console.log(response.data);
+      console.log(`getSummary: ${response}`);
       setSummary(response.data);
     } catch (error) {
       console.log(error);
@@ -47,6 +47,7 @@ function Home() {
       const response = await axios.get(
         `https://${process.env.REACT_APP_AWS_BACKEND_SERVER}/user/${_intraId}`
       , config);
+      console.log(`getUserInfo: ${response}`);
       if (response.data.isOperator) {
         setIsOperator(true);
       }
