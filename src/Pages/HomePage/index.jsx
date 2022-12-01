@@ -19,7 +19,7 @@ function Home() {
 
   const getSummary = async () => {
     try {
-      const userAttendanceStateApi = `/statistic/${_intraId}/userAttendanceState`;
+      // const userAttendanceStateApi = `/statistic/${_intraId}/userAttendanceState`;
       // const response = await requestGet(userAttendanceStateApi);
       const config = {
         headers: {
@@ -39,9 +39,14 @@ function Home() {
 
   const getUserInfo = async () => {
     try {
+      const config = {
+        headers: {
+          authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      };
       const response = await axios.get(
         `https://${process.env.REACT_APP_AWS_BACKEND_SERVER}/user/${_intraId}`
-      );
+      , config);
       if (response.data.isOperator) {
         setIsOperator(true);
       }
@@ -59,7 +64,7 @@ function Home() {
     <>
       <UserProfile intraId={_intraId} photoUrl={_photoUrl} />
       <TodayDate />
-      {/* <AttendanceSummary summary={summary}/> */}
+      <AttendanceSummary summary={summary}/>
       <AttendanceTable />
       <AttendanceButton />
       {isOperator && <SetTodayWordButton />}
