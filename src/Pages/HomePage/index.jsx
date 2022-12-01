@@ -12,7 +12,7 @@ import apiManager from "../../api/apiManager";
 import requestGet from "../../api/requestGet";
 
 function Home() {
-  const { _intraId, _photoUrl } = useStore((state) => state);
+  const { _intraId, _photoUrl, setPhotoUrl } = useStore((state) => state);
   console.log(_intraId);
   const [isOperator, setIsOperator] = useState(false);
 
@@ -26,7 +26,8 @@ function Home() {
       const response = await axios.get(
         `https://${process.env.REACT_APP_AWS_BACKEND_SERVER}/user/${_intraId}`
       , config);
-      console.log(`getUserInfo: ${response}`);
+      setPhotoUrl(response.data.PhotoUrl);
+      console.log(response);
       if (response.data.isOperator) {
         setIsOperator(true);
       }
