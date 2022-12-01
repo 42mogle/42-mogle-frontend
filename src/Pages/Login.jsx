@@ -29,12 +29,17 @@ const Login = () => {
     event.preventDefault();
     const _intraId = event.target.intraId.value;
     const _password = event.target.password.value;
+    if (_password.length === 0) {
+      setErrorMessage("비밀번호를 입력해주세요.");
+      setisErrorOccurred(true);
+    }
     try {
       const response = await axios.post(`https://${process.env.REACT_APP_AWS_BACKEND_SERVER}/serverAuth/login/`, {
         intraId: _intraId,
         password: _password,
       });
       if (response.status === 201) {
+        setisErrorOccurred(false);
         setIntraId(_intraId);
         localStorage.setItem("accessToken", response.data.accessToken);
         navigate("/home");
