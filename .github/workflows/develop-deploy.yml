@@ -41,8 +41,7 @@ jobs:
           aws s3 sync ./build ${{ secrets.AWS_BUCKET_NAME }}
       - name: Invalidate cache CloudFront
         env:
-          DISTRIBUTION: ${{ secrets.AWS_DISTRIBUTION }}
           PATHS: '/index.html'
           PROFILE: --profile=${{ secrets.AWS_PROFILE }}
         run:
-          aws cloudfront create-invalidation
+          aws cloudfront create-invalidation --distribution-id ${{ secrets.AWS_DISTRIBUTION }}
