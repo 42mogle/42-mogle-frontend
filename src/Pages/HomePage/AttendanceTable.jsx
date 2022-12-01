@@ -8,44 +8,8 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import useStore from "../../store.js";
-import { format } from "date-fns";
-import { ko } from "date-fns/locale";
 
-const AttendanceTable = ({ summary }) => {
-  const { _intraId, _attendanceLog, _isAttended, setAttendanceLog } = useStore(
-    (state) => state
-  );
-
-  useEffect(() => {
-    const getAttendanceLog = async () => {
-      try {
-        const config = {
-          headers: {
-            authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-          },
-        };
-        const response = await axios.get(
-          `https://${process.env.REACT_APP_AWS_BACKEND_SERVER}/statistic/${_intraId}/userAttendanceList`
-        , config);
-
-        const attendanceList = response.data.map(({ timelog }) => {
-          const attendanceDate = new Date(timelog);
-          const _date = format(attendanceDate, "PPP EEEE", { locale: ko });
-          const _time = format(attendanceDate, "HH:mm:ss");
-          return { date: _date, time: _time };
-        });
-
-        console.log(attendanceList);
-
-        setAttendanceLog(attendanceList);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getAttendanceLog();
-  }, [_isAttended]);
-
+const AttendanceTable = () => {
   return (
     <TableContainer component={Paper} sx={{ mt: 3 }}>
       <Table aria-label="collapsible table">
@@ -60,8 +24,9 @@ const AttendanceTable = ({ summary }) => {
             </TableCell>
           </TableRow>
         </TableHead>
+        
         <TableBody>
-          <AttendanceSummary summary={summary} attendanceLog={_attendanceLog} />
+          <AttendanceSummary />
         </TableBody>
       </Table>
     </TableContainer>
