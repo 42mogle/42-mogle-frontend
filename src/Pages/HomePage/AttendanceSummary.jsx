@@ -8,9 +8,10 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import useStore from "../../store.js";
 
-function AttendanceSummary(props) {
-  const { attendanceLog } = props;
-  const { _intraId, _summary, setSummary } = useStore((state) => state);
+function AttendanceSummary() {
+  const { _intraId, _summary, setSummary } = useStore(
+    (state) => state
+  );
   const [open, setOpen] = useState(false);
 
   const getSummary = async () => {
@@ -54,7 +55,7 @@ function AttendanceSummary(props) {
         </TableCell>
         <TableCell align="center">{_summary.isPerfect ? "✅" : "❌"}</TableCell>
       </TableRow>
-      <AttendanceLog open={open} attendanceLog={attendanceLog} />
+      <AttendanceLog open={open} />
     </React.Fragment>
   );
 }

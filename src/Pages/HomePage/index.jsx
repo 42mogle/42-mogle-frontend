@@ -43,7 +43,7 @@ function Home() {
     <>
       <UserProfile intraId={_intraId} photoUrl={_photoUrl} />
       <TodayDate />
-      <AttendanceSummary />
+      {/* <AttendanceSummary /> */}
       <AttendanceTable />
       <AttendanceButton />
       {isOperator && <SetTodayWordButton />}
