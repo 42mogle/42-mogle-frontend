@@ -8,6 +8,8 @@ import TodayDate from "./TodayDate";
 import AttendanceSummary from "./AttendanceSummary";
 import TestButtons from "./TestButtons";
 import useStore from "../../store.js";
+import apiManager from "../../api/apiManager";
+import requestGet from "../../api/requestGet";
 
 function Home() {
   const { _intraId, _photoUrl } = useStore((state) => state);
@@ -17,9 +19,12 @@ function Home() {
 
   const getSummary = async () => {
     try {
-      const response = await axios.get(
-        `https://${process.env.REACT_APP_AWS_BACKEND_SERVER}/statistic/${_intraId}/userAttendanceState`
-      );
+      const userAttendanceStateApi = `/statistic/${_intraId}/userAttendanceState`
+      const response = await requestGet(userAttendanceStateApi);
+      
+      // await axios.get(
+      //   `https://${process.env.REACT_APP_AWS_BACKEND_SERVER}/statistic/${_intraId}/userAttendanceState`
+      // );
       console.log(response.data);
       setSummary(response.data);
     } catch (error) {
