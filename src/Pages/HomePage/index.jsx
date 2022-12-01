@@ -29,7 +29,7 @@ function Home() {
       console.log(config);
       const response = await axios.get(
         `https://${process.env.REACT_APP_AWS_BACKEND_SERVER}/statistic/${_intraId}/userAttendanceState`
-      );
+      , config);
       console.log(response.data);
       setSummary(response.data);
     } catch (error) {
