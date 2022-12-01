@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import MobileLayout from "./components/MobileLayout";
+import MobileLayout from "./Components/MobileLayout";
 import Login from "./pages/Login";
 import HomePage from "./pages/HomePage";
 import Signup from "./pages/SignupPage";
