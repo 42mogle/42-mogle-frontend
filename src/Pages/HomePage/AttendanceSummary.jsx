@@ -8,6 +8,7 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 
 function AttendaceSummary(props) {
   const { summary, attendanceLog } = props;
+  console.log(summary);
   const [open, setOpen] = useState(false);
   return (
     <React.Fragment>
