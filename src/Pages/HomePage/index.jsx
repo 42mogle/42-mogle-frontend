@@ -14,28 +14,7 @@ import requestGet from "../../api/requestGet";
 function Home() {
   const { _intraId, _photoUrl } = useStore((state) => state);
   console.log(_intraId);
-  const [summary, setSummary] = useState({});
   const [isOperator, setIsOperator] = useState(false);
-
-  const getSummary = async () => {
-    try {
-      // const userAttendanceStateApi = `/statistic/${_intraId}/userAttendanceState`;
-      // const response = await requestGet(userAttendanceStateApi);
-      const config = {
-        headers: {
-          authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
-      };
-      console.log(config);
-      const response = await axios.get(
-        `https://${process.env.REACT_APP_AWS_BACKEND_SERVER}/statistic/${_intraId}/userAttendanceState`
-      , config);
-      console.log(`getSummary: ${response}`);
-      setSummary(response.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const getUserInfo = async () => {
     try {
@@ -57,7 +36,6 @@ function Home() {
   };
 
   useEffect(() => {
-    getSummary();
     getUserInfo();
   }, []);
 
@@ -65,7 +43,7 @@ function Home() {
     <>
       <UserProfile intraId={_intraId} photoUrl={_photoUrl} />
       <TodayDate />
-      <AttendanceSummary summary={summary}/>
+      <AttendanceSummary />
       <AttendanceTable />
       <AttendanceButton />
       {isOperator && <SetTodayWordButton />}
