@@ -19,12 +19,17 @@ function Home() {
 
   const getSummary = async () => {
     try {
-      const userAttendanceStateApi = `/statistic/${_intraId}/userAttendanceState`
-      const response = await requestGet(userAttendanceStateApi);
-      
-      // await axios.get(
-      //   `https://${process.env.REACT_APP_AWS_BACKEND_SERVER}/statistic/${_intraId}/userAttendanceState`
-      // );
+      const userAttendanceStateApi = `/statistic/${_intraId}/userAttendanceState`;
+      // const response = await requestGet(userAttendanceStateApi);
+      const config = {
+        headers: {
+          authorization: `Bearer ${localStorage.get("accessToken")}`,
+        },
+      };
+      console.log(config);
+      const response = await axios.get(
+        `https://${process.env.REACT_APP_AWS_BACKEND_SERVER}/statistic/${_intraId}/userAttendanceState`
+      );
       console.log(response.data);
       setSummary(response.data);
     } catch (error) {
@@ -61,6 +66,6 @@ function Home() {
       <TestButtons />
     </>
   );
-};
+}
 
 export default Home;
