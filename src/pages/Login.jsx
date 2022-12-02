@@ -132,7 +132,7 @@ const Login = () => {
           회원가입
         </Button>
       </Box>
-      <Typography>TEST2</Typography>
+      <Typography>TEST3</Typography>
     </>
   );
 };
