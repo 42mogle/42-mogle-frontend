@@ -45,10 +45,12 @@ function Home() {
       <UserProfile intraId={_intraId} photoUrl={_photoUrl} />
       <TodayDate />
       {/* <AttendanceSummary /> */}
-      <AttendanceTable />
+      <AttendanceTable>
+        <AttendanceSummary />
+      </AttendanceTable>
       <AttendanceButton />
       {isOperator && <SetTodayWordButton />}
-      <TestButtons />
+      {/* <TestButtons /> */}
     </>
   );
 }
