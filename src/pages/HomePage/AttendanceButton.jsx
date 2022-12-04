@@ -19,6 +19,7 @@ const AttendanceButton = () => {
 
   const handleClickOpen = () => {
     setOpen(true);
+    setIsSameWithTodayWord(true);
   };
 
   const handleClose = () => {
