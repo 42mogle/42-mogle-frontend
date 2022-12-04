@@ -15,7 +15,7 @@ const AttendanceButton = () => {
   const [buttonStatus, setButton] = useState(true);
   const [buttonLetter, setLetter] = useState("출석체크");
   const [isSameWithTodayWord, setIsSameWithTodayWord] = useState(true);
-  const { _intraId, setIsAttended } = useStore((state) => state);
+  const { _intraId, _isAttended, setIsAttended } = useStore((state) => state);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -41,13 +41,14 @@ const AttendanceButton = () => {
         {
           intraId: _intraId,
           todayWord: inputValue,
-        }, config
+        },
+        config
       );
       console.log(response);
       if (response.status === 201) {
         if (response.data.statusAttendance === 0) {
           setOpen(false);
-          buttonChecker();
+          checkButtonStatus();
           setIsAttended(true);
         } else if (response.data.statusAttendance === 2) {
           setIsSameWithTodayWord(false);
@@ -58,7 +59,7 @@ const AttendanceButton = () => {
     }
   };
 
-  const buttonChecker = async () => {
+  const checkButtonStatus = async () => {
     try {
       const config = {
         headers: {
@@ -66,8 +67,9 @@ const AttendanceButton = () => {
         },
       };
       const response = await axios.get(
-        `https://${process.env.REACT_APP_AWS_BACKEND_SERVER}/attendance/${_intraId}/buttonStatus`
-      , config);
+        `https://${process.env.REACT_APP_AWS_BACKEND_SERVER}/attendance/${_intraId}/buttonStatus`,
+        config
+      );
       setButton(response.data);
 
       if (response.data === 1) setLetter("출석가능 시간이 아닙니다");
@@ -80,17 +82,14 @@ const AttendanceButton = () => {
   };
   // TODO 출석이 완료되면 출석 정보가 업데이트 되도록 수정하기
   useEffect(() => {
-    buttonChecker();
-  }, []);
+    checkButtonStatus();
+  }, [_isAttended]);
 
   return (
     <>
       <Button
         disabled={buttonStatus !== 0 ? true : false}
-        onClick={() => {
-          handleClickOpen();
-          buttonChecker();
-        }}
+        onClick={handleClickOpen}
         variant="contained"
         color="success"
         align="center"
