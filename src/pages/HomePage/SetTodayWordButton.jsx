@@ -30,12 +30,17 @@ const SetTodayWordButton = () => {
     event.preventDefault();
     const inputValue = event.target.setTodayWord.value;
     try {
+      const config = {
+        headers: {
+          authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      };
       const response = await axios.patch(
         `https://${process.env.REACT_APP_AWS_BACKEND_SERVER}/operator/setTodayWord`,
         {
           intraId: _intraId,
           todayWord: inputValue,
-        }
+        }, config
       );
       if (response.status === 200) {
         setOpen(false);
