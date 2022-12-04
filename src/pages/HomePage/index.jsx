@@ -26,7 +26,7 @@ function Home() {
       const response = await axios.get(
         `https://${process.env.REACT_APP_AWS_BACKEND_SERVER}/user/${_intraId}`
       , config);
-      setPhotoUrl(response.data.PhotoUrl);
+      setPhotoUrl(response.data.photoUrl);
       console.log(response);
       if (response.data.isOperator) {
         setIsOperator(true);
