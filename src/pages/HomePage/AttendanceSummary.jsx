@@ -9,7 +9,7 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import useStore from "../../store.js";
 
 function AttendanceSummary() {
-  const { _intraId, _summary, setSummary } = useStore(
+  const { _intraId, _summary, setSummary, _isAttended } = useStore(
     (state) => state
   );
   const [open, setOpen] = useState(false);
@@ -36,7 +36,7 @@ function AttendanceSummary() {
 
   useEffect(() => {
     getSummary();
-  }, []);
+  }, [_isAttended]);
 
   return (
     <React.Fragment>
