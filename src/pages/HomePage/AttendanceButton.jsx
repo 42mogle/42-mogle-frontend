@@ -13,7 +13,7 @@ import useStore from "../../store.js";
 const AttendanceButton = () => {
   const [open, setOpen] = useState(false);
   const [buttonStatus, setButton] = useState(true);
-  const [buttonLetter, setLetter] = useState("출석체크");
+  const [buttonLetter, setButtonLetter] = useState("출석체크");
   const [isSameWithTodayWord, setIsSameWithTodayWord] = useState(true);
   const { _intraId, _isAttended, setIsAttended } = useStore((state) => state);
 
@@ -48,7 +48,6 @@ const AttendanceButton = () => {
       if (response.status === 201) {
         if (response.data.statusAttendance === 0) {
           setOpen(false);
-          checkButtonStatus();
           setIsAttended(true);
         } else if (response.data.statusAttendance === 2) {
           setIsSameWithTodayWord(false);
@@ -72,10 +71,10 @@ const AttendanceButton = () => {
       );
       setButton(response.data);
 
-      if (response.data === 1) setLetter("출석가능 시간이 아닙니다");
-      else if (response.data === 2) setLetter("이미 출석체크를 완료했습니다");
+      if (response.data === 1) setButtonLetter("출석가능 시간이 아닙니다.");
+      else if (response.data === 2) setButtonLetter("이미 출석체크를 완료했습니다.");
       else if (response.data === 3)
-        setLetter("오늘의 단어가 아직 설정되지 않았습니다");
+        setButtonLetter("오늘의 단어가 아직 설정되지 않았습니다.");
     } catch (error) {
       console.log(error);
     }
@@ -93,7 +92,7 @@ const AttendanceButton = () => {
         variant="contained"
         color="success"
         align="center"
-        sx={{ mt: 3, width: 1 / 2 }}
+        sx={{ mt: 3, width: 'auto' }}
       >
         {buttonLetter}
       </Button>
