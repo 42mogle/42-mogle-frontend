@@ -95,10 +95,6 @@ const Login = () => {
           autoComplete="current-password"
           autoFocus={_intraId && true}
         />
-        <FormControlLabel
-          control={<Checkbox value="remember" color="primary" />}
-          label="비밀번호 기억하기"
-        />
         <Grid container>
           <Grid item xs>
             <Link
@@ -132,7 +128,6 @@ const Login = () => {
           회원가입
         </Button>
       </Box>
-      <Typography>TEST3</Typography>
     </>
   );
 };
