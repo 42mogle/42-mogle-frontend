@@ -34,7 +34,7 @@ const SetTodayWordButton = () => {
         intraId: _intraId,
         todayWord: inputValue,
       };
-      const response = await apiManager.patch(`/operator/setTodayWord`, data);
+      const response = await apiManager.patch(`/operator/setTodayWord/`, data);
 
       if (response.status === 200) {
         setOpen(false);
