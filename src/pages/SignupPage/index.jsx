@@ -16,15 +16,18 @@ function Signup() {
   const navigate = useNavigate();
   const { state } = useLocation();
   const { _intraId, setPhotoUrl } = useStore((state) => state);
+  
   // 비밀번호 규칙 확인용 State (boolean)
   const [isSamePassword, setIsSamePassword] = useState(true);
+  
   // 사용자 입력 비밀번호 저장 State (string)
   const [firstPassword, setFirstPassword] = useState("");
   const [secondPassword, setSecondPassword] = useState("");
+  
   // 비밀번호 규칙 검증용 State (boolean)
   const [isLengthGood, setLengthGood] = useState(true);
   const [isRuleGood, setRuleGood] = useState(true);
-  const [isValidPassword, setIsValidPassword] = useState(false);
+
   // 비밀번호 검증 시 에러 메세지 설정용 State (string)
   const [validPasswordMessage, setValidPasswordMessage] = useState("");
   const [backPasswordError, setBackPasswordError] = useState(false);

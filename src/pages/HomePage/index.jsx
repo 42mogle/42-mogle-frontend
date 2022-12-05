@@ -11,14 +11,13 @@ import TestButtons from "./TestButtons";
 
 function Home() {
   const { _intraId, _photoUrl, setPhotoUrl } = useStore((state) => state);
-  console.log(_intraId);
+  // TODO Home 컴포넌트가 여러 번 렌더링 되는 문제가 있음
   const [isOperator, setIsOperator] = useState(false);
 
   const getUserInfo = async () => {
     try {
       const response = await apiManager.get(`/user/${_intraId}`);
       setPhotoUrl(response.data.photoUrl);
-      console.log(response);
       if (response.data.isOperator) {
         setIsOperator(true);
       }
