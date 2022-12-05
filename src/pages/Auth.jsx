@@ -16,7 +16,7 @@ const Auth = () => {
     (async () => {
       if (token) {
         try {
-          const response = await apiManager.get(`/serverAuth/firstJoin/?code=${token}`);
+          const response = await apiManager.get(`/serverAuth/firstJoin/?code=${token}/`);
           if (response.status === 200) {
             setIntraId(response.data.intraId);
             navigate("/signup", { state: response.data });

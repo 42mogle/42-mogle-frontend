@@ -19,7 +19,7 @@ const AttendanceLog = ({ open, attendanceLog }) => {
     const getAttendanceLog = async () => {
       try {
         const response = await apiManager.get(
-          `/statistic/${_intraId}/userAttendanceList`
+          `/statistic/${_intraId}/userAttendanceList/`
         );
 
         const attendanceList = response.data.map(({ timelog }) => {
