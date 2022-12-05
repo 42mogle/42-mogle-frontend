@@ -1,4 +1,4 @@
-import axios from "axios";
+import apiManager from "../../api/apiManager.js";
 import { Button } from "@mui/material";
 import useStore from "../../store.js";
 
@@ -7,16 +7,8 @@ function TestButtons() {
 
   const handleRequest = async () => {
     try {
-      const config = {
-        headers: {
-          authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
-      };
-      console.log(process.env.REACT_APP_AWS_BACKEND_SERVER);
-      const response = await axios.get(
-        `https://${process.env.REACT_APP_AWS_BACKEND_SERVER}/serverAuth/test0/`
-      , config);
-      console.log(response);
+      const response = await apiManager.get(`/serverAuth/test0`);
+      console.log("handleRequest", response);
     } catch (error) {
       console.log(error);
     }
@@ -24,14 +16,9 @@ function TestButtons() {
 
   const handleUserData = async () => {
     try {
-      const config = {
-        headers: {
-          authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
-      };
-      const response = await axios.get(
-        `https://${process.env.REACT_APP_AWS_BACKEND_SERVER}/statistic/${_intraId}/userAttendanceState`
-      , config);
+      const response = await apiManager.get(
+        `/statistic/${_intraId}/userAttendanceState`
+      );
       console.log("handleUserData", response);
     } catch (error) {
       console.log(error);

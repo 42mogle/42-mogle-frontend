@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import apiManager from "../../api/apiManager.js";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -30,18 +30,12 @@ const SetTodayWordButton = () => {
     event.preventDefault();
     const inputValue = event.target.setTodayWord.value;
     try {
-      const config = {
-        headers: {
-          authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
+      const data = {
+        intraId: _intraId,
+        todayWord: inputValue,
       };
-      const response = await axios.patch(
-        `https://${process.env.REACT_APP_AWS_BACKEND_SERVER}/operator/setTodayWord`,
-        {
-          intraId: _intraId,
-          todayWord: inputValue,
-        }, config
-      );
+      const response = await apiManager.patch(`/operator/setTodayWord`, data);
+
       if (response.status === 200) {
         setOpen(false);
         setIsTodayWord(true);

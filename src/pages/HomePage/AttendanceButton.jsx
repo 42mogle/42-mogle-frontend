@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import apiManager from "../../api/apiManager.js";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -31,20 +31,15 @@ const AttendanceButton = () => {
     const inputValue = event.target.todayWord.value;
 
     try {
-      const config = {
-        headers: {
-          authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
+      const data = {
+        intraId: _intraId,
+        todayWord: inputValue,
       };
-      const response = await axios.post(
-        `https://${process.env.REACT_APP_AWS_BACKEND_SERVER}/attendance/userAttendance`,
-        {
-          intraId: _intraId,
-          todayWord: inputValue,
-        },
-        config
+      const response = await apiManager.post(
+        `/attendance/userAttendance`,
+        data
       );
-      console.log(response);
+
       if (response.status === 201) {
         if (response.data.statusAttendance === 0) {
           setOpen(false);
@@ -60,19 +55,14 @@ const AttendanceButton = () => {
 
   const checkButtonStatus = async () => {
     try {
-      const config = {
-        headers: {
-          authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
-      };
-      const response = await axios.get(
-        `https://${process.env.REACT_APP_AWS_BACKEND_SERVER}/attendance/${_intraId}/buttonStatus`,
-        config
+      const response = await apiManager.get(
+        `/attendance/${_intraId}/buttonStatus`
       );
       setButton(response.data);
 
       if (response.data === 1) setButtonLetter("출석가능 시간이 아닙니다.");
-      else if (response.data === 2) setButtonLetter("이미 출석체크를 완료했습니다.");
+      else if (response.data === 2)
+        setButtonLetter("이미 출석체크를 완료했습니다.");
       else if (response.data === 3)
         setButtonLetter("오늘의 단어가 아직 설정되지 않았습니다.");
     } catch (error) {
@@ -92,7 +82,7 @@ const AttendanceButton = () => {
         variant="contained"
         color="success"
         align="center"
-        sx={{ mt: 3, width: 'auto' }}
+        sx={{ mt: 3, width: "auto" }}
       >
         {buttonLetter}
       </Button>
