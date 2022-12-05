@@ -1,5 +1,5 @@
 import React from "react";
-import axios from "axios";
+import apiManager from "../api/apiManager.js";
 import { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Typography } from "@mui/material";
@@ -14,11 +14,9 @@ const Auth = () => {
 
   useEffect(() => {
     (async () => {
-      const _serverUrl = `https://${process.env.REACT_APP_AWS_BACKEND_SERVER}/serverAuth/firstJoin/?code=${token}`;
       if (token) {
         try {
-          const response = await axios.get(_serverUrl);
-          console.log(response);
+          const response = await apiManager.get(`/serverAuth/firstJoin/?code=${token}`);
           if (response.status === 200) {
             setIntraId(response.data.intraId);
             navigate("/signup", { state: response.data });

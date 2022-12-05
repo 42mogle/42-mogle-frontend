@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import apiManager from "../../api/apiManager.js";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -67,28 +67,27 @@ function Signup() {
     }
   }, [isLengthGood, isRuleGood]);
 
-  const checkSecondPassword = ((event) => {
+  const checkSecondPassword = (event) => {
     const currentPassword = event.target.value;
     setSecondPassword(currentPassword);
 
     firstPassword === currentPassword
       ? setIsSamePassword(true)
       : setIsSamePassword(false);
-  });
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const _serverUrl = `https://${process.env.REACT_APP_AWS_BACKEND_SERVER}/serverAuth/secondJoin/`;
     try {
       const defaultImage =
         "https://i.ytimg.com/vi/AwrFPJk_BGU/maxresdefault.jpg";
-      const response = await axios.post(_serverUrl, {
+      const data = {
         intraId: state.intraId,
         password: secondPassword,
         photoUrl: state.photoUrl === null ? defaultImage : state.photoUrl,
         isOperator: false,
-      });
-      console.log(response);
+      };
+      const response = await apiManager.post(`/serverAuth/secondJoin/`, data);
       if (response.status === 201) {
         setPhotoUrl(state.photoUrl);
         // TODO 회원가입 정상적으로 진행되면 login 페이지에서 회원가입 완료 안내 문구 띄워주기
@@ -101,116 +100,114 @@ function Signup() {
   };
 
   // if (state) {
-    return (
-      <>
-        {backPasswordError && (
-          <Alert severity="error" sx={{ mb: 3, width: "100%" }}>
-            오류가 발생했습니다. 다시 시도해주세요.
-          </Alert>
-        )}
-        <Typography component="h1" variant="h5">
-          회원가입
-        </Typography>
-        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-          <IntraIdField intraId={_intraId}/>
-          <PasswordField
-            id="password"
-            name="password"
-            label="Password"
-            onChange={onChangePassword}
-            isLengthGood={isLengthGood}
-            isRuleGood={isRuleGood}
-            helperText={validPasswordMessage}
-          />
-          <PasswordField
-            id="validatePassword"
-            name="validatePassword"
-            label="Re-enter password"
-            onChange={checkSecondPassword}
-            isSamePassword={isSamePassword}
-            isRuleGood={isRuleGood}
-            helperText="비밀번호가 일치하지 않습니다."
-          />
+  return (
+    <>
+      {backPasswordError && (
+        <Alert severity="error" sx={{ mb: 3, width: "100%" }}>
+          오류가 발생했습니다. 다시 시도해주세요.
+        </Alert>
+      )}
+      <Typography component="h1" variant="h5">
+        회원가입
+      </Typography>
+      <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+        <IntraIdField intraId={_intraId} />
+        <PasswordField
+          id="password"
+          name="password"
+          label="Password"
+          onChange={onChangePassword}
+          isLengthGood={isLengthGood}
+          isRuleGood={isRuleGood}
+          helperText={validPasswordMessage}
+        />
+        <PasswordField
+          id="validatePassword"
+          name="validatePassword"
+          label="Re-enter password"
+          onChange={checkSecondPassword}
+          isSamePassword={isSamePassword}
+          isRuleGood={isRuleGood}
+          helperText="비밀번호가 일치하지 않습니다."
+        />
 
-          <Typography component="h6" variant="body2">
-            비밀번호는 아래의 규칙에 맞게 작성해주세요.
-          </Typography>
-          <List
-            sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
-          >
-            <ListItem color="success">
-              <ListItemIcon>
-                <CheckIcon
-                  color={
+        <Typography component="h6" variant="body2">
+          비밀번호는 아래의 규칙에 맞게 작성해주세요.
+        </Typography>
+        <List
+          sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
+        >
+          <ListItem color="success">
+            <ListItemIcon>
+              <CheckIcon
+                color={
+                  isLengthGood && firstPassword !== "" ? "success" : "disabled"
+                }
+              ></CheckIcon>
+            </ListItemIcon>
+            <ListItemText
+              disableTypography
+              secondary={
+                <Typography
+                  type="body2"
+                  variant="subtitle2"
+                  style={
                     isLengthGood && firstPassword !== ""
-                      ? "success"
-                      : "disabled"
+                      ? { color: "green" }
+                      : { color: "grey" }
                   }
-                ></CheckIcon>
-              </ListItemIcon>
-              <ListItemText
-                disableTypography
-                secondary={
-                  <Typography
-                    type="body2"
-                    variant="subtitle2"
-                    style={
-                      isLengthGood && firstPassword !== ""
-                        ? { color: "green" }
-                        : { color: "grey" }
-                    }
-                  >
-                    8 ~ 20자 사이
-                  </Typography>
+                >
+                  8 ~ 20자 사이
+                </Typography>
+              }
+            />
+          </ListItem>
+          <ListItem>
+            <ListItemIcon>
+              <CheckIcon
+                color={
+                  isRuleGood && firstPassword !== "" ? "success" : "disabled"
                 }
-              />
-            </ListItem>
-            <ListItem>
-              <ListItemIcon>
-                <CheckIcon
-                  color={
-                    isRuleGood && firstPassword !== "" ? "success" : "disabled"
+              ></CheckIcon>
+            </ListItemIcon>
+            <ListItemText
+              disableTypography
+              secondary={
+                <Typography
+                  type="body2"
+                  variant="subtitle2"
+                  style={
+                    isRuleGood && firstPassword !== ""
+                      ? { color: "green" }
+                      : { color: "grey" }
                   }
-                ></CheckIcon>
-              </ListItemIcon>
-              <ListItemText
-                disableTypography
-                secondary={
-                  <Typography
-                    type="body2"
-                    variant="subtitle2"
-                    style={
-                      isRuleGood && firstPassword !== ""
-                        ? { color: "green" }
-                        : { color: "grey" }
-                    }
-                  >
-                    영문 대/소문자, 숫자, 특수문자 조합
-                  </Typography>
-                }
-              />
-              <ListItemText secondary="" />
-            </ListItem>
-          </List>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            disabled={
-              !(
-                isLengthGood &&
-                isRuleGood &&
-                isSamePassword &&
-                secondPassword !== ""
-              )
-            }
-            sx={{ mt: 3, mb: 2 }}
-          >
-            확인
-          </Button>
-        </Box>
-      </>
-    );
+                >
+                  영문 대/소문자, 숫자, 특수문자 조합
+                </Typography>
+              }
+            />
+            <ListItemText secondary="" />
+          </ListItem>
+        </List>
+        <Button
+          type="submit"
+          fullWidth
+          variant="contained"
+          disabled={
+            !(
+              isLengthGood &&
+              isRuleGood &&
+              isSamePassword &&
+              secondPassword !== ""
+            )
+          }
+          sx={{ mt: 3, mb: 2 }}
+        >
+          확인
+        </Button>
+      </Box>
+    </>
+  );
   // } else {
   //   return (
   //     <Typography component="h1" variant="h4">
@@ -218,6 +215,6 @@ function Signup() {
   //     </Typography>
   //   );
   // }
-};
+}
 
 export default Signup;

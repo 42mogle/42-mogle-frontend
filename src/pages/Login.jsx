@@ -1,10 +1,8 @@
-import axios from "axios";
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import apiManager from "../api/apiManager.js";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -32,13 +30,14 @@ const Login = () => {
     if (_password.length === 0) {
       setErrorMessage("비밀번호를 입력해주세요.");
       setisErrorOccurred(true);
-      return ;
+      return;
     }
     try {
-      const response = await axios.post(`https://${process.env.REACT_APP_AWS_BACKEND_SERVER}/serverAuth/login/`, {
+      const data = {
         intraId: _intraId,
         password: _password,
-      });
+      };
+      const response = await apiManager.post(`/serverAuth/login/`, data);
       if (response.status === 201) {
         setisErrorOccurred(false);
         setIntraId(_intraId);
@@ -46,6 +45,7 @@ const Login = () => {
         navigate("/home");
       }
     } catch (error) {
+      console.log(error);
       setErrorMessage(error.response.data.message);
       setisErrorOccurred(true);
     }
