@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import apiManager from "../../api/apiManager";
+import axios from "axios";
 import AttendanceLog from "./AttendanceLog";
 import IconButton from "@mui/material/IconButton";
 import TableCell from "@mui/material/TableCell";
@@ -16,7 +17,16 @@ function AttendanceSummary() {
 
   const getSummary = async () => {
     try {
-      const response = await apiManager.get(`/statistic/${_intraId}/userAttendanceState`);
+      const config = {
+        headers: {
+          authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      };
+      const response = await axios.get(
+        `https://${process.env.REACT_APP_AWS_BACKEND_SERVER}/statistic/${_intraId}/userAttendanceState`,
+        config
+      );
+      // const response = await apiManager.get(`/statistic/${_intraId}/userAttendanceState`);
       setSummary(response.data);
     } catch (error) {
       console.log(error);
