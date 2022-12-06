@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import apiManager from "../api/apiManager.js";
 import Button from "@mui/material/Button";
@@ -8,6 +8,7 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Alert from "@mui/material/Alert";
+import Snackbar from "@mui/material/Snackbar";
 import useStore from "../store.js";
 
 const Login = () => {
@@ -17,6 +18,22 @@ const Login = () => {
   const [isErrorOccurred, setisErrorOccurred] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [findPassword, clickFindPassword] = useState(false);
+  const [signupSnackbarOpen, setSignupSnackbarOpen] = useState(false);
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setSignupSnackbarOpen(false);
+  };
+
+  useEffect(() => {
+    if (state && state.isSignupSuccess)
+    {
+      setSignupSnackbarOpen(true);
+    }
+  }, [])
 
   const handleLoginSubmit = async (event) => {
     event.preventDefault();
@@ -48,9 +65,9 @@ const Login = () => {
 
   return (
     <>
-      {state && state.isAlreadySignedUp && (
+      {state && state.error && (
         <Alert severity="error" sx={{ mb: 3, width: "100%" }}>
-          이미 존재하는 계정입니다.
+          {state.error}
         </Alert>
       )}
       {isErrorOccurred && (
@@ -118,6 +135,23 @@ const Login = () => {
         >
           회원가입
         </Button>
+        {state &&
+          state.isSignupSuccess(
+            <Snackbar
+              anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+              open={signupSnackbarOpen}
+              autoHideDuration={2000}
+              onClose={handleClose}
+            >
+              <Alert
+                onClose={handleClose}
+                severity="success"
+                sx={{ width: "100%" }}
+              >
+                회원가입이 완료되었습니다.
+              </Alert>
+            </Snackbar>
+          )}
       </Box>
     </>
   );
