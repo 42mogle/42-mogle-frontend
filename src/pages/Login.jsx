@@ -13,7 +13,7 @@ import useStore from "../store.js";
 const Login = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
-  const { _intraId, setIntraId } = useStore((state) => state);
+  const { _intraId } = useStore((state) => state);
   const [inputIntraId, setInputIntraId] = useState("");
   const [isErrorOccurred, setisErrorOccurred] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -40,7 +40,6 @@ const Login = () => {
       const response = await apiManager.post(`/serverAuth/login/`, data);
       if (response.status === 201) {
         setisErrorOccurred(false);
-        setIntraId(_intraId);
         localStorage.setItem("accessToken", response.data.accessToken);
         navigate("/home");
       }
