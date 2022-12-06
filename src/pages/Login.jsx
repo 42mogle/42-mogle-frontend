@@ -13,15 +13,10 @@ import useStore from "../store.js";
 const Login = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
-  const { _intraId } = useStore((state) => state);
-  const [inputIntraId, setInputIntraId] = useState("");
+  const { setIntraId } = useStore((state) => state);
   const [isErrorOccurred, setisErrorOccurred] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [findPassword, clickFindPassword] = useState(false);
-
-  const handleInputIntraId = (event) => {
-    setInputIntraId(event.target.value);
-  };
 
   const handleLoginSubmit = async (event) => {
     event.preventDefault();
@@ -40,6 +35,7 @@ const Login = () => {
       const response = await apiManager.post(`/serverAuth/login/`, data);
       if (response.status === 201) {
         setisErrorOccurred(false);
+        setIntraId(_intraId);
         localStorage.setItem("accessToken", response.data.accessToken);
         navigate("/home");
       }
@@ -78,10 +74,7 @@ const Login = () => {
           id="intraId"
           label="Intra ID"
           name="intraId"
-          value={_intraId === "" ? inputIntraId : _intraId}
-          onChange={handleInputIntraId}
           autoComplete="intraId"
-          autoFocus={_intraId === "" ? false : true}
         />
         <TextField
           margin="normal"
@@ -92,7 +85,6 @@ const Login = () => {
           type="password"
           id="password"
           autoComplete="current-password"
-          autoFocus={_intraId && true}
         />
         <Grid container>
           <Grid item xs>
