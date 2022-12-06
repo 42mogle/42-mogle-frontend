@@ -32,7 +32,6 @@ const AttendanceButton = () => {
 
     try {
       const data = {
-        intraId: _intraId,
         todayWord: inputValue,
       };
       const response = await apiManager.post(
