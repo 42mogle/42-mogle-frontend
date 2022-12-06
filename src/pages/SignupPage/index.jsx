@@ -88,7 +88,6 @@ function Signup() {
         intraId: state.intraId,
         password: secondPassword,
         photoUrl: state.photoUrl === null ? defaultImage : state.photoUrl,
-        isOperator: false,
       };
       const response = await apiManager.post(`/serverAuth/secondJoin/`, data);
       if (response.status === 201) {
