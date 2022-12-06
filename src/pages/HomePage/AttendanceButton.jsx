@@ -36,7 +36,7 @@ const AttendanceButton = () => {
         todayWord: inputValue,
       };
       const response = await apiManager.post(
-        `/attendance/userAttendance`,
+        `/attendance/userAttendance/`,
         data
       );
 
@@ -56,7 +56,7 @@ const AttendanceButton = () => {
   const checkButtonStatus = async () => {
     try {
       const response = await apiManager.get(
-        `/attendance/${_intraId}/buttonStatus`
+        `/attendance/${_intraId}/buttonStatus/`
       );
       setButton(response.data);
 
