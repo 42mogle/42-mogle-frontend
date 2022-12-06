@@ -25,8 +25,8 @@ const Auth = () => {
           }
         } catch (error) {
           console.log(error);
-          // TODO 이미 가입한 회원일 때는 if 문으로 분기해서 상태값 넘겨주기
-          navigate("/", { state: { isAlreadySignedUp: true } });
+          // TODO 에러가 발생할 수 있는 상태값 확인해서 에러 메시지 다르게 띄우기
+          navigate("/", { state: error });
         }
       }
     })();
