@@ -17,16 +17,7 @@ function AttendanceSummary() {
 
   const getSummary = async () => {
     try {
-      const config = {
-        headers: {
-          authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
-      };
-      const response = await axios.get(
-        `https://${process.env.REACT_APP_AWS_BACKEND_SERVER}/statistic/${_intraId}/userAttendanceState`,
-        config
-      );
-      // const response = await apiManager.get(`/statistic/${_intraId}/userAttendanceState`);
+      const response = await apiManager.get(`/statistic/${_intraId}/userAttendanceState`);
       setSummary(response.data);
     } catch (error) {
       console.log(error);
