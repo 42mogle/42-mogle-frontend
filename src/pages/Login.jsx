@@ -29,11 +29,10 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if (state && state.isSignupSuccess)
-    {
+    if (state && state.isSignupSuccess) {
       setSignupSnackbarOpen(true);
     }
-  }, [])
+  }, []);
 
   const handleLoginSubmit = async (event) => {
     event.preventDefault();
@@ -135,23 +134,22 @@ const Login = () => {
         >
           회원가입
         </Button>
-        {state &&
-          state.isSignupSuccess(
-            <Snackbar
-              anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-              open={signupSnackbarOpen}
-              autoHideDuration={2000}
+        {state && state.isSignupSuccess && (
+          <Snackbar
+            anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+            open={signupSnackbarOpen}
+            autoHideDuration={2000}
+            onClose={handleClose}
+          >
+            <Alert
               onClose={handleClose}
+              severity="success"
+              sx={{ width: "100%" }}
             >
-              <Alert
-                onClose={handleClose}
-                severity="success"
-                sx={{ width: "100%" }}
-              >
-                회원가입이 완료되었습니다.
-              </Alert>
-            </Snackbar>
-          )}
+              회원가입이 완료되었습니다.
+            </Alert>
+          </Snackbar>
+        )}
       </Box>
     </>
   );
