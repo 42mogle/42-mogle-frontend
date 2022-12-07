@@ -87,7 +87,6 @@ function Signup() {
       const data = {
         intraId: state.intraId,
         password: secondPassword,
-        photoUrl: state.photoUrl === null ? defaultImage : state.photoUrl,
       };
       const response = await apiManager.post(`/serverAuth/secondJoin/`, data);
       if (response.status === 201) {
