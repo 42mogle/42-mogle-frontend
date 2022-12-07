@@ -16,7 +16,7 @@ function AttendanceSummary() {
 
   const getSummary = async () => {
     try {
-      const response = await apiManager.get(`/statistic/userAttendanceState`);
+      const response = await apiManager.get("/statistic/userAttendanceState/");
       setSummary(response.data);
     } catch (error) {
       console.log(error);
