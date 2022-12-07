@@ -82,8 +82,6 @@ function Signup() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const defaultImage =
-        "https://i.ytimg.com/vi/AwrFPJk_BGU/maxresdefault.jpg";
       const data = {
         intraId: state.intraId,
         password: secondPassword,
