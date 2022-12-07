@@ -6,6 +6,7 @@ import SetTodayWordButton from "./SetTodayWordButton";
 import UserProfile from "./UserProfile";
 import TodayDate from "./TodayDate";
 import AttendanceSummary from "./AttendanceSummary";
+import Link from "@mui/material/Link";
 import useStore from "../../store.js";
 import TestButtons from "./TestButtons";
 
@@ -39,6 +40,13 @@ function Home() {
         <AttendanceSummary />
       </AttendanceTable>
       <AttendanceButton />
+      <Link
+        color="inherit"
+        href="https://forms.gle/1g3qm5RPLUgS3JDQ8"
+        target="_blank"
+      >
+        2022년 12월 구글 출석폼
+      </Link>
       {isOperator && <SetTodayWordButton />}
       {/* <TestButtons /> */}
     </>
