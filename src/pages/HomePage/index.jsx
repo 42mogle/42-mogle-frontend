@@ -41,11 +41,11 @@ function Home() {
       </AttendanceTable>
       <AttendanceButton />
       <Link
-        color="inherit"
         href="https://forms.gle/1g3qm5RPLUgS3JDQ8"
         target="_blank"
+        sx={{ mt: 3 }}
       >
-        2022년 12월 구글 출석폼
+        구글 출석폼에서도 입력 부탁드려용 ! →
       </Link>
       {isOperator && <SetTodayWordButton />}
       {/* <TestButtons /> */}
