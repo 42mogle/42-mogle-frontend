@@ -12,15 +12,13 @@ import { ko } from "date-fns/locale";
 import useStore from "../../store.js";
 
 const AttendanceLog = ({ open, attendanceLog }) => {
-  const { _intraId, _isAttended, _attendanceLog, setAttendanceLog } = useStore(
+  const { _isAttended, _attendanceLog, setAttendanceLog } = useStore(
     (state) => state
   );
   useEffect(() => {
     const getAttendanceLog = async () => {
       try {
-        const response = await apiManager.get(
-          `/statistic/${_intraId}/userAttendanceList`
-        );
+        const response = await apiManager.get(`/statistic/userAttendanceList`);
 
         const attendanceList = response.data.map(({ timelog }) => {
           const attendanceDate = new Date(timelog);
@@ -28,7 +26,7 @@ const AttendanceLog = ({ open, attendanceLog }) => {
           const _time = format(attendanceDate, "HH:mm:ss");
           return { date: _date, time: _time };
         });
-        
+
         setAttendanceLog(attendanceList);
       } catch (error) {
         console.log(error);

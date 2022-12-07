@@ -31,7 +31,6 @@ const SetTodayWordButton = () => {
     const inputValue = event.target.setTodayWord.value;
     try {
       const data = {
-        intraId: _intraId,
         todayWord: inputValue,
       };
       const response = await apiManager.patch(`/operator/setTodayWord/`, data);
