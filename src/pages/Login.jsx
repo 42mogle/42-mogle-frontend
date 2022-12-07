@@ -66,7 +66,7 @@ const Login = () => {
     <>
       {state && state.error && (
         <Alert severity="error" sx={{ mb: 3, width: "100%" }}>
-          {state.error}
+          {state.error.message}
         </Alert>
       )}
       {isErrorOccurred && (

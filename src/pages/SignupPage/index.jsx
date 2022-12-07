@@ -11,6 +11,7 @@ import Alert from "@mui/material/Alert";
 import useStore from "../../store.js";
 import IntraIdField from "./IntraIdField.jsx";
 import PasswordField from "./PasswordField.jsx";
+const HTTP_STATUS = require("http-status");
 
 function Signup() {
   const navigate = useNavigate();
@@ -87,7 +88,7 @@ function Signup() {
         password: secondPassword,
       };
       const response = await apiManager.post(`/serverAuth/secondJoin/`, data);
-      if (response.status === 201) {
+      if (response.status === HTTP_STATUS.CREATED) {
         setPhotoUrl(state.photoUrl);
         // TODO 회원가입 정상적으로 진행되면 login 페이지에서 회원가입 완료 안내 문구 띄워주기
         navigate("/", { state: { isSignupSuccess: true } });

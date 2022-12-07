@@ -5,6 +5,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { Typography } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 import useStore from "../store.js";
+const HTTP_STATUS = require("http-status");
 
 const Auth = () => {
   const { setIntraId } = useStore((state) => state);
@@ -17,7 +18,7 @@ const Auth = () => {
       if (token) {
         try {
           const response = await apiManager.get(`/serverAuth/firstJoin/?code=${token}`);
-          if (response.status === 200) {
+          if (response.status === HTTP_STATUS.OK) {
             setIntraId(response.data.intraId);
             navigate("/signup", { state: response.data });
           }
