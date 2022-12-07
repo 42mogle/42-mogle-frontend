@@ -16,7 +16,7 @@ function Home() {
 
   const getUserInfo = async () => {
     try {
-      const response = await apiManager.get(`/user/${_intraId}/`);
+      const response = await apiManager.get("/user/getUserInfo/");
       setPhotoUrl(response.data.photoUrl);
       if (response.data.isOperator) {
         setIsOperator(true);
