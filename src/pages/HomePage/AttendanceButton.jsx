@@ -54,9 +54,7 @@ const AttendanceButton = () => {
 
   const checkButtonStatus = async () => {
     try {
-      const response = await apiManager.get(
-        `/attendance/${_intraId}/buttonStatus/`
-      );
+      const response = await apiManager.get("/attendance/buttonStatus/");
       setButton(response.data);
 
       if (response.data === 1) setButtonLetter("출석가능 시간이 아닙니다.");
