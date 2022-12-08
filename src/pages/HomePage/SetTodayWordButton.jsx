@@ -9,21 +9,23 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
-import useStore from "../../store.js";
+const HTTP_STATUS = require("http-status");
 
 const SetTodayWordButton = () => {
-  const { _intraId } = useStore((state) => state);
-
   const [open, setOpen] = useState(false);
-  const [isSetTodayWord, setIsTodayWord] = useState(false);
+  const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
   const [todayWord, setTodayWord] = useState("");
 
-  const handleClickOpen = () => {
+  const handleClickOpen = (event) => {
     setOpen(true);
   };
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleSnackbar = () => {
+    setIsSnackbarOpen(false);
   };
 
   const handleSubmit = async (event) => {
@@ -35,9 +37,9 @@ const SetTodayWordButton = () => {
       };
       const response = await apiManager.patch(`/operator/setTodayWord/`, data);
 
-      if (response.status === 200) {
+      if (response.status === HTTP_STATUS.OK) {
         setOpen(false);
-        setIsTodayWord(true);
+        setIsSnackbarOpen(true);
         setTodayWord(inputValue);
       }
     } catch (error) {
@@ -75,11 +77,15 @@ const SetTodayWordButton = () => {
         </Box>
       </Dialog>
       <Snackbar
-        open={isSetTodayWord}
+        open={isSnackbarOpen}
         autoHideDuration={2000}
-        onClose={handleClose}
+        onClose={handleSnackbar}
       >
-        <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
+        <Alert
+          onClose={handleSnackbar}
+          severity="success"
+          sx={{ width: "100%" }}
+        >
           오늘의 단어가 "{todayWord}" 로 설정되었습니다.
         </Alert>
       </Snackbar>
