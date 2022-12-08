@@ -87,6 +87,7 @@ const SetTodayWordButton = () => {
         </Box>
       </Dialog>
       <Snackbar
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
         open={isSnackbarOpen}
         autoHideDuration={2000}
         onClose={handleSnackbar}
