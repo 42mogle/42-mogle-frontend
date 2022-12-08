@@ -37,7 +37,7 @@ function Signup() {
     const currentPassword = event.target.value;
     setFirstPassword(currentPassword);
     const ruleRegex =
-      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^*+=-])[\da-zA-Z!@#$%^*+=-]{8,}$/;
+      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^\d\sa-zA-Z])[\S]{8,}$/;
     // Explain : 비밀번호 길이는 8자 ~ 20자 사이
     currentPassword.length > 7 && currentPassword.length < 21
       ? setLengthGood(true)
