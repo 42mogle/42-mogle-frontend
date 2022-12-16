@@ -8,7 +8,6 @@ import TodayDate from "./TodayDate";
 import AttendanceSummary from "./AttendanceSummary";
 import Link from "@mui/material/Link";
 import useStore from "../../store.js";
-import TestButtons from "./TestButtons";
 
 function Home() {
   const { _intraId, _photoUrl, setPhotoUrl } = useStore((state) => state);
@@ -35,7 +34,6 @@ function Home() {
     <>
       <UserProfile intraId={_intraId} photoUrl={_photoUrl} />
       <TodayDate />
-      {/* <AttendanceSummary /> */}
       <AttendanceTable>
         <AttendanceSummary />
       </AttendanceTable>
@@ -48,7 +46,6 @@ function Home() {
         구글 출석폼에서도 입력 부탁드려용 ! →
       </Link>
       {isOperator && <SetTodayWordButton />}
-      {/* <TestButtons /> */}
     </>
   );
 }
