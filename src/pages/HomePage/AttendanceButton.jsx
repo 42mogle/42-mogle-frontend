@@ -12,10 +12,11 @@ import useStore from "../../store.js";
 
 const AttendanceButton = () => {
   const [open, setOpen] = useState(false);
-  const [buttonStatus, setButton] = useState(true);
+  const [buttonStatus, setButtonStatus] = useState(0);
   const [buttonLetter, setButtonLetter] = useState("출석체크");
   const [isSameWithTodayWord, setIsSameWithTodayWord] = useState(true);
-  const { _intraId, _isAttended, setIsAttended } = useStore((state) => state);
+  const _attendanceCount = useStore((state) => state);
+  const increaseAttendanceCount = useStore((state) => state.increaseAttendanceCount);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -42,7 +43,7 @@ const AttendanceButton = () => {
       if (response.status === 201) {
         if (response.data.statusAttendance === 0) {
           setOpen(false);
-          setIsAttended(true);
+          increaseAttendanceCount(_attendanceCount);
         } else if (response.data.statusAttendance === 2) {
           setIsSameWithTodayWord(false);
         }
@@ -55,9 +56,10 @@ const AttendanceButton = () => {
   const checkButtonStatus = async () => {
     try {
       const response = await apiManager.get("/attendance/buttonStatus/");
-      setButton(response.data);
+      setButtonStatus(response.data);
 
-      if (response.data === 1) setButtonLetter("출석가능 시간이 아닙니다.");
+      if (response.data === 1)
+        setButtonLetter("출석가능 시간이 아닙니다.");
       else if (response.data === 2)
         setButtonLetter("이미 출석체크를 완료했습니다.");
       else if (response.data === 3)
@@ -69,7 +71,7 @@ const AttendanceButton = () => {
   // TODO 출석이 완료되면 출석 정보가 업데이트 되도록 수정하기
   useEffect(() => {
     checkButtonStatus();
-  }, [_isAttended]);
+  }, [_attendanceCount]);
 
   return (
     <>

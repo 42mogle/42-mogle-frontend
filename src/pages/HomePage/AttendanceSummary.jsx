@@ -9,15 +9,15 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import useStore from "../../store.js";
 
 function AttendanceSummary() {
-  const { _summary, setSummary, _isAttended } = useStore(
-    (state) => state
-  );
+  const { _summary, setSummary, _attendanceCount, setAttendanceCount } =
+    useStore((state) => state);
   const [open, setOpen] = useState(false);
 
   const getSummary = async () => {
     try {
       const response = await apiManager.get("/statistic/userAttendanceState/");
       setSummary(response.data);
+      setAttendanceCount(response.data.attendanceCount);
     } catch (error) {
       console.log(error);
     }
@@ -25,7 +25,7 @@ function AttendanceSummary() {
 
   useEffect(() => {
     getSummary();
-  }, [_isAttended]);
+  }, [_attendanceCount]);
 
   return (
     <React.Fragment>

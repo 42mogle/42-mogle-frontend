@@ -19,7 +19,9 @@ const AttendanceTable = (props) => {
           </TableRow>
         </TableHead>
 
-        <TableBody>{props.children}</TableBody>
+        <TableBody>
+          {props.children}
+        </TableBody>
       </Table>
     </TableContainer>
   );
