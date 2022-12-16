@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import apiManager from "../../api/apiManager.js";
 import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
@@ -11,10 +11,9 @@ import { format } from "date-fns";
 import { ko } from "date-fns/locale";
 import useStore from "../../store.js";
 
-const AttendanceLog = ({ open, attendanceLog }) => {
-  const { _isAttended, _attendanceLog, setAttendanceLog } = useStore(
-    (state) => state
-  );
+const AttendanceLog = ({ open }) => {
+  const { _attendanceCount } = useStore((state) => state);
+  const [attendanceLog, setAttendanceLog] = useState([]);
   useEffect(() => {
     const getAttendanceLog = async () => {
       try {
@@ -33,9 +32,9 @@ const AttendanceLog = ({ open, attendanceLog }) => {
       }
     };
     getAttendanceLog();
-  }, [_isAttended]);
+  }, [_attendanceCount]);
 
-  if (_attendanceLog !== undefined && _attendanceLog.length === 0) {
+  if (attendanceLog !== undefined && attendanceLog.length === 0) {
     return;
   } else {
     return (
@@ -51,7 +50,7 @@ const AttendanceLog = ({ open, attendanceLog }) => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {_attendanceLog.map((log) => (
+                  {attendanceLog.map((log) => (
                     <TableRow key={log.date}>
                       <TableCell component="th" scope="row">
                         {log.date}
