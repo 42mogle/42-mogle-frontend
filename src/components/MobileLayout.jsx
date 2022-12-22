@@ -1,4 +1,5 @@
 import React from "react";
+import { Outlet } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import Container from "@mui/material/Container";
@@ -14,7 +15,7 @@ const theme = createTheme({
   },
 });
 
-function MobileLayout(props) {
+function MobileLayout() {
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
@@ -28,7 +29,10 @@ function MobileLayout(props) {
           }}
         >
           <CssBaseline />
-          {props.children}
+
+          {/* Children Component */}
+          <Outlet />
+
           <Copyright sx={{ mt: 8, mb: 4 }} />
         </Box>
       </Container>
