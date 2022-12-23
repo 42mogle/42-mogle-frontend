@@ -1,37 +1,23 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import apiManager from "../../api/apiManager";
 import AttendanceTable from "./AttendanceTable";
 import AttendanceButton from "./AttendanceButton";
 import SetTodayWordButton from "./SetTodayWordButton";
 import UserProfile from "./UserProfile";
 import TodayDate from "./TodayDate";
 import AttendanceSummary from "./AttendanceSummary";
-import TestButtons from "./TestButtons";
+import Link from "@mui/material/Link";
 import useStore from "../../store.js";
 
 function Home() {
-  const { _intraId, _photoUrl } = useStore((state) => state);
-  console.log(_intraId);
-  const [summary, setSummary] = useState({});
+  const { _intraId, _photoUrl, setPhotoUrl } = useStore((state) => state);
+  // TODO Home 컴포넌트가 여러 번 렌더링 되는 문제가 있음
   const [isOperator, setIsOperator] = useState(false);
-
-  const getSummary = async () => {
-    try {
-      const response = await axios.get(
-        `https://${process.env.REACT_APP_AWS_BACKEND_SERVER}/statistic/${_intraId}/userAttendanceState`
-      );
-      console.log(response.data);
-      setSummary(response.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const getUserInfo = async () => {
     try {
-      const response = await axios.get(
-        `https://${process.env.REACT_APP_AWS_BACKEND_SERVER}/user/${_intraId}`
-      );
+      const response = await apiManager.get("/user/getUserInfo/");
+      setPhotoUrl(response.data.photoUrl);
       if (response.data.isOperator) {
         setIsOperator(true);
       }
@@ -41,7 +27,6 @@ function Home() {
   };
 
   useEffect(() => {
-    getSummary();
     getUserInfo();
   }, []);
 
@@ -49,13 +34,20 @@ function Home() {
     <>
       <UserProfile intraId={_intraId} photoUrl={_photoUrl} />
       <TodayDate />
-      {/* <AttendanceSummary summary={summary}/> */}
-      <AttendanceTable />
+      <AttendanceTable>
+        <AttendanceSummary />
+      </AttendanceTable>
       <AttendanceButton />
+      <Link
+        href="https://forms.gle/1g3qm5RPLUgS3JDQ8"
+        target="_blank"
+        sx={{ mt: 3 }}
+      >
+        구글 출석폼에서도 입력 부탁드려용 ! →
+      </Link>
       {isOperator && <SetTodayWordButton />}
-      <TestButtons />
     </>
   );
-};
+}
 
 export default Home;

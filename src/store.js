@@ -6,13 +6,13 @@ const useStore = create(
     (set) => ({
       _intraId: "",
       setIntraId: (intraId) => set({ _intraId: intraId }),
-      _isAttended: false,
-      setIsAttended: () => set({ _isAttended: true }),
-      _attendanceLog: [],
-      setAttendanceLog: (attendanceLog) =>
-        set({ _attendanceLog: attendanceLog }),
+      _attendanceCount: 0,
+      setAttendanceCount: (attendanceCount) => set({ _attendanceCount: attendanceCount }),
+      increaseAttendanceCount: (prev) => set({ _attendanceCount: prev + 1 }),
       _photoUrl: "",
       setPhotoUrl: (photoUrl) => set({ _photoUrl: photoUrl }),
+      _summary: {},
+      setSummary: (summary) => set({ _summary: summary}),
     }),
     {
       name: "user-data",
