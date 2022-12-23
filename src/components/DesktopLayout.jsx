@@ -5,6 +5,7 @@ import Drawer from "@mui/material/Drawer";
 import CssBaseline from "@mui/material/CssBaseline";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
+import Container from "@mui/material/Container";
 import List from "@mui/material/List";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
@@ -87,10 +88,24 @@ function DesktopLayout(props) {
         </Box>
       </Drawer>
 
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+      <Box
+        component="main"
+        sx={{
+          backgroundColor: (theme) =>
+            theme.palette.mode === "light"
+              ? theme.palette.grey[100]
+              : theme.palette.grey[900],
+          flexGrow: 1,
+          height: "100vh",
+          overflow: "auto",
+        }}
+      >
         <Toolbar />
-        {/* Children components */}
-        <Outlet />
+        <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+          {/* Children components */}
+          <Outlet />
+          {/* Children components */}
+        </Container>
       </Box>
     </Box>
   );
