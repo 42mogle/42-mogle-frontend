@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import apiManager from "../../api/apiManager.js";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -8,17 +8,19 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import Alert from "@mui/material/Alert";
-import useStore from "../store.js";
+import useStore from "../../store.js";
 
 const AttendanceButton = () => {
   const [open, setOpen] = useState(false);
-  const [buttonStatus, setButton] = useState(true);
-  const [buttonLetter, setLetter] = useState("출석체크");
+  const [buttonStatus, setButtonStatus] = useState(0);
+  const [buttonLetter, setButtonLetter] = useState("출석체크");
   const [isSameWithTodayWord, setIsSameWithTodayWord] = useState(true);
-  const { _intraId, setIsAttended } = useStore((state) => state);
+  const _attendanceCount = useStore((state) => state);
+  const increaseAttendanceCount = useStore((state) => state.increaseAttendanceCount);
 
   const handleClickOpen = () => {
     setOpen(true);
+    setIsSameWithTodayWord(true);
   };
 
   const handleClose = () => {
@@ -30,19 +32,18 @@ const AttendanceButton = () => {
     const inputValue = event.target.todayWord.value;
 
     try {
-      const response = await axios.post(
-        "http://10.19.202.231:3000/attendance/userAttendance",
-        {
-          intraId: _intraId,
-          todayWord: inputValue,
-        }
+      const data = {
+        todayWord: inputValue,
+      };
+      const response = await apiManager.post(
+        `/attendance/userAttendance/`,
+        data
       );
-      console.log(response);
+
       if (response.status === 201) {
         if (response.data.statusAttendance === 0) {
           setOpen(false);
-          buttonChecker();
-          setIsAttended(true);
+          increaseAttendanceCount(_attendanceCount);
         } else if (response.data.statusAttendance === 2) {
           setIsSameWithTodayWord(false);
         }
@@ -52,37 +53,35 @@ const AttendanceButton = () => {
     }
   };
 
-  const buttonChecker = async () => {
+  const checkButtonStatus = async () => {
     try {
-      const response = await axios.get(
-        `http://10.19.202.231:3000/attendance/${_intraId}/buttonStatus`
-      );
-      setButton(response.data);
+      const response = await apiManager.get("/attendance/buttonStatus/");
+      setButtonStatus(response.data);
 
-      if (response.data === 1) setLetter("출석가능 시간이 아닙니다");
-      else if (response.data === 2) setLetter("이미 출석체크를 완료했습니다");
+      if (response.data === 1)
+        setButtonLetter("출석가능 시간이 아닙니다.");
+      else if (response.data === 2)
+        setButtonLetter("이미 출석체크를 완료했습니다.");
       else if (response.data === 3)
-        setLetter("오늘의 단어가 아직 설정되지 않았습니다");
+        setButtonLetter("오늘의 단어가 아직 설정되지 않았습니다.");
     } catch (error) {
       console.log(error);
     }
   };
+  // TODO 출석이 완료되면 출석 정보가 업데이트 되도록 수정하기
   useEffect(() => {
-    buttonChecker();
-  }, [buttonStatus]);
+    checkButtonStatus();
+  }, [_attendanceCount]);
 
   return (
     <>
       <Button
         disabled={buttonStatus !== 0 ? true : false}
-        onClick={() => {
-          handleClickOpen();
-          buttonChecker();
-        }}
+        onClick={handleClickOpen}
         variant="contained"
         color="success"
         align="center"
-        sx={{ mt: 3, width: 1 / 2 }}
+        sx={{ mt: 3, width: "auto" }}
       >
         {buttonLetter}
       </Button>

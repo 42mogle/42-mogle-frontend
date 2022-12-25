@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import apiManager from "../../api/apiManager.js";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -9,16 +9,17 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
-import useStore from "../store.js";
+const HTTP_STATUS = require("http-status");
 
-const TodayWordButton = () => {
-  const { _intraId, _server } = useStore((state) => state);
-
+const SetTodayWordButton = () => {
   const [open, setOpen] = useState(false);
-  const [isSetTodayWord, setIsTodayWord] = useState(false);
+  const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
+  const [isErrorOccured, setIsErrorOccurred] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const [todayWord, setTodayWord] = useState("");
 
   const handleClickOpen = () => {
+    setIsErrorOccurred(false);
     setOpen(true);
   };
 
@@ -26,24 +27,28 @@ const TodayWordButton = () => {
     setOpen(false);
   };
 
+  const handleSnackbar = () => {
+    setIsSnackbarOpen(false);
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const inputValue = event.target.setTodayWord.value;
-    try {
-      const response = await axios.patch(
-        `${_server}/operator/setTodayWord`,
-        {
-          intraId: _intraId,
-          todayWord: inputValue,
-        }
-      );
-      if (response.status === 200) {
+    try {      
+      const data = {
+        todayWord: inputValue,
+      };
+      const response = await apiManager.patch(`/operator/setTodayWord/`, data);
+
+      if (response.status === HTTP_STATUS.OK) {
         setOpen(false);
-        setIsTodayWord(true);
+        setIsSnackbarOpen(true);
         setTodayWord(inputValue);
       }
     } catch (error) {
       console.log(error);
+      setIsErrorOccurred(true);
+      setErrorMessage(error.message);
     }
   };
 
@@ -58,6 +63,11 @@ const TodayWordButton = () => {
         오늘의 단어 설정
       </Button>
       <Dialog open={open} onClose={handleClose}>
+        {isErrorOccured && (
+          <Alert severity="warning" sx={{ width: "100%" }}>
+            {errorMessage}
+          </Alert>
+        )}
         <DialogTitle>오늘의 단어를 설정해주세요.</DialogTitle>
         <Box component="form" onSubmit={handleSubmit}>
           <DialogContent>
@@ -77,11 +87,16 @@ const TodayWordButton = () => {
         </Box>
       </Dialog>
       <Snackbar
-        open={isSetTodayWord}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        open={isSnackbarOpen}
         autoHideDuration={2000}
-        onClose={handleClose}
+        onClose={handleSnackbar}
       >
-        <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
+        <Alert
+          onClose={handleSnackbar}
+          severity="success"
+          sx={{ width: "100%" }}
+        >
           오늘의 단어가 "{todayWord}" 로 설정되었습니다.
         </Alert>
       </Snackbar>
@@ -89,4 +104,4 @@ const TodayWordButton = () => {
   );
 };
 
-export default TodayWordButton;
+export default SetTodayWordButton;

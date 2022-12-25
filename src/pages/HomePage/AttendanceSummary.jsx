@@ -1,16 +1,32 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import apiManager from "../../api/apiManager";
 import AttendanceLog from "./AttendanceLog";
 import IconButton from "@mui/material/IconButton";
 import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import useStore from "../../store.js";
 
-const AttendaceTableSummary = ({
-  summary: { attendanceCount, isPerfect },
-  attendanceLog,
-}) => {
+function AttendanceSummary() {
+  const { _summary, setSummary, _attendanceCount, setAttendanceCount } =
+    useStore((state) => state);
   const [open, setOpen] = useState(false);
+
+  const getSummary = async () => {
+    try {
+      const response = await apiManager.get("/statistic/userAttendanceState/");
+      setSummary(response.data);
+      setAttendanceCount(response.data.attendanceCount);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getSummary();
+  }, [_attendanceCount]);
+
   return (
     <React.Fragment>
       <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
@@ -24,13 +40,13 @@ const AttendaceTableSummary = ({
           </IconButton>
         </TableCell>
         <TableCell component="th" scope="row" align="center">
-          {attendanceCount}
+          {_summary.attendanceCount}
         </TableCell>
-        <TableCell align="center">{isPerfect ? "✅" : "❌"}</TableCell>
+        <TableCell align="center">{_summary.isPerfectAttendance ? "✅" : "❌"}</TableCell>
       </TableRow>
-      <AttendanceLog open={open} attendanceLog={attendanceLog} />
+      <AttendanceLog open={open} />
     </React.Fragment>
   );
-};
+}
 
-export default AttendaceTableSummary;
+export default AttendanceSummary;

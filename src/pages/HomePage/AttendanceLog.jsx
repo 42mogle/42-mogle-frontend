@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import apiManager from "../../api/apiManager.js";
 import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
 import Box from "@mui/material/Box";
@@ -6,9 +7,34 @@ import Collapse from "@mui/material/Collapse";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableHead from "@mui/material/TableHead";
+import { format } from "date-fns";
+import { ko } from "date-fns/locale";
+import useStore from "../../store.js";
 
-const AttendanceLog = ({ open, attendanceLog }) => {
-  if (!attendanceLog.length) {
+const AttendanceLog = ({ open }) => {
+  const { _attendanceCount } = useStore((state) => state);
+  const [attendanceLog, setAttendanceLog] = useState([]);
+  useEffect(() => {
+    const getAttendanceLog = async () => {
+      try {
+        const response = await apiManager.get(`/statistic/userAttendanceList`);
+
+        const attendanceList = response.data.map(({ timelog }) => {
+          const attendanceDate = new Date(timelog);
+          const _date = format(attendanceDate, "PPP EEEE", { locale: ko });
+          const _time = format(attendanceDate, "HH:mm:ss");
+          return { date: _date, time: _time };
+        });
+
+        setAttendanceLog(attendanceList);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getAttendanceLog();
+  }, [_attendanceCount]);
+
+  if (attendanceLog !== undefined && attendanceLog.length === 0) {
     return;
   } else {
     return (
