@@ -42,7 +42,7 @@ function AttendanceSummary() {
         <TableCell component="th" scope="row" align="center">
           {_summary.attendanceCount}
         </TableCell>
-        <TableCell align="center">{_summary.isPerfect ? "✅" : "❌"}</TableCell>
+        <TableCell align="center">{_summary.isPerfectAttendance ? "✅" : "❌"}</TableCell>
       </TableRow>
       <AttendanceLog open={open} />
     </React.Fragment>
