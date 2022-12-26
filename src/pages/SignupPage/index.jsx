@@ -128,7 +128,7 @@ function Signup() {
           onChange={checkSecondPassword}
           isSamePassword={isSamePassword}
           isRuleGood={isRuleGood}
-          helperText="비밀번호가 일치하지 않습니다."
+          helperText={firstPassword === secondPassword ? "" : "비밀번호가 일치하지 않습니다."}
         />
 
         <Typography component="h6" variant="body2">
