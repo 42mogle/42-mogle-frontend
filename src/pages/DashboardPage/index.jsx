@@ -1,15 +1,10 @@
-import { useState } from "react";
 import DateSelector from "./DateSelector";
 import MonthlyUserInfo from "./MonthlyUserInfo";
 import MonthlyUserTable from "./MonthlyUserTable";
 import MonthlyPerfectUserTable from "./MonthlyPerfectUserTable";
+import UserAttendanceDataTable from "./UserAttedanceDataTable";
 import Grid from "@mui/material/Grid";
-import Paper from "@mui/material/Paper";
 import Container from "@mui/material/Container";
-import Card from "@mui/material/Card";
-import Typography from "@mui/material/Typography";
-import CardContent from "@mui/material/CardContent";
-import Box from "@mui/material/Box";
 
 function DashboardPage() {
   return (
@@ -29,13 +24,7 @@ function DashboardPage() {
         <MonthlyPerfectUserTable />
 
         {/* EXPLAIN: 출석 데이터 수정 */}
-        <Grid item xs={12}>
-          <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-            <Typography variant="h5" component="div">
-              DB 수정
-            </Typography>
-          </Paper>
-        </Grid>
+        <UserAttendanceDataTable />
       </Grid>
     </Container>
   );
