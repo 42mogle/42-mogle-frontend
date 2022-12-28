@@ -7,7 +7,10 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import { DataGrid } from "@mui/x-data-grid";
 
-const columns = [{ field: "date", headerName: "날짜", width: 200 }];
+const columns = [
+  { field: "id", headerName: "ID", width: 50 },
+  { field: "date", headerName: "날짜", width: 200 },
+];
 
 const rows = [
   { id: 1, date: "2022-11-01" },
@@ -26,6 +29,12 @@ function UserAttendanceDataTable() {
     rows.filter((row) => row.id > 5).map((row) => row.id)
   );
   const [selectedRows, setSelectedRows] = useState([]);
+  const handleCellClick = (event) => {
+    if (event.field === "__check__") console.log(event);
+  };
+  const handleAllCheckbox = (event) => {
+    if (event.field === "__check__") console.log(event);
+  };
   return (
     <Grid item xs={12}>
       <Card>
@@ -42,10 +51,14 @@ function UserAttendanceDataTable() {
               rows={rows}
               columns={columns}
               checkboxSelection
+              disableRowSelectionOnClick
               selectionModel={selectionModel}
-              onSelectionModelChange={(e) => {
-                setSelectionModel(e);
-                const selectedIDs = new Set(e);
+              onCellClick={handleCellClick}
+              onColumnHeaderClick={handleAllCheckbox}
+              onSelectionModelChange={(event) => {
+                // console.log(event);
+                setSelectionModel(event);
+                const selectedIDs = new Set(event);
                 const selectedRows = rows.filter((r) => selectedIDs.has(r.id));
                 setSelectedRows(selectedRows);
               }}
