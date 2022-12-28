@@ -15,32 +15,41 @@ const columns = [
   },
   {
     field: "isPerfectAttendance",
-    headerName: "이번 달 개근 여부",
-    width: 150,
+    headerName: "개근 여부",
+    width: 80,
     editable: true,
   },
   {
     field: "totalAttendance",
-    headerName: "이번 달 출석 일수",
+    headerName: "출석 일수",
     type: "number",
-    width: 110,
+    width: 80,
+    editable: true,
+  },
+  {
+    field: "totalPerfectCount",
+    headerName: "누적 개근 횟수",
+    type: "number",
+    width: 100,
     editable: true,
   },
 ];
 
 const rows = [
-  { id: 1, intraId: "Snow", isPerfectAttendance: "✅", totalAttendance: 20 },
+  { id: 1, intraId: "Snow", isPerfectAttendance: "✅", totalAttendance: 20, totalPerfectCount: 3 },
   {
     id: 2,
     intraId: "Lannister",
     isPerfectAttendance: "✅",
     totalAttendance: 20,
+    totalPerfectCount: 2
   },
   {
     id: 3,
     intraId: "Lannister",
     isPerfectAttendance: "✅",
     totalAttendance: 20,
+    totalPerfectCount: 2
   },
   { id: 4, intraId: "Stark", isPerfectAttendance: "✅", totalAttendance: 20 },
   {
@@ -48,16 +57,18 @@ const rows = [
     intraId: "Targaryen",
     isPerfectAttendance: "✅",
     totalAttendance: 20,
+    totalPerfectCount: 2
   },
   {
     id: 6,
     intraId: "Melisandre",
     isPerfectAttendance: "✅",
     totalAttendance: 20,
+    totalPerfectCount: 2
   },
-  { id: 7, intraId: "Clifford", isPerfectAttendance: "❌", totalAttendance: 4 },
-  { id: 8, intraId: "Frances", isPerfectAttendance: "❌", totalAttendance: 3 },
-  { id: 9, intraId: "Roxie", isPerfectAttendance: "❌", totalAttendance: 6 },
+  { id: 7, intraId: "Clifford", isPerfectAttendance: "❌", totalAttendance: 4, totalPerfectCount: 2},
+  { id: 8, intraId: "Frances", isPerfectAttendance: "❌", totalAttendance: 3,  totalPerfectCount: 2},
+  { id: 9, intraId: "Roxie", isPerfectAttendance: "❌", totalAttendance: 6, totalPerfectCount: 2},
 ];
 
 function MonthlyUserTable() {
@@ -66,7 +77,7 @@ function MonthlyUserTable() {
       <Card>
         <CardContent>
           <Typography variant="h5" component="div">
-            이번 달 참여자 목록
+            참여자 목록
           </Typography>
 
           <Box sx={{ mt: 1, height: 400, width: "100%" }}>

@@ -14,8 +14,8 @@ function DashboardPage() {
         <DateSelector />
 
         {/* EXPLAIN: 이번 달 참여 인원 통계  */}
-        <MonthlyUserInfo text="이번 달 참여 인원" />
-        <MonthlyUserInfo text="이번 달 개근 인원" />
+        <MonthlyUserInfo text="참여 인원" />
+        <MonthlyUserInfo text="개근 인원" />
 
         {/* EXPLAIN: 이번 달 참여자 목록 테이블 */}
         <MonthlyUserTable />
