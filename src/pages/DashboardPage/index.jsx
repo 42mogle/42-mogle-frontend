@@ -28,9 +28,8 @@ function DashboardPage() {
 
   const getMonthlyPerfectUser = (data) => {
     return data.reduce((acc, user) => {
-      if (user.isPerfectAttendance === true)
-        return (acc + 1);
-      return (acc);
+      if (user.isPerfectAttendance === true) return acc + 1;
+      return acc;
     }, 0);
   };
 
@@ -39,8 +38,8 @@ function DashboardPage() {
       const response = await axios.get("http://localhost:8000/monthly-user");
       setMonthlyTotalUser(getMonthlyTotalUser(response.data));
       setMonthlyPerfectUser(getMonthlyPerfectUser(response.data));
+      setMonthlyStatistic(response.data);
       // const response = await apiManager.get("");
-      setMonthlyStatistic([response.data]);
     } catch (error) {
       console.log(error);
     }
@@ -61,7 +60,7 @@ function DashboardPage() {
         <MonthlyUserInfo data={monthlyPerfectUser} text="개근 인원" />
 
         {/* EXPLAIN: 이번 달 참여자 목록 테이블 */}
-        <MonthlyUserTable />
+        <MonthlyUserTable data={monthlyStatistic} />
 
         {/* EXPLAIN: 이번 달 개근자 목록 테이블 */}
         <MonthlyPerfectUserTable />

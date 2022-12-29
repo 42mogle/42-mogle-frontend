@@ -6,7 +6,6 @@ import { DataGrid } from "@mui/x-data-grid";
 import Typography from "@mui/material/Typography";
 
 const columns = [
-  { field: "id", headerName: "ID", width: 80 },
   {
     field: "intraId",
     headerName: "Intra ID",
@@ -20,7 +19,7 @@ const columns = [
     editable: true,
   },
   {
-    field: "totalAttendance",
+    field: "attendanceCount",
     headerName: "출석 일수",
     type: "number",
     width: 80,
@@ -35,43 +34,20 @@ const columns = [
   },
 ];
 
-const rows = [
-  { id: 1, intraId: "Snow", isPerfectAttendance: "✅", totalAttendance: 20, totalPerfectCount: 3 },
-  {
-    id: 2,
-    intraId: "Lannister",
-    isPerfectAttendance: "✅",
-    totalAttendance: 20,
-    totalPerfectCount: 2
-  },
-  {
-    id: 3,
-    intraId: "Lannister",
-    isPerfectAttendance: "✅",
-    totalAttendance: 20,
-    totalPerfectCount: 2
-  },
-  { id: 4, intraId: "Stark", isPerfectAttendance: "✅", totalAttendance: 20 },
-  {
-    id: 5,
-    intraId: "Targaryen",
-    isPerfectAttendance: "✅",
-    totalAttendance: 20,
-    totalPerfectCount: 2
-  },
-  {
-    id: 6,
-    intraId: "Melisandre",
-    isPerfectAttendance: "✅",
-    totalAttendance: 20,
-    totalPerfectCount: 2
-  },
-  { id: 7, intraId: "Clifford", isPerfectAttendance: "❌", totalAttendance: 4, totalPerfectCount: 2},
-  { id: 8, intraId: "Frances", isPerfectAttendance: "❌", totalAttendance: 3,  totalPerfectCount: 2},
-  { id: 9, intraId: "Roxie", isPerfectAttendance: "❌", totalAttendance: 6, totalPerfectCount: 2},
-];
+function MonthlyUserTable(props) {
+  const { data } = props;
+  const rows = [];
+  if (data.length > 0) {
+    data.forEach((user) => {
+      if (user.isPerfectAttendance)
+        user.isPerfectAttendance = "✅"
+      else
+        user.isPerfectAttendance = "❌"
+      rows.push(user);
+    }
+    )
+  }
 
-function MonthlyUserTable() {
   return (
     <Grid item xs={8}>
       <Card>
@@ -83,6 +59,7 @@ function MonthlyUserTable() {
           <Box sx={{ mt: 1, height: 400, width: "100%" }}>
             <DataGrid
               rows={rows}
+              getRowId={(row) => row.intraId}
               columns={columns}
               disableRowSelectionOnClick
             />
