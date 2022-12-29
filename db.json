@@ -1,0 +1,28 @@
+{
+  "monthly-user": [
+    {
+      "intraId": "joonhan",
+      "isPerfectAttendance": true,
+      "attendanceCount": 20,
+      "totalPerfectCount": 4
+    },
+    {
+      "intraId": "mgo",
+      "isPerfectAttendance": false,
+      "attendanceCount": 10,
+      "totalPerfectCount": 5
+    },
+    {
+      "intraId": "susong",
+      "isPerfectAttendance": true,
+      "attendanceCount": 20,
+      "totalPerfectCount": 3
+    },
+    {
+      "intraId": "minsukan",
+      "isPerfectAttendance": false,
+      "attendanceCount": 15,
+      "totalPerfectCount": 4
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import DateSelector from "./DateSelector";
 import MonthlyUserInfo from "./MonthlyUserInfo";
 import MonthlyUserTable from "./MonthlyUserTable";
@@ -6,12 +6,49 @@ import MonthlyPerfectUserTable from "./MonthlyPerfectUserTable";
 import UserAttendanceDataTable from "./UserAttedanceDataTable";
 import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
+import apiManager from "../../api/apiManager";
+import axios from "axios";
+
+const date = new Date();
+const currentYear = date.getFullYear();
+const currentMonth = date.getMonth() + 1;
 
 function DashboardPage() {
   const [dateQuery, setDateQuery] = useState({
-    queryYear: "",
-    queryMonth: "",
+    queryYear: currentYear,
+    queryMonth: currentMonth,
   });
+  const [monthlyStatistic, setMonthlyStatistic] = useState([]);
+  const [monthlyTotalUser, setMonthlyTotalUser] = useState(0);
+  const [monthlyPerfectUser, setMonthlyPerfectUser] = useState(0);
+
+  const getMonthlyTotalUser = (data) => {
+    return data.reduce((acc) => (acc += 1), 0);
+  };
+
+  const getMonthlyPerfectUser = (data) => {
+    return data.reduce((acc, user) => {
+      if (user.isPerfectAttendance === true)
+        return (acc + 1);
+      return (acc);
+    }, 0);
+  };
+
+  const loadCurrentMonthData = async () => {
+    try {
+      const response = await axios.get("http://localhost:8000/monthly-user");
+      setMonthlyTotalUser(getMonthlyTotalUser(response.data));
+      setMonthlyPerfectUser(getMonthlyPerfectUser(response.data));
+      // const response = await apiManager.get("");
+      setMonthlyStatistic([response.data]);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    loadCurrentMonthData();
+  }, [dateQuery]);
 
   return (
     <Container maxWidth="xl">
@@ -20,8 +57,8 @@ function DashboardPage() {
         <DateSelector setDateQuery={setDateQuery} />
 
         {/* EXPLAIN: 이번 달 참여 인원 통계  */}
-        <MonthlyUserInfo text="참여 인원" />
-        <MonthlyUserInfo text="개근 인원" />
+        <MonthlyUserInfo data={monthlyTotalUser} text="참여 인원" />
+        <MonthlyUserInfo data={monthlyPerfectUser} text="개근 인원" />
 
         {/* EXPLAIN: 이번 달 참여자 목록 테이블 */}
         <MonthlyUserTable />
