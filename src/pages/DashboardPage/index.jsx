@@ -17,7 +17,7 @@ function DashboardPage() {
     <Container maxWidth="xl">
       <Grid container spacing={3}>
         {/* EXPLAIN: 특정 연, 월 조회 컴포넌트  */}
-        <DateSelector dateQuery={dateQuery} setDateQuery={setDateQuery} />
+        <DateSelector setDateQuery={setDateQuery} />
 
         {/* EXPLAIN: 이번 달 참여 인원 통계  */}
         <MonthlyUserInfo text="참여 인원" />
