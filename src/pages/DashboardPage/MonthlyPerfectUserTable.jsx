@@ -4,8 +4,8 @@ import CardContent from "@mui/material/CardContent";
 import Box from "@mui/material/Box";
 import {
   DataGrid,
-  GridToolbarContainer,
-  GridToolbarExport,
+  GridToolbarExportContainer,
+  GridCsvExportMenuItem,
 } from "@mui/x-data-grid";
 import Typography from "@mui/material/Typography";
 
@@ -25,22 +25,23 @@ const columns = [
   },
 ];
 
+const csvOptions = { utf8WithBom: true };
+
 function CustomToolbar() {
   return (
-    <GridToolbarContainer>
-      <GridToolbarExport />
-    </GridToolbarContainer>
+    <GridToolbarExportContainer>
+      <GridCsvExportMenuItem options={csvOptions} />
+    </GridToolbarExportContainer>
   );
 }
 
 function MonthlyPerfectUserTable(props) {
   const { data } = props;
   const rows = [];
-  if (data.length > 0){
+  if (data.length > 0) {
     data.forEach((user) => {
-      if (user.isPerfectAttendance)
-        rows.push(user);
-    })
+      if (user.isPerfectAttendance) rows.push(user);
+    });
   }
   return (
     <Grid item xs={4}>
