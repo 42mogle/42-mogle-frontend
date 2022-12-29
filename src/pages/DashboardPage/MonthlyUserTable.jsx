@@ -38,14 +38,12 @@ function MonthlyUserTable(props) {
   const { data } = props;
   const rows = [];
   if (data.length > 0) {
-    data.forEach((user) => {
-      if (user.isPerfectAttendance)
-        user.isPerfectAttendance = "✅"
-      else
-        user.isPerfectAttendance = "❌"
-      rows.push(user);
-    }
-    )
+      data.forEach((user) => {
+        if (user.isPerfectAttendance)
+          rows.push({...user, isPerfectAttendance: "✅"})
+        else
+          rows.push({...user, isPerfectAttendance: "❌"})
+      })
   }
 
   return (

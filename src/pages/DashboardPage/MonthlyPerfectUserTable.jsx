@@ -10,11 +10,10 @@ import {
 import Typography from "@mui/material/Typography";
 
 const columns = [
-  { field: "id", headerName: "ID", width: 80 },
   {
     field: "intraId",
     headerName: "Intra ID",
-    width: 150,
+    width: 120,
     editable: true,
   },
   {
@@ -26,31 +25,6 @@ const columns = [
   },
 ];
 
-const rows = [
-  { id: 1, intraId: "Snow", totalPerfectCount: 3 },
-  {
-    id: 2,
-    intraId: "Lannister",
-    totalPerfectCount: 3,
-  },
-  {
-    id: 3,
-    intraId: "Lannister",
-    totalPerfectCount: 3,
-  },
-  { id: 4, intraId: "Stark", totalPerfectCount: 3 },
-  {
-    id: 5,
-    intraId: "Targaryen",
-    totalPerfectCount: 3,
-  },
-  {
-    id: 6,
-    intraId: "Melisandre",
-    totalPerfectCount: 3,
-  },
-];
-
 function CustomToolbar() {
   return (
     <GridToolbarContainer>
@@ -59,7 +33,15 @@ function CustomToolbar() {
   );
 }
 
-function MonthlyPerfectUserTable() {
+function MonthlyPerfectUserTable(props) {
+  const { data } = props;
+  const rows = [];
+  if (data.length > 0){
+    data.forEach((user) => {
+      if (user.isPerfectAttendance)
+        rows.push(user);
+    })
+  }
   return (
     <Grid item xs={4}>
       <Card>
@@ -72,7 +54,7 @@ function MonthlyPerfectUserTable() {
             <DataGrid
               rows={rows}
               columns={columns}
-              disableRowSelectionOnClick
+              getRowId={(row) => row.intraId}
               components={{ Toolbar: CustomToolbar }}
             />
           </Box>

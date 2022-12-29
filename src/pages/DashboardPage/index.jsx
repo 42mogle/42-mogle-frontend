@@ -63,7 +63,7 @@ function DashboardPage() {
         <MonthlyUserTable data={monthlyStatistic} />
 
         {/* EXPLAIN: 이번 달 개근자 목록 테이블 */}
-        <MonthlyPerfectUserTable />
+        <MonthlyPerfectUserTable data={monthlyStatistic} />
 
         {/* EXPLAIN: 출석 데이터 수정 */}
         <UserAttendanceDataTable />
