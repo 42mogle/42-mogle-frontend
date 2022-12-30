@@ -8,14 +8,14 @@ import Typography from "@mui/material/Typography";
 import { DataGrid } from "@mui/x-data-grid";
 import axios from "axios";
 import { format } from "date-fns";
+import { ko } from "date-fns/locale";
 
-const columns = [
-  { field: "date", headerName: "날짜", width: 200 },
-];
+// TODO: 시간 추가하기
+const columns = [{ field: "date", headerName: "날짜", width: 200 }];
 
 const getMonthDays = (year, month) => {
-  return (new Date(year, month, 0).getDate());
-}
+  return new Date(year, month, 0).getDate();
+};
 
 function UserAttendanceDataTable(props) {
   const {
@@ -23,11 +23,13 @@ function UserAttendanceDataTable(props) {
   } = props;
   // const [rows, setRows] = useState([]);
   const rows = [];
-  const monthDays = getMonthDays(queryYear, queryMonth)
+  const monthDays = getMonthDays(queryYear, queryMonth);
   for (let day = 1; day <= monthDays; day += 1) {
-    const row = format(new Date(queryYear, queryMonth - 1, day), "yyyy-MM-dd");
+    const row = format(new Date(queryYear, queryMonth - 1, day), "PPP EEEE", {
+      locale: ko,
+    });
     console.log(row);
-    rows.push({"id": day, "date": row});
+    rows.push({ id: day, date: row });
   }
   const [searchIntraId, setSearchIntraId] = useState("");
   // const [selectionModel, setSelectionModel] = useState(() =>
