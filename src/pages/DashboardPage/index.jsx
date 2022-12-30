@@ -6,7 +6,7 @@ import MonthlyPerfectUserTable from "./MonthlyPerfectUserTable";
 import UserAttendanceDataTable from "./UserAttedanceDataTable";
 import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
-import apiManager from "../../api/apiManager";
+import apiManager from "api/apiManager";
 import axios from "axios";
 
 const date = new Date();
@@ -66,7 +66,7 @@ function DashboardPage() {
         <MonthlyPerfectUserTable data={monthlyStatistic} />
 
         {/* EXPLAIN: 출석 데이터 수정 */}
-        <UserAttendanceDataTable />
+        <UserAttendanceDataTable data={dateQuery} />
       </Grid>
     </Container>
   );
