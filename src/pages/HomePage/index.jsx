@@ -38,13 +38,6 @@ function Home() {
         <AttendanceSummary />
       </AttendanceTable>
       <AttendanceButton />
-      <Link
-        href="https://forms.gle/1g3qm5RPLUgS3JDQ8"
-        target="_blank"
-        sx={{ mt: 3 }}
-      >
-        구글 출석폼에서도 입력 부탁드려용 ! →
-      </Link>
       {isOperator && <SetTodayWordButton />}
     </>
   );
