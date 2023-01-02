@@ -44,6 +44,7 @@ function AttendanceSummary() {
         </TableCell>
         <TableCell align="center">{_summary.isPerfectAttendance ? "✅" : "❌"}</TableCell>
       </TableRow>
+      
       <AttendanceLog open={open} />
     </React.Fragment>
   );
