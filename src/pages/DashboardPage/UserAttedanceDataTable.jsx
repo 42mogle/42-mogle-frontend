@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SearchBar from "./SearchBar";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -6,26 +6,58 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import { DataGrid } from "@mui/x-data-grid";
+import axios from "axios";
+import { format } from "date-fns";
+import { ko } from "date-fns/locale";
 
+// TODO: 시간 추가하기
 const columns = [{ field: "date", headerName: "날짜", width: 200 }];
 
-const rows = [
-  { id: 1, date: "2022-11-01" },
-  { id: 2, date: "2022-11-02" },
-  { id: 3, date: "2022-11-03" },
-  { id: 4, date: "2022-11-04" },
-  { id: 5, date: "2022-11-05" },
-  { id: 6, date: "2022-11-06" },
-  { id: 7, date: "2022-11-07" },
-  { id: 8, date: "2022-11-08" },
-];
+const getMonthDays = (year, month) => {
+  return new Date(year, month, 0).getDate();
+};
 
-function UserAttendanceDataTable() {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectionModel, setSelectionModel] = useState(() =>
-    rows.filter((row) => row.id > 5).map((row) => row.id)
-  );
+function UserAttendanceDataTable(props) {
+  const {
+    data: { queryYear, queryMonth },
+  } = props;
+  // const [rows, setRows] = useState([]);
+  const rows = [];
+  const monthDays = getMonthDays(queryYear, queryMonth);
+  for (let day = 1; day <= monthDays; day += 1) {
+    const row = format(new Date(queryYear, queryMonth - 1, day), "PPP EEEE", {
+      locale: ko,
+    });
+    console.log(row);
+    rows.push({ id: day, date: row });
+  }
+  const [searchIntraId, setSearchIntraId] = useState("");
+  // const [selectionModel, setSelectionModel] = useState(() =>
+  //   rows.filter((row) => row > 5).map((row) => row.id)
+  // );
   const [selectedRows, setSelectedRows] = useState([]);
+  const handleCellClick = (event) => {
+    if (event.field === "__check__") console.log(event);
+  };
+  const handleAllCheckbox = (event) => {
+    if (event.field === "__check__") console.log(event);
+  };
+  const loadUserAttendanceData = async () => {
+    if (searchIntraId.length === 0) return;
+    try {
+      const query = `http://localhost:8000/attendance-list/${queryYear}/${queryMonth}/${searchIntraId}`;
+      const response = await axios.get(query);
+      // setRows(response.data);
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    loadUserAttendanceData();
+  }, [queryYear, queryMonth, searchIntraId]);
+
   return (
     <Grid item xs={12}>
       <Card>
@@ -34,22 +66,34 @@ function UserAttendanceDataTable() {
             DB 수정
           </Typography>
           <SearchBar
-            searchQuery={searchQuery}
-            setSearchQuery={setSearchQuery}
+            searchQuery={searchIntraId}
+            setSearchQuery={setSearchIntraId}
           />
           <Box sx={{ mt: 1, height: 400, width: "100%" }}>
-            <DataGrid
-              rows={rows}
-              columns={columns}
-              checkboxSelection
-              selectionModel={selectionModel}
-              onSelectionModelChange={(e) => {
-                setSelectionModel(e);
-                const selectedIDs = new Set(e);
-                const selectedRows = rows.filter((r) => selectedIDs.has(r.id));
-                setSelectedRows(selectedRows);
-              }}
-            />
+            {searchIntraId.length === 0 ? (
+              <Typography>검색할 Intra ID 를 입력해주세요.</Typography>
+            ) : (
+              // <Typography>{queryYear}년 {queryMonth}월 {searchIntraId}</Typography>
+              <DataGrid
+                rows={rows}
+                columns={columns}
+                getRowId={(row) => row.id}
+                checkboxSelection
+                disableRowSelectionOnClick
+                // selectionModel={selectionModel}
+                onCellClick={handleCellClick}
+                onColumnHeaderClick={handleAllCheckbox}
+                // onSelectionModelChange={(event) => {
+                //   // console.log(event);
+                //   setSelectionModel(event);
+                //   const selectedIDs = new Set(event);
+                //   const selectedRows = rows.filter((r) =>
+                //     selectedIDs.has(r.id)
+                //   );
+                //   setSelectedRows(selectedRows);
+                // }}
+              />
+            )}
           </Box>
         </CardContent>
       </Card>
