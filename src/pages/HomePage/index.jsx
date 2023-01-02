@@ -32,15 +32,14 @@ function Home() {
 
   return (
     <>
-      <LoginChecker>
-        <UserProfile intraId={_intraId} photoUrl={_photoUrl} />
-        <TodayDate />
-        <AttendanceTable>
-          <AttendanceSummary />
-        </AttendanceTable>
-        <AttendanceButton />
-        {isOperator && <SetTodayWordButton />}
-      </LoginChecker>
+      <LoginChecker />
+      <UserProfile intraId={_intraId} photoUrl={_photoUrl} />
+      <TodayDate />
+      <AttendanceTable>
+        <AttendanceSummary />
+      </AttendanceTable>
+      <AttendanceButton />
+      {isOperator && <SetTodayWordButton />}
     </>
   );
 }
