@@ -5,7 +5,6 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { Typography } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 import useStore from "../store.js";
-import axios from "axios";
 const HTTP_STATUS = require("http-status");
 
 const Auth = () => {
