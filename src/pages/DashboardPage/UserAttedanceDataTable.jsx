@@ -6,9 +6,9 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import { DataGrid } from "@mui/x-data-grid";
-import axios from "axios";
 import { format } from "date-fns";
 import { ko } from "date-fns/locale";
+import apiManager from "api/apiManager";
 
 // TODO: 시간 추가하기
 const columns = [{ field: "date", headerName: "날짜", width: 200 }];
@@ -21,21 +21,19 @@ function UserAttendanceDataTable(props) {
   const {
     data: { queryYear, queryMonth },
   } = props;
-  // const [rows, setRows] = useState([]);
+  const [attendanceLog, setAttendanceLog] = useState([]);
+  const [searchIntraId, setSearchIntraId] = useState("");
+  const [selectionModel, setSelectionModel] = useState([]);
+
   const rows = [];
   const monthDays = getMonthDays(queryYear, queryMonth);
   for (let day = 1; day <= monthDays; day += 1) {
     const row = format(new Date(queryYear, queryMonth - 1, day), "PPP EEEE", {
       locale: ko,
     });
-    // console.log(row);
     rows.push({ id: day, date: row });
   }
-  const [searchIntraId, setSearchIntraId] = useState("");
-  // const [selectionModel, setSelectionModel] = useState(() =>
-  //   rows.filter((row) => row > 5).map((row) => row.id)
-  // );
-  const [selectedRows, setSelectedRows] = useState([]);
+
   const handleCellClick = (event) => {
     if (event.field === "__check__") console.log(event);
   };
@@ -45,18 +43,31 @@ function UserAttendanceDataTable(props) {
   const loadUserAttendanceData = async () => {
     if (searchIntraId.length === 0) return;
     try {
-      const query = `http://localhost:8000/attendance-list/${queryYear}/${queryMonth}/${searchIntraId}`;
-      const response = await axios.get(query);
-      // setRows(response.data);
-      console.log(response.data);
+      const response = await apiManager.get(
+        `/operator/attendance-list/${queryYear}/${queryMonth}/${searchIntraId}`
+      );
+      setAttendanceLog(
+        response.data.map((log) =>
+          format(new Date(log.timelog), "PPP EEEE", { locale: ko })
+        )
+      );
     } catch (error) {
       console.log(error);
+      setAttendanceLog([]);
     }
   };
 
   useEffect(() => {
     loadUserAttendanceData();
   }, [queryYear, queryMonth, searchIntraId]);
+
+  useEffect(() => {
+    setSelectionModel(rows.filter(row => {
+      if (attendanceLog.includes(row.date)) {
+        return (row);
+      }
+    }).map(row => row.id))
+  }, [attendanceLog])
 
   return (
     <Grid item xs={12}>
@@ -68,6 +79,8 @@ function UserAttendanceDataTable(props) {
           <SearchBar
             searchQuery={searchIntraId}
             setSearchQuery={setSearchIntraId}
+            year={queryYear}
+            month={queryMonth}
           />
           <Box sx={{ mt: 1, height: 400, width: "100%" }}>
             {searchIntraId.length === 0 ? (
@@ -80,17 +93,16 @@ function UserAttendanceDataTable(props) {
                 getRowId={(row) => row.id}
                 checkboxSelection
                 disableRowSelectionOnClick
-                // selectionModel={selectionModel}
                 onCellClick={handleCellClick}
                 onColumnHeaderClick={handleAllCheckbox}
+                selectionModel={selectionModel}
                 // onSelectionModelChange={(event) => {
-                //   // console.log(event);
+                //   console.log(event);
                 //   setSelectionModel(event);
                 //   const selectedIDs = new Set(event);
                 //   const selectedRows = rows.filter((r) =>
                 //     selectedIDs.has(r.id)
                 //   );
-                //   setSelectedRows(selectedRows);
                 // }}
               />
             )}

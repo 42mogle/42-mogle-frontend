@@ -84,7 +84,7 @@ function DashboardPage() {
         <MonthlyPerfectUserTable data={monthlyStatistic} />
 
         {/* EXPLAIN: 출석 데이터 수정 */}
-        {/* <UserAttendanceDataTable data={dateQuery} /> */}
+        <UserAttendanceDataTable data={dateQuery} />
       </Grid>
 
       <Snackbar
