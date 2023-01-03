@@ -40,9 +40,12 @@ function MonthlyPerfectUserTable(props) {
   const rows = [];
   if (data.length > 0) {
     data.forEach((user) => {
-      if (user.isPerfectAttendance) rows.push(user);
+      if (user.isPerfect) {
+        rows.push({...user, ...user.userInfo});
+      }
     });
   }
+  
   return (
     <Grid item xs={4}>
       <Card>
@@ -55,7 +58,7 @@ function MonthlyPerfectUserTable(props) {
             <DataGrid
               rows={rows}
               columns={columns}
-              getRowId={(row) => row.intraId}
+              getRowId={(row) => row.userInfo.intraId}
               components={{ Toolbar: CustomToolbar }}
             />
           </Box>

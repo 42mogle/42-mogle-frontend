@@ -28,7 +28,7 @@ function UserAttendanceDataTable(props) {
     const row = format(new Date(queryYear, queryMonth - 1, day), "PPP EEEE", {
       locale: ko,
     });
-    console.log(row);
+    // console.log(row);
     rows.push({ id: day, date: row });
   }
   const [searchIntraId, setSearchIntraId] = useState("");

@@ -13,7 +13,7 @@ const columns = [
     editable: true,
   },
   {
-    field: "isPerfectAttendance",
+    field: "isPerfect",
     headerName: "개근 여부",
     width: 80,
     editable: true,
@@ -38,12 +38,13 @@ function MonthlyUserTable(props) {
   const { data } = props;
   const rows = [];
   if (data.length > 0) {
-      data.forEach((user) => {
-        if (user.isPerfectAttendance)
-          rows.push({...user, isPerfectAttendance: "✅"})
-        else
-          rows.push({...user, isPerfectAttendance: "❌"})
-      })
+    data.forEach((user) => {
+      if (user.isPerfect) {
+        rows.push({ ...user, ...user.userInfo, isPerfect: "✅" });
+      } else {
+        rows.push({ ...user, ...user.userInfo, isPerfect: "❌" });
+      }
+    });
   }
 
   return (
@@ -57,8 +58,13 @@ function MonthlyUserTable(props) {
           <Box sx={{ mt: 1, height: 400, width: "100%" }}>
             <DataGrid
               rows={rows}
-              getRowId={(row) => row.intraId}
+              getRowId={(row) => row.userInfo.intraId}
               columns={columns}
+              initialState={{
+                sorting: {
+                  sortModel: [{ field: "isPerfect", sort: "asc" }],
+                },
+              }}
               disableRowSelectionOnClick
             />
           </Box>

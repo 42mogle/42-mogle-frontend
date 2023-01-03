@@ -7,7 +7,6 @@ import UserAttendanceDataTable from "./UserAttedanceDataTable";
 import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
 import apiManager from "api/apiManager";
-import axios from "axios";
 
 const date = new Date();
 const currentYear = date.getFullYear();
@@ -28,18 +27,17 @@ function DashboardPage() {
 
   const getMonthlyPerfectUser = (data) => {
     return data.reduce((acc, user) => {
-      if (user.isPerfectAttendance === true) return acc + 1;
+      if (user.isPerfect === true) return acc + 1;
       return acc;
     }, 0);
   };
 
   const loadCurrentMonthData = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/monthly-user");
+      const response = await apiManager.get(`/statistic/monthly-users/${dateQuery.queryYear}/${dateQuery.queryMonth}`);
       setMonthlyTotalUser(getMonthlyTotalUser(response.data));
       setMonthlyPerfectUser(getMonthlyPerfectUser(response.data));
       setMonthlyStatistic(response.data);
-      // const response = await apiManager.get("");
     } catch (error) {
       console.log(error);
     }
@@ -66,7 +64,7 @@ function DashboardPage() {
         <MonthlyPerfectUserTable data={monthlyStatistic} />
 
         {/* EXPLAIN: 출석 데이터 수정 */}
-        <UserAttendanceDataTable data={dateQuery} />
+        {/* <UserAttendanceDataTable data={dateQuery} /> */}
       </Grid>
     </Container>
   );
