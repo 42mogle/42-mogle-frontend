@@ -17,15 +17,17 @@ const Auth = () => {
     (async () => {
       if (token) {
         try {
-          const response = await apiManager.get(`/serverAuth/firstJoin/?code=${token}`);
+          const response = await apiManager.get(
+            `/serverAuth/firstJoin/?code=${token}`
+          );
           if (response.status === HTTP_STATUS.OK) {
             setIntraId(response.data.intraId);
             navigate("/signup", { state: response.data });
           }
         } catch (error) {
-          console.log(error);
+          console.log(error.response);
           // TODO 에러가 발생할 수 있는 상태값 확인해서 에러 메시지 다르게 띄우기
-          navigate("/", { state: error });
+          navigate("/", { state: error.response });
         }
       }
     })();

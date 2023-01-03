@@ -20,6 +20,8 @@ const Login = () => {
   const [findPassword, clickFindPassword] = useState(false);
   const [signupSnackbarOpen, setSignupSnackbarOpen] = useState(false);
 
+  console.log(state);
+
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
