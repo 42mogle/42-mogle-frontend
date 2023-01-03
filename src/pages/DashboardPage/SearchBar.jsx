@@ -8,7 +8,6 @@ function SearchBar(props) {
 
   const handleSearchQuery = (event) => {
     event.preventDefault();
-    console.log(event.target.searchBar.value);
     setSearchQuery(event.target.searchBar.value);
   };
 

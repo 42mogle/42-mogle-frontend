@@ -13,9 +13,9 @@ const columns = [
     editable: true,
   },
   {
-    field: "isPerfectAttendance",
+    field: "isPerfect",
     headerName: "개근 여부",
-    width: 80,
+    width: 100,
     editable: true,
   },
   {
@@ -35,30 +35,43 @@ const columns = [
 ];
 
 function MonthlyUserTable(props) {
-  const { data } = props;
+  const { data, resultDate } = props;
   const rows = [];
   if (data.length > 0) {
-      data.forEach((user) => {
-        if (user.isPerfectAttendance)
-          rows.push({...user, isPerfectAttendance: "✅"})
-        else
-          rows.push({...user, isPerfectAttendance: "❌"})
-      })
+    data.forEach((user) => {
+      if (user.isPerfect) {
+        rows.push({ ...user, ...user.userInfo, isPerfect: "✅" });
+      } else {
+        rows.push({ ...user, ...user.userInfo, isPerfect: "❌" });
+      }
+    });
   }
 
   return (
     <Grid item xs={8}>
       <Card>
         <CardContent>
-          <Typography variant="h5" component="div">
-            참여자 목록
+          <Typography variant="h5" component="span">
+            참여자 목록&nbsp;
+            <Typography
+              variant="subtitle1"
+              component="span"
+              sx={{ color: "text.secondary" }}
+            >
+              ({resultDate.year}년 {resultDate.month}월)
+            </Typography>
           </Typography>
 
           <Box sx={{ mt: 1, height: 400, width: "100%" }}>
             <DataGrid
               rows={rows}
-              getRowId={(row) => row.intraId}
+              getRowId={(row) => row.userInfo.intraId}
               columns={columns}
+              initialState={{
+                sorting: {
+                  sortModel: [{ field: "isPerfect", sort: "asc" }],
+                },
+              }}
               disableRowSelectionOnClick
             />
           </Box>
