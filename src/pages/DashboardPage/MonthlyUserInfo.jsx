@@ -16,7 +16,6 @@ function MonthlyUserInfo(props) {
           </Typography>
           <Divider sx={{ mt: 1, mb: 1 }} />
           <Box>
-            {/* TODO: API에서 받아온 값을 표시하도록 변경 */}
             <Typography variant="h5" component="span">
               {data}
             </Typography>
