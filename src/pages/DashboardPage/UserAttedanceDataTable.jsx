@@ -6,16 +6,28 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import { DataGrid } from "@mui/x-data-grid";
+import { styled } from "@mui/material/styles";
 import { format } from "date-fns";
 import { ko } from "date-fns/locale";
 import apiManager from "api/apiManager";
+import axios from "axios";
 
 // TODO: 시간 추가하기
-const columns = [{ field: "date", headerName: "날짜", width: 200 }];
+const columns = [
+  { field: "date", headerName: "날짜", width: 200 },
+  { field: "time", headerName: "시간", width: 200 },
+];
 
 const getMonthDays = (year, month) => {
   return new Date(year, month, 0).getDate();
 };
+
+const CustomDataGrid = styled(DataGrid)(({ theme }) => ({
+  "& .MuiDataGrid-columnHeaderCheckbox .MuiDataGrid-columnHeaderTitleContainer":
+    {
+      display: "none",
+    },
+}));
 
 function UserAttendanceDataTable(props) {
   const {
@@ -31,7 +43,7 @@ function UserAttendanceDataTable(props) {
     const row = format(new Date(queryYear, queryMonth - 1, day), "PPP EEEE", {
       locale: ko,
     });
-    rows.push({ id: day, date: row });
+    rows.push({ id: day, date: row, time: "" });
   }
 
   const handleCellClick = (event) => {
@@ -43,13 +55,19 @@ function UserAttendanceDataTable(props) {
   const loadUserAttendanceData = async () => {
     if (searchIntraId.length === 0) return;
     try {
-      const response = await apiManager.get(
-        `/operator/attendance-list/${queryYear}/${queryMonth}/${searchIntraId}`
-      );
+      // const response = await apiManager.get(
+      //   `/operator/attendance-list/${queryYear}/${queryMonth}/${searchIntraId}`
+      // );
+      const response = await axios.get("http://localhost:8000/attendance-list");
       setAttendanceLog(
-        response.data.map((log) =>
-          format(new Date(log.timelog), "PPP EEEE", { locale: ko })
-        )
+        response.data.map((log) => {
+          return format(new Date(log.timelog), "PPP EEEE", { locale: ko });
+          // const logDate = new Date(log.timelog);
+          // return {
+          //   date: format(logDate, "PPP EEEE", { locale: ko }),
+          //   time: format(logDate, "hh:mm:ss"),
+          // };
+        })
       );
     } catch (error) {
       console.log(error);
@@ -62,12 +80,16 @@ function UserAttendanceDataTable(props) {
   }, [queryYear, queryMonth, searchIntraId]);
 
   useEffect(() => {
-    setSelectionModel(rows.filter(row => {
-      if (attendanceLog.includes(row.date)) {
-        return (row);
-      }
-    }).map(row => row.id))
-  }, [attendanceLog])
+    setSelectionModel(
+      rows
+        .filter((row) => {
+          if (attendanceLog.includes(row.date)) {
+            return row;
+          }
+        })
+        .map((row) => row.id)
+    );
+  }, [attendanceLog]);
 
   return (
     <Grid item xs={12}>
@@ -87,23 +109,19 @@ function UserAttendanceDataTable(props) {
               <Typography>검색할 Intra ID 를 입력해주세요.</Typography>
             ) : (
               // <Typography>{queryYear}년 {queryMonth}월 {searchIntraId}</Typography>
-              <DataGrid
+
+              // 모든 체크박스 선택기능 해제
+              <CustomDataGrid
                 rows={rows}
                 columns={columns}
                 getRowId={(row) => row.id}
                 checkboxSelection
-                disableRowSelectionOnClick
-                onCellClick={handleCellClick}
+                disableSelectionOnClick
                 onColumnHeaderClick={handleAllCheckbox}
                 selectionModel={selectionModel}
-                // onSelectionModelChange={(event) => {
-                //   console.log(event);
-                //   setSelectionModel(event);
-                //   const selectedIDs = new Set(event);
-                //   const selectedRows = rows.filter((r) =>
-                //     selectedIDs.has(r.id)
-                //   );
-                // }}
+                onSelectionModelChange={(event) => {
+                  setSelectionModel(event);
+                }}
               />
             )}
           </Box>
