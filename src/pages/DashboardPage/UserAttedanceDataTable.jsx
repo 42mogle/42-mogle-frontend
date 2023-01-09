@@ -6,9 +6,11 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import { DataGrid } from "@mui/x-data-grid";
+import { styled } from "@mui/material/styles";
 import { format } from "date-fns";
 import { ko } from "date-fns/locale";
 import apiManager from "api/apiManager";
+import axios from "axios";
 
 // TODO: 시간 추가하기
 const columns = [{ field: "date", headerName: "날짜", width: 200 }];
@@ -17,6 +19,13 @@ const getMonthDays = (year, month) => {
   return new Date(year, month, 0).getDate();
 };
 
+const CustomDataGrid = styled(DataGrid)(({ theme }) => ({
+  "& .MuiDataGrid-columnHeaderCheckbox .MuiDataGrid-columnHeaderTitleContainer":
+    {
+      display: "none",
+    },
+}));
+
 function UserAttendanceDataTable(props) {
   const {
     data: { queryYear, queryMonth },
@@ -24,18 +33,48 @@ function UserAttendanceDataTable(props) {
   const [attendanceLog, setAttendanceLog] = useState([]);
   const [searchIntraId, setSearchIntraId] = useState("");
   const [selectionModel, setSelectionModel] = useState([]);
+  const [rows, setRows] = useState([]);
 
-  const rows = [];
-  const monthDays = getMonthDays(queryYear, queryMonth);
-  for (let day = 1; day <= monthDays; day += 1) {
-    const row = format(new Date(queryYear, queryMonth - 1, day), "PPP EEEE", {
-      locale: ko,
-    });
-    rows.push({ id: day, date: row });
-  }
+  useEffect(() => {
+    const monthDays = getMonthDays(queryYear, queryMonth);
+    const result = [];
+    for (let day = 1; day <= monthDays; day += 1) {
+      const row = format(new Date(queryYear, queryMonth - 1, day), "PPP EEEE", {
+        locale: ko,
+      });
+      result.push({ id: day, date: row });
+    }
+    setRows(result);
+  }, []);
 
-  const handleCellClick = (event) => {
-    if (event.field === "__check__") console.log(event);
+  const handleCellClick = async (event) => {
+    if (event.field === "__check__") {
+      const { date } = event.row;
+      const monthIdx = date.indexOf('월') + 2;
+      const dayIdx = date.indexOf('일');
+      const selectedDay = parseInt(date.slice(monthIdx, dayIdx), 10);
+      const body = {
+        "year": queryYear,
+        "month": queryMonth,
+        "day": selectedDay,
+        "intraId": searchIntraId
+      };
+      if (event.value === false) {
+        try {
+          const response = await apiManager.post("operator/attendance-add", body);
+          console.log(response);
+        } catch (error) {
+          console.log(error);
+        }
+      } else {
+        try {
+          const response = await apiManager.post("operator/attendance-delete", body);
+          console.log(response);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    }
   };
   const handleAllCheckbox = (event) => {
     if (event.field === "__check__") console.log(event);
@@ -47,9 +86,9 @@ function UserAttendanceDataTable(props) {
         `/operator/attendance-list/${queryYear}/${queryMonth}/${searchIntraId}`
       );
       setAttendanceLog(
-        response.data.map((log) =>
-          format(new Date(log.timelog), "PPP EEEE", { locale: ko })
-        )
+        response.data.map((log) => {
+          return format(new Date(log.timelog), "PPP EEEE", { locale: ko });
+        })
       );
     } catch (error) {
       console.log(error);
@@ -62,12 +101,16 @@ function UserAttendanceDataTable(props) {
   }, [queryYear, queryMonth, searchIntraId]);
 
   useEffect(() => {
-    setSelectionModel(rows.filter(row => {
-      if (attendanceLog.includes(row.date)) {
-        return (row);
-      }
-    }).map(row => row.id))
-  }, [attendanceLog])
+    setSelectionModel(
+      rows
+        .filter((row) => {
+          if (attendanceLog.includes(row.date)) {
+            return row;
+          }
+        })
+        .map((row) => row.id)
+    );
+  }, [attendanceLog]);
 
   return (
     <Grid item xs={12}>
@@ -87,23 +130,19 @@ function UserAttendanceDataTable(props) {
               <Typography>검색할 Intra ID 를 입력해주세요.</Typography>
             ) : (
               // <Typography>{queryYear}년 {queryMonth}월 {searchIntraId}</Typography>
-              <DataGrid
+
+              // 모든 체크박스 선택기능 해제
+              <CustomDataGrid
                 rows={rows}
                 columns={columns}
                 getRowId={(row) => row.id}
                 checkboxSelection
-                disableRowSelectionOnClick
+                disableSelectionOnClick
                 onCellClick={handleCellClick}
-                onColumnHeaderClick={handleAllCheckbox}
                 selectionModel={selectionModel}
-                // onSelectionModelChange={(event) => {
-                //   console.log(event);
-                //   setSelectionModel(event);
-                //   const selectedIDs = new Set(event);
-                //   const selectedRows = rows.filter((r) =>
-                //     selectedIDs.has(r.id)
-                //   );
-                // }}
+                onSelectionModelChange={(event) => {
+                  setSelectionModel(event);
+                }}
               />
             )}
           </Box>
