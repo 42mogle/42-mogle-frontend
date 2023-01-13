@@ -14,10 +14,9 @@ import useStore from "../store.js";
 const Login = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
-  const { setIntraId } = useStore((state) => state);
+  const { setIntraId, setIsClickedPasswordReset } = useStore((state) => state);
   const [isErrorOccurred, setisErrorOccurred] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const [findPassword, clickFindPassword] = useState(false);
   const [signupSnackbarOpen, setSignupSnackbarOpen] = useState(false);
 
   console.log(state);
@@ -34,6 +33,7 @@ const Login = () => {
     if (state && state.isSignupSuccess) {
       setSignupSnackbarOpen(true);
     }
+    setIsClickedPasswordReset(false);
   }, []);
 
   const handleLoginSubmit = async (event) => {
@@ -104,21 +104,21 @@ const Login = () => {
           id="password"
           autoComplete="current-password"
         />
+
         <Grid container>
           <Grid item xs>
             <Link
               onClick={() => {
-                clickFindPassword(true);
+                setIsClickedPasswordReset(true);
               }}
-              href="#"
+              href={process.env.REACT_APP_OAUTH_URL}
               variant="body2"
             >
-              {findPassword === false
-                ? `비밀번호가 기억나지 않으신가요?`
-                : `죄송합니다! 백엔드에서 기능 구현중입니다!`}
+              비밀번호가 기억나지 않으신가요?
             </Link>
           </Grid>
         </Grid>
+
         <Button
           type="submit"
           fullWidth

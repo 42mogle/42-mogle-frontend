@@ -13,6 +13,7 @@ function App() {
       <Routes>
         <Route element={<MobileLayout />}>
           <Route path="/" element={<Login />} />
+          <Route path="/reset-password" element={<Signup />} />
           <Route path="/home" element={<HomePage />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/auth" element={<Auth />} />
