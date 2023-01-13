@@ -13,6 +13,8 @@ const useStore = create(
       setPhotoUrl: (photoUrl) => set({ _photoUrl: photoUrl }),
       _summary: {},
       setSummary: (summary) => set({ _summary: summary}),
+      _isClickedPasswordReset: false,
+      setIsClickedPasswordReset: (isClickedPasswordReset) => set({ _isClickedPasswordReset: isClickedPasswordReset }),
     }),
     {
       name: "user-data",
