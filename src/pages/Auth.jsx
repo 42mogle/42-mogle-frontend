@@ -17,13 +17,14 @@ const Auth = () => {
     (async () => {
       if (token) {
         if (_isClickedPasswordReset === true) {
-          console.log(_isClickedPasswordReset);
           try {
             const response = await apiManager.get(
               `/serverAuth/42oauth/jwt/?code=${token}`
             );
             if (response.status === HTTP_STATUS.OK) {
               setIntraId(response.data.intraId);
+              console.log(response.data)
+              console.log(response.data.accessToken)
               localStorage.setItem("accessToken", response.data.accessToken);
               navigate("/reset-password", { state: response.data });
             }

@@ -20,6 +20,8 @@ function Signup() {
     (state) => state
   );
 
+  console.log(state);
+    
   // 비밀번호 규칙 확인용 State (boolean)
   const [isSamePassword, setIsSamePassword] = useState(true);
 
