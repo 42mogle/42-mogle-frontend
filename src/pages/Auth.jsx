@@ -17,6 +17,7 @@ const Auth = () => {
     (async () => {
       if (token) {
         if (_isClickedPasswordReset === true) {
+          console.log(_isClickedPasswordReset);
           try {
             const response = await apiManager.get(
               `/serverAuth/42oauth/jwt/?code=${token}`
