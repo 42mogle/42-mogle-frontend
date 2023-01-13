@@ -19,9 +19,11 @@ for (let month = 1; month <= 12; month += 1) {
   months.push(month);
 }
 
-function DateSelector() {
+function DateSelector(props) {
+  const { setDateQuery } = props;
   const [selectYear, setSelectYear] = useState(current_year);
   const [selectMonth, setSelectMonth] = useState(current_month);
+
   const handleYear = (event) => {
     setSelectYear(event.target.value);
   };
@@ -30,6 +32,10 @@ function DateSelector() {
   };
   const handleSubmit = (event) => {
     event.preventDefault();
+    setDateQuery({
+      queryYear: selectYear,
+      queryMonth: selectMonth,
+    })
   };
 
   return (

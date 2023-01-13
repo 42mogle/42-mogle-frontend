@@ -6,19 +6,18 @@ import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
 
 function MonthlyUserInfo(props) {
-  const { text } = props;
+  const { text, data } = props;
   return (
     <Grid item xs={3}>
       <Card>
         <CardContent>
           <Typography variant="h5" component="div">
-            { text }
+            {text}
           </Typography>
           <Divider sx={{ mt: 1, mb: 1 }} />
           <Box>
-            {/* TODO: API에서 받아온 값을 표시하도록 변경 */}
             <Typography variant="h5" component="span">
-              50
+              {data}
             </Typography>
             <Typography sx={{ ml: 1 }} component="span" color="text.secondary">
               명

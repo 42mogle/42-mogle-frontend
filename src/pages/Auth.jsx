@@ -5,10 +5,11 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { Typography } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 import useStore from "../store.js";
+import jwt_decode from "jwt-decode";
 const HTTP_STATUS = require("http-status");
 
 const Auth = () => {
-  const { setIntraId } = useStore((state) => state);
+  const { setIntraId, _isClickedPasswordReset } = useStore((state) => state);
   const [searchParams] = useSearchParams();
   const token = searchParams.get("code");
   const navigate = useNavigate();
@@ -16,16 +17,34 @@ const Auth = () => {
   useEffect(() => {
     (async () => {
       if (token) {
-        try {
-          const response = await apiManager.get(`/serverAuth/firstJoin/?code=${token}`);
-          if (response.status === HTTP_STATUS.OK) {
-            setIntraId(response.data.intraId);
-            navigate("/signup", { state: response.data });
+        if (_isClickedPasswordReset === true) {
+          try {
+            const response = await apiManager.get(
+              `/serverAuth/42oauth/jwt/?code=${token}`
+            );
+            if (response.status === HTTP_STATUS.OK) {
+              const decodedToken = jwt_decode(response.data);
+              setIntraId(decodedToken.intraId);
+              localStorage.setItem("accessToken", response.data);
+              navigate("/reset-password");
+            }
+          } catch (error) {
+            console.log(error.response);
+            navigate("/", { state: error.response });
           }
-        } catch (error) {
-          console.log(error);
-          // TODO 에러가 발생할 수 있는 상태값 확인해서 에러 메시지 다르게 띄우기
-          navigate("/", { state: error });
+        } else {
+          try {
+            const response = await apiManager.get(
+              `/serverAuth/firstJoin/?code=${token}`
+            );
+            if (response.status === HTTP_STATUS.OK) {
+              setIntraId(response.data.intraId);
+              navigate("/signup", { state: response.data });
+            }
+          } catch (error) {
+            console.log(error.response);
+            navigate("/", { state: error.response });
+          }
         }
       }
     })();

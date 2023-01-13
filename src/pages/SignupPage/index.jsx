@@ -16,7 +16,9 @@ const HTTP_STATUS = require("http-status");
 function Signup() {
   const navigate = useNavigate();
   const { state } = useLocation();
-  const { _intraId, setPhotoUrl } = useStore((state) => state);
+  const { _intraId, _isClickedPasswordReset, setPhotoUrl } = useStore(
+    (state) => state
+  );
 
   // 비밀번호 규칙 확인용 State (boolean)
   const [isSamePassword, setIsSamePassword] = useState(true);
@@ -82,20 +84,33 @@ function Signup() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    try {
-      const data = {
-        intraId: state.intraId,
-        password: secondPassword,
-      };
-      const response = await apiManager.post(`/serverAuth/secondJoin/`, data);
-      if (response.status === HTTP_STATUS.CREATED) {
-        setPhotoUrl(state.photoUrl);
-        // TODO 회원가입 정상적으로 진행되면 login 페이지에서 회원가입 완료 안내 문구 띄워주기
-        navigate("/", { state: { isSignupSuccess: true } });
+    if (_isClickedPasswordReset === true) {
+      try {
+        const data = {
+          password: secondPassword,
+        };
+        const response = await apiManager.patch(`/user/password/`, data);
+        if (response.status === HTTP_STATUS.OK) {
+          navigate("/");
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      setBackPasswordError(true);
-      console.log(error);
+    } else {
+      try {
+        const data = {
+          intraId: state.intraId,
+          password: secondPassword,
+        };
+        const response = await apiManager.post(`/serverAuth/secondJoin/`, data);
+        if (response.status === HTTP_STATUS.CREATED) {
+          setPhotoUrl(state.photoUrl);
+          navigate("/", { state: { isSignupSuccess: true } });
+        }
+      } catch (error) {
+        setBackPasswordError(true);
+        console.log(error);
+      }
     }
   };
 
@@ -108,7 +123,7 @@ function Signup() {
         </Alert>
       )}
       <Typography component="h1" variant="h5">
-        회원가입
+        {_isClickedPasswordReset === true ? "비밀번호 재설정" : "회원가입"}
       </Typography>
       <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
         <IntraIdField intraId={_intraId} />
@@ -128,7 +143,11 @@ function Signup() {
           onChange={checkSecondPassword}
           isSamePassword={isSamePassword}
           isRuleGood={isRuleGood}
-          helperText={firstPassword === secondPassword ? "" : "비밀번호가 일치하지 않습니다."}
+          helperText={
+            firstPassword === secondPassword
+              ? ""
+              : "비밀번호가 일치하지 않습니다."
+          }
         />
 
         <Typography component="h6" variant="body2">

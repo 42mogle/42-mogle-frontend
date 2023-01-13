@@ -2,62 +2,63 @@ import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Box from "@mui/material/Box";
-import { DataGrid, GridToolbarContainer, GridToolbarExport } from "@mui/x-data-grid";
+import {
+  DataGrid,
+  GridToolbarExportContainer,
+  GridCsvExportMenuItem,
+} from "@mui/x-data-grid";
 import Typography from "@mui/material/Typography";
 
 const columns = [
-  { field: "id", headerName: "ID", width: 80 },
   {
     field: "intraId",
     headerName: "Intra ID",
-    width: 150,
+    width: 120,
+    editable: true,
+  },
+  {
+    field: "totalPerfectCount",
+    headerName: "누적 개근 횟수",
+    type: "number",
+    width: 100,
     editable: true,
   },
 ];
 
-const rows = [
-  { id: 1, intraId: "Snow" },
-  {
-    id: 2,
-    intraId: "Lannister",
-  },
-  {
-    id: 3,
-    intraId: "Lannister",
-  },
-  { id: 4, intraId: "Stark" },
-  {
-    id: 5,
-    intraId: "Targaryen",
-  },
-  {
-    id: 6,
-    intraId: "Melisandre",
-  },
-];
+const csvOptions = { utf8WithBom: true };
 
 function CustomToolbar() {
   return (
-    <GridToolbarContainer>
-      <GridToolbarExport />
-    </GridToolbarContainer>
+    <GridToolbarExportContainer>
+      <GridCsvExportMenuItem options={csvOptions} />
+    </GridToolbarExportContainer>
   );
 }
 
-function MonthlyPerfectUserTable() {
+function MonthlyPerfectUserTable(props) {
+  const { data } = props;
+  const rows = [];
+  if (data.length > 0) {
+    data.forEach((user) => {
+      if (user.isPerfect) {
+        rows.push({...user, ...user.userInfo});
+      }
+    });
+  }
+  
   return (
     <Grid item xs={4}>
       <Card>
         <CardContent>
           <Typography variant="h5" component="div">
-            이번 달 개근자 목록
+            개근자 목록
           </Typography>
 
           <Box sx={{ mt: 1, height: 400, width: "100%" }}>
             <DataGrid
               rows={rows}
               columns={columns}
-              disableRowSelectionOnClick
+              getRowId={(row) => row.userInfo.intraId}
               components={{ Toolbar: CustomToolbar }}
             />
           </Box>
