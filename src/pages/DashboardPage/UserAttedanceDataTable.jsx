@@ -45,7 +45,7 @@ function UserAttendanceDataTable(props) {
       result.push({ id: day, date: row });
     }
     setRows(result);
-  }, []);
+  }, [queryYear, queryMonth, searchIntraId]);
 
   const handleCellClick = async (event) => {
     if (event.field === "__check__") {
