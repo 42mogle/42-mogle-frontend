@@ -6,6 +6,7 @@ import HomePage from "./pages/HomePage";
 import Signup from "./pages/SignupPage";
 import Auth from "./pages/Auth";
 import DashboardPage from "./pages/DashboardPage";
+import SettingPage from "./pages/SettingPage";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         </Route>
         <Route element={<DesktopLayout />}>
           <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/dashboard/setting" element={<SettingPage />} />
         </Route>
       </Routes>
     </>
