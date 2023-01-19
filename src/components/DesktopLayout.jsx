@@ -68,20 +68,20 @@ function DesktopLayout(props) {
             </ListItem>
             <Divider />
             <ListItem>
-              <ListItemButton>
+              <ListItemButton href="/dashboard">
                 <ListItemIcon>
                   <DashboardIcon />
                 </ListItemIcon>
-                <ListItemText primary="시즌별 통계" />
+                <ListItemText primary="시즌별 통계"/>
               </ListItemButton>
             </ListItem>
 
             <ListItem>
-              <ListItemButton>
+              <ListItemButton href="/dashboard/setting">
                 <ListItemIcon>
                   <SettingsIcon />
                 </ListItemIcon>
-                <ListItemText primary="설정" />
+                <ListItemText primary="설정"/>
               </ListItemButton>
             </ListItem>
           </List>
