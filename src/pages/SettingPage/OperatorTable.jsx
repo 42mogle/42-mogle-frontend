@@ -3,6 +3,7 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
+import Alert from "@mui/material/Alert";
 import Typography from "@mui/material/Typography";
 import { DataGrid } from "@mui/x-data-grid";
 import { styled } from "@mui/material/styles";
@@ -22,25 +23,22 @@ const CustomDataGrid = styled(DataGrid)(({ theme }) => ({
 
 function OperatorTable(props) {
   const { data } = props;
-  console.log(data);
   const [selectionModel, setSelectionModel] = useState([]);
 
   const handleCellClick = async (event) => {
+    const body = { intraId: event.id };
     if (event.field === "__check__") {
-      const body = {};
       if (event.value === false) {
         try {
-          //TODO: 오퍼레이터 추가 API로 변경
-          const response = await apiManager.post("operator/operator-add", body);
+          const response = await apiManager.post("operator/add-operator", body);
           console.log(response);
         } catch (error) {
           console.log(error);
         }
       } else {
         try {
-          //TODO: 오퍼레이터 제거 API로 변경
           const response = await apiManager.post(
-            "operator/operator-delete",
+            "operator/delete-operator",
             body
           );
           console.log(response);
@@ -56,7 +54,7 @@ function OperatorTable(props) {
       data
         .filter((row) => {
           if (row.isOperator === "✅") {
-            return (row);
+            return row;
           }
         })
         .map((row) => row.intraId)
@@ -70,6 +68,7 @@ function OperatorTable(props) {
           <Typography variant="h5" component="div">
             오퍼레이터 권한 수정
           </Typography>
+          <Alert severity="warning">오퍼레이터 권한 제거 시, 자기 자신은 가장 마지막에 제거하시기 바랍니다.</Alert>
           <Box sx={{ mt: 1, height: 700, width: "100%" }}>
             <CustomDataGrid
               rows={data}
