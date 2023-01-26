@@ -10,7 +10,7 @@ import { styled } from "@mui/material/styles";
 import { format } from "date-fns";
 import { ko } from "date-fns/locale";
 import apiManager from "api/apiManager";
-import axios from "axios";
+const HTTP_STATUS = require("http-status");
 
 // TODO: 시간 추가하기
 const columns = [{ field: "date", headerName: "날짜", width: 200 }];
@@ -31,6 +31,7 @@ function UserAttendanceDataTable(props) {
     data: { queryYear, queryMonth },
   } = props;
   const [attendanceLog, setAttendanceLog] = useState([]);
+  const [queryResultMessage, setQueryResultMessage] = useState("검색할 Intra ID 를 입력해주세요.");
   const [searchIntraId, setSearchIntraId] = useState("");
   const [selectionModel, setSelectionModel] = useState([]);
   const [rows, setRows] = useState([]);
@@ -76,9 +77,7 @@ function UserAttendanceDataTable(props) {
       }
     }
   };
-  const handleAllCheckbox = (event) => {
-    if (event.field === "__check__") console.log(event);
-  };
+
   const loadUserAttendanceData = async () => {
     if (searchIntraId.length === 0) return;
     try {
@@ -92,6 +91,10 @@ function UserAttendanceDataTable(props) {
       );
     } catch (error) {
       console.log(error);
+      if (error.response.status === HTTP_STATUS.NOT_FOUND)
+        setQueryResultMessage("존재하지 않는 유저입니다.");
+      else
+        setQueryResultMessage(error.response.data.message);
       setAttendanceLog([]);
     }
   };
@@ -126,12 +129,9 @@ function UserAttendanceDataTable(props) {
             month={queryMonth}
           />
           <Box sx={{ mt: 1, height: 400, width: "100%" }}>
-            {searchIntraId.length === 0 ? (
-              <Typography>검색할 Intra ID 를 입력해주세요.</Typography>
+            {attendanceLog.length === 0 ? (
+              <Typography>{queryResultMessage}</Typography>
             ) : (
-              // <Typography>{queryYear}년 {queryMonth}월 {searchIntraId}</Typography>
-
-              // 모든 체크박스 선택기능 해제
               <CustomDataGrid
                 rows={rows}
                 columns={columns}
