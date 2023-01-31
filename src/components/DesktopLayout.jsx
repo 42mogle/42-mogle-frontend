@@ -1,4 +1,5 @@
 import React from "react";
+import { useState, useEffect } from "react";
 import OperatorChecker from "./OperatorChecker";
 import { Outlet } from "react-router-dom";
 import Box from "@mui/material/Box";
@@ -18,10 +19,22 @@ import ListItemText from "@mui/material/ListItemText";
 import Avatar from "@mui/material/Avatar";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import SettingsIcon from "@mui/icons-material/Settings";
+import jwt_decode from "jwt-decode";
+
 
 const drawerWidth = 240;
 
 function DesktopLayout(props) {
+  const [intraId, setIntraId] = useState("");
+
+  useEffect(() => {
+    const jwtToken = localStorage.getItem("accessToken");
+    if (jwtToken) {
+      const decodedToken = jwt_decode(jwtToken);
+      setIntraId(decodedToken.intraId)
+    }
+  }, [])
+
   return (
     <>
       <OperatorChecker />
@@ -65,7 +78,7 @@ function DesktopLayout(props) {
                       aria-label="profile"
                     />
                   }
-                  title="Intra Id"
+                  title={intraId}
                   subheader="Operator"
                 />
               </ListItem>
