@@ -20,18 +20,33 @@ import Avatar from "@mui/material/Avatar";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import SettingsIcon from "@mui/icons-material/Settings";
 import jwt_decode from "jwt-decode";
-
+import apiManager from "api/apiManager";
+const HTTP_STATUS = require("http-status");
 
 const drawerWidth = 240;
 
 function DesktopLayout(props) {
   const [intraId, setIntraId] = useState("");
+  const [userPhotoUrl, setUserPhotoUrl] = useState("");
+
+  const getUserPhotoUrl = async () => {
+    try {
+      const response = await apiManager.get('/user/getUserInfo');
+      if (response.status === HTTP_STATUS.OK) {
+        setUserPhotoUrl(response.data.photoUrl);
+      }
+    } catch (error) {
+      console.log(error);
+      setUserPhotoUrl("https://i.ytimg.com/vi/AwrFPJk_BGU/maxresdefault.jpg");
+    }
+  }
 
   useEffect(() => {
     const jwtToken = localStorage.getItem("accessToken");
     if (jwtToken) {
       const decodedToken = jwt_decode(jwtToken);
-      setIntraId(decodedToken.intraId)
+      setIntraId(decodedToken.intraId);
+      getUserPhotoUrl();
     }
   }, [])
 
@@ -73,7 +88,7 @@ function DesktopLayout(props) {
                 <CardHeader
                   avatar={
                     <Avatar
-                      src="https://i.ytimg.com/vi/AwrFPJk_BGU/maxresdefault.jpg"
+                      src={userPhotoUrl}
                       sx={{ bgcolor: "red[500]", boxShadow: "3" }}
                       aria-label="profile"
                     />

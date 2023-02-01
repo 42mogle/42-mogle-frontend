@@ -35,7 +35,6 @@ function OperatorChecker() {
   const isOperator = async () => {
     try {
       const response = await apiManager.get('/user/operator-check');
-      console.log(response);
       if (response.status === HTTP_STATUS.OK)
         return (true);
       return (false);
