@@ -131,7 +131,7 @@ function Signup() {
       localStorage.removeItem("accessToken");
       return ;
     }
-    navigate(-1);
+    navigate("/home");
   }
 
   useEffect(() => {
