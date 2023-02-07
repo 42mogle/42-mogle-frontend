@@ -11,7 +11,7 @@ import useStore from "../../store.js";
 
 function Home() {
   const { _intraId, _photoUrl, setPhotoUrl } = useStore((state) => state);
-  // TODO Home 컴포넌트가 여러 번 렌더링 되는 문제가 있음
+  // TODO: Home 컴포넌트가 여러 번 렌더링 되는 문제가 있음
   const [isOperator, setIsOperator] = useState(false);
 
   const getUserInfo = async () => {
@@ -33,7 +33,11 @@ function Home() {
   return (
     <>
       <LoginChecker />
-      <UserProfile intraId={_intraId} photoUrl={_photoUrl} />
+      <UserProfile
+        intraId={_intraId}
+        photoUrl={_photoUrl}
+        isOperator={isOperator}
+      />
       <TodayDate />
       <AttendanceTable>
         <AttendanceSummary />
