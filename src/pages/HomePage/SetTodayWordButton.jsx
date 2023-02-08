@@ -11,12 +11,12 @@ import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 const HTTP_STATUS = require("http-status");
 
-const SetTodayWordButton = () => {
+const SetTodayWordButton = (props) => {
+  const { todayWord, setTodayWord } = props;
   const [open, setOpen] = useState(false);
   const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
   const [isErrorOccured, setIsErrorOccurred] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const [todayWord, setTodayWord] = useState("");
 
   const handleClickOpen = () => {
     setIsErrorOccurred(false);
@@ -33,8 +33,8 @@ const SetTodayWordButton = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const inputValue = event.target.setTodayWord.value;
-    try {      
+    const inputValue = event.target.setTodayWord.value.trim();
+    try {
       const data = {
         todayWord: inputValue,
       };
@@ -43,7 +43,19 @@ const SetTodayWordButton = () => {
       if (response.status === HTTP_STATUS.OK) {
         setOpen(false);
         setIsSnackbarOpen(true);
-        setTodayWord(inputValue);
+        if (inputValue.length === 0) {
+          setTodayWord({
+            word: inputValue,
+            textColor: "warning.main",
+            isTodayWordSet: false,
+          });
+        } else {
+          setTodayWord({
+            word: inputValue,
+            textColor: "success.main",
+            isTodayWordSet: true,
+          });
+        }
       }
     } catch (error) {
       console.log(error);
@@ -97,7 +109,8 @@ const SetTodayWordButton = () => {
           severity="success"
           sx={{ width: "100%" }}
         >
-          오늘의 단어가 "{todayWord}" 로 설정되었습니다.
+          오늘의 단어가 "{todayWord.isTodayWordSet ? todayWord.word : ""}"
+          (으)로 설정되었습니다.
         </Alert>
       </Snackbar>
     </>
