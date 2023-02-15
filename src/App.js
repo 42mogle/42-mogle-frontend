@@ -7,11 +7,13 @@ import Signup from "./pages/SignupPage";
 import Auth from "./pages/Auth";
 import DashboardPage from "./pages/DashboardPage";
 import SettingPage from "./pages/SettingPage";
+import ClosedPage from "./pages/ClosedPage";
 
 function App() {
   return (
     <>
       <Routes>
+        <Route path="/closed" element={<ClosedPage />} />
         <Route element={<MobileLayout />}>
           <Route path="/" element={<Login />} />
           <Route path="/reset-password" element={<Signup />} />
