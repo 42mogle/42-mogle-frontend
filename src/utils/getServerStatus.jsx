@@ -1,5 +1,4 @@
 import apiManager from "api/apiManager";
-import { Outlet } from "react-router-dom";
 const HTTP_STATUS = require("http-status");
 
 const getServerStatus = async () => {
@@ -15,15 +14,4 @@ const getServerStatus = async () => {
 	}
 }
 
-function ServerHealthCheck() {
-	const isServerRunning = getServerStatus();
-  return (
-		<>
-		{isServerRunning ? <Outlet /> : "Sorry."}
-
-
-		</>
-  );
-}
-
-export default ServerHealthCheck;
+export default getServerStatus;
