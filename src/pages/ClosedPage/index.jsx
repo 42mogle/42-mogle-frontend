@@ -1,12 +1,11 @@
 import React from "react";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import ClosedPageLayout from "./ClosedPageLayout";
 
 const backgroundImage =
   "https://images.unsplash.com/photo-1614071826537-075aa3de09a5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2573&q=80";
 
-function Closed() {
+function ClosedPage() {
   return (
     <>
       <ClosedPageLayout
@@ -47,4 +46,4 @@ function Closed() {
   );
 }
 
-export default Closed;
+export default ClosedPage;
