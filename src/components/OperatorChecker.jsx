@@ -45,11 +45,8 @@ function OperatorChecker() {
   useEffect(() => {
     try {
       const jwtToken = localStorage.getItem("accessToken");
-      if (jwtToken === null) {
-        navigate(-1);
-      }
-      if (isOperator() === false) {
-        navigate(-1);
+      if (jwtToken === null || isOperator() === false) {
+        navigate("/home");
       }
       const decodedToken = jwt_decode(jwtToken);
       const expirationDate = decodedToken.exp * 1000;
