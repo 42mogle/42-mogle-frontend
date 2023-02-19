@@ -16,6 +16,7 @@ function App() {
 		console.log("FAILLL");
     return <ClosedPage />;
   }
+	console.log(getServerStatus());
 	console.log("OK");
 
   return (
