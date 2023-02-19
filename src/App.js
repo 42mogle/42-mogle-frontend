@@ -1,4 +1,5 @@
 import { Route, Routes } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
 import getServerStatus from "utils/getServerStatus";
 import MobileLayout from "./components/MobileLayout";
 import DesktopLayout from "./components/DesktopLayout";
