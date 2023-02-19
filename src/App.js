@@ -19,7 +19,6 @@ function App() {
   useEffect(() => {
     getServerStatus()
       .then(status => {
-        console.log(status);
         setServerStatus(status);
       })
       .catch(error => {
