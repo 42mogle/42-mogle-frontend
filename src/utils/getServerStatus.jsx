@@ -5,7 +5,7 @@ const getServerStatus = async () => {
 	try {
 		const response = await apiManager.get("/server-status");
 		console.log("response: ", response);
-		if (response === HTTP_STATUS.OK) {
+		if (response.status === HTTP_STATUS.OK) {
 			console.log("true");
 			return (true);
 		}
