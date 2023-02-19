@@ -12,7 +12,7 @@ import ClosedPage from "./pages/ClosedPage";
 import NotFoundPage from "./pages/NotFoundPage";
 
 function App() {
-  if (getServerStatus() === false) {
+  if (getServerStatus() == false) {
 		console.log("FAILLL");
     return <ClosedPage />;
   }
