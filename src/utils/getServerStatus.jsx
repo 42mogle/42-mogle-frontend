@@ -3,7 +3,7 @@ const HTTP_STATUS = require("http-status");
 
 const getServerStatus = async () => {
 	try {
-		const response = await apiManager.get("health-check");
+		const response = await apiManager.get("server-status");
 		if (response === HTTP_STATUS.OK) {
 			return (true);
 		}
