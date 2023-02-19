@@ -13,22 +13,27 @@ import NotFoundPage from "./pages/NotFoundPage";
 
 
 function App() {
-  // if (getServerStatus() == false) {
-	// 	console.log("FAILLL");
-  //   return <ClosedPage />;
-  // }
-	getServerStatus()
-	.then(status => {
-		console.log(status);
-		console.log("IN STATUS");
-		return <ClosedPage />;
-	})
-	.catch(error => {
-		console.log("ERROR?");
-		console.error(error);
-	});
-	console.log("is it working");
+  const [serverStatus, setServerStatus] = useState(null);
 
+  useEffect(() => {
+    getServerStatus()
+      .then(status => {
+        console.log(status);
+        setServerStatus(status);
+      })
+      .catch(error => {
+        console.error(error);
+        setServerStatus(false);
+      });
+  }, []);
+
+	if (serverStatus === null) {
+    // 서버 상태 확인 중...
+    return <div>Loading...</div>;
+  } else if (serverStatus === false) {
+    // 서버가 비정상 상태입니다.
+    return <ClosedPage />;
+  } else {
   return (
     <Routes>
       <Route element={<MobileLayout />}>
@@ -45,6 +50,7 @@ function App() {
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
+	}
 }
 
 export default App;
