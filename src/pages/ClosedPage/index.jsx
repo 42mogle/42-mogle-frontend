@@ -24,7 +24,7 @@ function ClosedPage() {
         <Typography
           color="inherit"
           align="center"
-          variant="h3"
+          variant="h5"
           marked="center"
           sx={{ mb: 4 }}
         >
@@ -33,12 +33,11 @@ function ClosedPage() {
         <Typography
           color="inherit"
           align="center"
-          variant="h5"
           sx={{ mb: 4, mt: { sx: 4, sm: 10 } }}
         >
-          모닝글로리 사이트 운영시간은 오전 9시부터 오후 6시입니다.
+          모닝글로리 사이트 운영시간은 <br /> 오전 7시부터 오후 8시입니다.
         </Typography>
-        <Typography color="inherit" align="center" variant="h5" sx={{ mb: 4 }}>
+        <Typography color="inherit" align="center" sx={{ mb: 4 }}>
           문의사항은 모닝글로리 채널에 부탁드립니다.
         </Typography>
       </ClosedPageLayout>
