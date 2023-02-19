@@ -12,12 +12,14 @@ import ClosedPage from "./pages/ClosedPage";
 import NotFoundPage from "./pages/NotFoundPage";
 
 function App() {
-  if (getServerStatus() == false) {
-		console.log("FAILLL");
-    return <ClosedPage />;
-  }
-	console.log(getServerStatus());
-	console.log("OK");
+  // if (getServerStatus() == false) {
+	// 	console.log("FAILLL");
+  //   return <ClosedPage />;
+  // }
+	const status = await getServerStatus();
+	if(status == false){
+		return <ClosedPage />;
+	}
 
   return (
     <Routes>
