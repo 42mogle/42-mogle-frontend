@@ -11,15 +11,20 @@ import SettingPage from "./pages/SettingPage";
 import ClosedPage from "./pages/ClosedPage";
 import NotFoundPage from "./pages/NotFoundPage";
 
+
 function App() {
   // if (getServerStatus() == false) {
 	// 	console.log("FAILLL");
   //   return <ClosedPage />;
   // }
-	const status = await getServerStatus();
-	if(status == false){
+	getServerStatus()
+	.then(status => {
+		console.log(status);
 		return <ClosedPage />;
-	}
+	})
+	.catch(error => {
+		console.error(error);
+	});
 
   return (
     <Routes>
