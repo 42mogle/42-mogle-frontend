@@ -9,7 +9,13 @@ const getServerStatus = async () => {
 		}
 		return (false);
 	} catch(error) {
-		console.error(error);
+	console.log(`
+	___                         ___ _               _
+ / __| ___ _ ___ _____ _ _   / __| |___ ______ __| |
+ \__ \/ -_) '_\ V / -_) '_| | (__| / _ (_-< -_) _\` |
+ |___/\___|_|  \_/\___|_|    \___|_\___/__|___\__,_|
+`);
+
 		return (false);
 	}
 }
