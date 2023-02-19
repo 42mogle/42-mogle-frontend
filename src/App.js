@@ -20,11 +20,14 @@ function App() {
 	getServerStatus()
 	.then(status => {
 		console.log(status);
+		console.log("IN STATUS");
 		return <ClosedPage />;
 	})
 	.catch(error => {
+		console.log("ERROR?");
 		console.error(error);
 	});
+	console.log("is it working");
 
   return (
     <Routes>
