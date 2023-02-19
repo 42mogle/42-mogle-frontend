@@ -13,8 +13,10 @@ import NotFoundPage from "./pages/NotFoundPage";
 
 function App() {
   if (getServerStatus() === false) {
+		console.log("FAILLL");
     return <ClosedPage />;
   }
+	console.log("OK");
 
   return (
     <Routes>
