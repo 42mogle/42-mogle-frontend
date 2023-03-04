@@ -3,7 +3,9 @@ const HTTP_STATUS = require("http-status");
 
 const getServerStatus = async () => {
 	try {
+		console.log("Try started\n");
 		const response = await apiManager.get("/server-status");
+		console.log("response : ", response);
 		if (response.status === HTTP_STATUS.OK) {
 			return (true);
 		}
