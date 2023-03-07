@@ -131,7 +131,9 @@ function Signup() {
       localStorage.removeItem("accessToken");
       return ;
     }
-    navigate("/home");
+    if (_isClickedPasswordReset === false) {
+      navigate("/home");
+    }
   }
 
   useEffect(() => {
