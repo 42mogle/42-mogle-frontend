@@ -34,20 +34,30 @@ function OperatorChecker() {
 
   const isOperator = async () => {
     try {
-      const response = await apiManager.get('/user/operator-check');
-      if (response.status === HTTP_STATUS.OK)
-        return (true);
-      return (false);
+      const response = await apiManager.get("/user/operator-check");
+      if (response.status === HTTP_STATUS.OK) return true;
+      return false;
     } catch (error) {
-      return (false);
+      return false;
     }
-  }
+  };
+  
   useEffect(() => {
     try {
       const jwtToken = localStorage.getItem("accessToken");
-      if (jwtToken === null || isOperator() === false) {
+      if (jwtToken === null) {
         navigate("/home");
       }
+      isOperator()
+        .then((status) => {
+          if (status === false) {
+            navigate("/home");
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+
       const decodedToken = jwt_decode(jwtToken);
       const expirationDate = decodedToken.exp * 1000;
       const currentTimestamp = Date.now();
