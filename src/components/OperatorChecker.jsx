@@ -35,13 +35,15 @@ function OperatorChecker() {
   const isOperator = async () => {
     try {
       const response = await apiManager.get("/user/operator-check");
-      if (response.status === HTTP_STATUS.OK) return true;
+      if (response.status === HTTP_STATUS.OK && response.data === true) {
+        return true;
+      }
       return false;
     } catch (error) {
       return false;
     }
   };
-  
+
   useEffect(() => {
     try {
       const jwtToken = localStorage.getItem("accessToken");
