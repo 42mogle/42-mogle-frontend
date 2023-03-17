@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import getServerStatus from "utils/getServerStatus";
 import MobileLayout from "./components/MobileLayout";
 import DesktopLayout from "./components/DesktopLayout";
+import RouteChangeTracker from "./components/RouteChangeTracker";
 import Login from "./pages/Login";
 import HomePage from "./pages/HomePage";
 import Signup from "./pages/SignupPage";
@@ -12,9 +13,11 @@ import SettingPage from "./pages/SettingPage";
 import ClosedPage from "./pages/ClosedPage";
 import NotFoundPage from "./pages/NotFoundPage";
 
-
 function App() {
   const [serverStatus, setServerStatus] = useState(null);
+
+  // Enable Google Analytics
+  RouteChangeTracker();
 
   useEffect(() => {
     getServerStatus()
