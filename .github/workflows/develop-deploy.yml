@@ -35,12 +35,10 @@ jobs:
           echo "PUBLIC_URL=$PUBLIC_URL" >> .env
           echo "REACT_APP_AWS_BACKEND_SERVER=$REACT_APP_AWS_BACKEND_SERVER" >> .env
           echo "REACT_APP_OAUTH_URL=$REACT_APP_OAUTH_URL" >> .env
-          echo "REACT_APP_GOOGLE_ANALYTICS=$REACT_APP_GOOGLE_ANALYTICS" >> .env
         env:
           PUBLIC_URL: ${{ secrets.PUBLIC_URL }}
           REACT_APP_AWS_BACKEND_SERVER: ${{ secrets.REACT_APP_AWS_BACKEND_SERVER }}
           REACT_APP_OAUTH_URL: ${{ secrets.REACT_APP_OAUTH_URL }}
-          REACT_APP_GOOGLE_ANALYTICS: ${{ secrets.REACT_APP_GOOGLE_ANALYTICS }}
 
       - name: Install Dependencies
         run: npm install
