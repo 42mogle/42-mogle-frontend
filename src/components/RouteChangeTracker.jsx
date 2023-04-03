@@ -1,24 +1,34 @@
-import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { Component } from "react";
+import { withRouter } from "react-router-dom";
 import ReactGA from "react-ga";
 
-const RouteChangeTracker = () => {
-  const location = useLocation();
-  const [initialized, setInitialized] = useState(false);
+class RouteChangeTracker extends Component {
+  componentDidMount() {
+    this.initializeGA();
+    this.trackPage();
+  }
 
-  useEffect(() => {
-    // Initialize Google Analytics
+  componentDidUpdate(prevProps) {
+    const { location } = this.props;
+    if (location.pathname !== prevProps.location.pathname) {
+      this.trackPage();
+    }
+  }
+
+  initializeGA() {
     if (process.env.REACT_APP_GOOGLE_ANALYTICS) {
       ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS);
     }
-    setInitialized(true);
-  }, []);
+  }
 
-  useEffect(() => {
-    if (initialized) {
-      ReactGA.pageview(location.pathname + location.search);
-    }
-  }, [initialized, location]);
-};
+  trackPage() {
+    const { location } = this.props;
+    ReactGA.pageview(location.pathname + location.search);
+  }
 
-export default RouteChangeTracker;
+  render() {
+    return null;
+  }
+}
+
+export default withRouter(RouteChangeTracker);

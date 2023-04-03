@@ -16,9 +16,6 @@ import NotFoundPage from "./pages/NotFoundPage";
 function App() {
   const [serverStatus, setServerStatus] = useState(null);
 
-  // Enable Google Analytics
-  RouteChangeTracker();
-
   useEffect(() => {
     getServerStatus()
       .then(status => {
@@ -38,6 +35,8 @@ function App() {
 	}
 	else {
   return (
+    <>
+    <RouteChangeTracker />
     <Routes>
       <Route element={<MobileLayout />}>
         <Route path="/" element={<Login />} />
@@ -52,6 +51,7 @@ function App() {
       </Route>
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
+    </>
   );
 	}
 }
