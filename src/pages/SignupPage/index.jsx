@@ -11,6 +11,7 @@ import Alert from "@mui/material/Alert";
 import useStore from "../../store.js";
 import IntraIdField from "./IntraIdField.jsx";
 import PasswordField from "./PasswordField.jsx";
+import jwt_decode from "jwt-decode";
 const HTTP_STATUS = require("http-status");
 
 function Signup() {
@@ -114,7 +115,31 @@ function Signup() {
     }
   };
 
-  // if (state) {
+  const isTokenExpired = (token) => {
+    const decodedToken = jwt_decode(token);
+    const expirationDate = decodedToken.exp * 1000;
+    const currentTimestamp = Date.now();
+    return (expirationDate < currentTimestamp);
+  }
+
+  const checkLoginStatus = () => {
+    const jwtToken = localStorage.getItem("accessToken");
+    if (jwtToken === null)
+      return ;
+    if (isTokenExpired(jwtToken))
+    {
+      localStorage.removeItem("accessToken");
+      return ;
+    }
+    if (_isClickedPasswordReset === false) {
+      navigate("/home");
+    }
+  }
+
+  useEffect(() => {
+    checkLoginStatus();
+  }, []);
+
   return (
     <>
       {backPasswordError && (
@@ -227,13 +252,6 @@ function Signup() {
       </Box>
     </>
   );
-  // } else {
-  //   return (
-  //     <Typography component="h1" variant="h4">
-  //       잘못된 접근입니다.
-  //     </Typography>
-  //   );
-  // }
 }
 
 export default Signup;

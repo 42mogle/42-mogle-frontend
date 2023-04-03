@@ -19,12 +19,16 @@ const AttendanceLog = ({ open }) => {
       try {
         const response = await apiManager.get(`/statistic/userAttendanceList`);
 
-        const attendanceList = response.data.map(({ timelog }) => {
-          const attendanceDate = new Date(timelog);
-          const _date = format(attendanceDate, "PPP EEEE", { locale: ko });
-          const _time = format(attendanceDate, "HH:mm:ss");
-          return { date: _date, time: _time };
-        });
+        const attendanceList = response.data
+          .map(({ timelog }) => {
+            return new Date(timelog);
+          })
+          .sort((a, b) => a - b)
+          .map((attendanceDate) => {
+            const _date = format(attendanceDate, "PPP EEEE", { locale: ko });
+            const _time = format(attendanceDate, "HH:mm:ss");
+            return { date: _date, time: _time };
+          });
 
         setAttendanceLog(attendanceList);
       } catch (error) {

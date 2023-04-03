@@ -9,6 +9,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Alert from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
+import jwt_decode from "jwt-decode";
 import useStore from "../store.js";
 
 const Login = () => {
@@ -18,8 +19,6 @@ const Login = () => {
   const [isErrorOccurred, setisErrorOccurred] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [signupSnackbarOpen, setSignupSnackbarOpen] = useState(false);
-
-  console.log(state);
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -34,6 +33,29 @@ const Login = () => {
       setSignupSnackbarOpen(true);
     }
     setIsClickedPasswordReset(false);
+  }, []);
+
+  const isTokenExpired = (token) => {
+    const decodedToken = jwt_decode(token);
+    const expirationDate = decodedToken.exp * 1000;
+    const currentTimestamp = Date.now();
+    return (expirationDate < currentTimestamp);
+  }
+
+  const checkLoginStatus = () => {
+    const jwtToken = localStorage.getItem("accessToken");
+    if (jwtToken === null)
+      return ;
+    if (isTokenExpired(jwtToken))
+    {
+      localStorage.removeItem("accessToken");
+      return ;
+    }
+    navigate("/home");
+  }
+
+  useEffect(() => {
+    checkLoginStatus();
   }, []);
 
   const handleLoginSubmit = async (event) => {
