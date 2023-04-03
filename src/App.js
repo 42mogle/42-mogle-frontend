@@ -11,6 +11,7 @@ import DashboardPage from "./pages/DashboardPage";
 import SettingPage from "./pages/SettingPage";
 import ClosedPage from "./pages/ClosedPage";
 import NotFoundPage from "./pages/NotFoundPage";
+import RouteChangeTracker from "./components/RouteChangeTracker";
 
 
 function App() {
@@ -36,7 +37,7 @@ function App() {
 	else {
   return (
     <>
-    {/* <RouteChangeTracker /> */}
+    <RouteChangeTracker />
     <Routes>
       <Route element={<MobileLayout />}>
         <Route path="/" element={<Login />} />

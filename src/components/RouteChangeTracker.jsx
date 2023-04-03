@@ -1,24 +1,25 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import ReactGA from "react-ga";
 
 const RouteChangeTracker = () => {
   const location = useLocation();
-  const [initialized, setInitialized] = useState(false);
 
+  // Google Analytics 초기화
   useEffect(() => {
-    // Initialize Google Analytics
     if (process.env.REACT_APP_GOOGLE_ANALYTICS) {
       ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS);
     }
-    setInitialized(true);
   }, []);
 
+  // 페이지 뷰 추적
   useEffect(() => {
-    if (initialized) {
+    if (process.env.REACT_APP_GOOGLE_ANALYTICS) {
       ReactGA.pageview(location.pathname + location.search);
     }
-  }, [initialized, location]);
+  }, [location]);
+
+  return null;
 };
 
 export default RouteChangeTracker;
