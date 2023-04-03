@@ -36,7 +36,7 @@ function App() {
 	else {
   return (
     <>
-    <RouteChangeTracker />
+    {/* <RouteChangeTracker /> */}
     <Routes>
       <Route element={<MobileLayout />}>
         <Route path="/" element={<Login />} />
