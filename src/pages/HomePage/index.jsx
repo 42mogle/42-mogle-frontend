@@ -9,6 +9,8 @@ import TodayDate from "./TodayDate";
 import AttendanceSummary from "./AttendanceSummary";
 import useStore from "../../store.js";
 import TodayWord from "./TodayWord";
+import { Button } from "@mui/material";
+import Link from "@mui/material/Link";
 const HTTP_STATUS = require("http-status");
 
 function Home() {
@@ -84,7 +86,17 @@ function Home() {
       </AttendanceTable>
       <AttendanceButton />
       {isOperator && (
-        <SetTodayWordButton todayWord={todayWord} setTodayWord={setTodayWord} />
+        <>
+          <SetTodayWordButton todayWord={todayWord} setTodayWord={setTodayWord} />
+          <Button
+            component={Link}
+            href="/dashboard"
+            variant="contained"
+            sx={{ mt: 3, width: 1 / 2 }}
+          >
+            관리자 페이지로 이동
+          </Button>
+        </>
       )}
     </>
   );
