@@ -1,9 +1,12 @@
 import { useState, useEffect } from "react";
-import OperatorTable from "./OperatorTable";
+
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Alert from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
+
+import AttendanceCalendar from "./AttendanceCalendar";
+import OperatorTable from "./OperatorTable";
 import apiManager from "api/apiManager";
 
 function SettingPage() {
@@ -14,13 +17,15 @@ function SettingPage() {
   const loadUserList = async () => {
     try {
       const response = await apiManager.get("/user/operatorStatus");
-      setUserList(response.data.map(row => {
-        if (row.isOperator === true) {
-          return {...row, isOperator: "✅"}
-        } else {
-          return {...row, isOperator: "❌"}
-        }
-      }));
+      setUserList(
+        response.data.map((row) => {
+          if (row.isOperator === true) {
+            return { ...row, isOperator: "✅" };
+          } else {
+            return { ...row, isOperator: "❌" };
+          }
+        })
+      );
     } catch (error) {
       setSnackbarOpen(true);
       setErrorMessage(error.response.data.message);
@@ -44,6 +49,7 @@ function SettingPage() {
       <Grid container spacing={3}>
         {/* EXPLAIN: 오퍼레이터 권한 수정 */}
         <OperatorTable data={userList} />
+        <AttendanceCalendar />
       </Grid>
 
       <Snackbar
