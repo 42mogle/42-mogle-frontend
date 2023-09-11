@@ -31,7 +31,7 @@ function DesktopLayout(props) {
 
   const getUserPhotoUrl = async () => {
     try {
-      const response = await apiManager.get('/user/getUserInfo');
+      const response = await apiManager.get("/user/getUserInfo");
       if (response.status === HTTP_STATUS.OK) {
         setUserPhotoUrl(response.data.photoUrl);
       }
@@ -39,7 +39,7 @@ function DesktopLayout(props) {
       console.log(error);
       setUserPhotoUrl("https://i.ytimg.com/vi/AwrFPJk_BGU/maxresdefault.jpg");
     }
-  }
+  };
 
   useEffect(() => {
     const jwtToken = localStorage.getItem("accessToken");
@@ -48,7 +48,7 @@ function DesktopLayout(props) {
       setIntraId(decodedToken.intraId);
       getUserPhotoUrl();
     }
-  }, [])
+  }, []);
 
   return (
     <>
