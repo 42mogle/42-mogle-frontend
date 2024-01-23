@@ -16,13 +16,6 @@ const columns = [
     width: 120,
     editable: true,
   },
-  {
-    field: "totalPerfectCount",
-    headerName: "누적 개근 횟수",
-    type: "number",
-    width: 100,
-    editable: true,
-  },
 ];
 
 const csvOptions = { utf8WithBom: true };
@@ -35,7 +28,7 @@ function CustomToolbar() {
   );
 }
 
-function MonthlyPerfectUserTable(props) {
+function MonthlyHalfPerfectUserTable(props) {
   const { data } = props;
   const rows = [];
   if (data.length > 0) {
@@ -51,7 +44,7 @@ function MonthlyPerfectUserTable(props) {
       <Card>
         <CardContent>
           <Typography variant="h5" component="div">
-            개근자 목록
+            1/2 개근자 목록
           </Typography>
 
           <Box sx={{ mt: 1, height: 450, width: "100%" }}>
@@ -68,4 +61,4 @@ function MonthlyPerfectUserTable(props) {
   );
 }
 
-export default MonthlyPerfectUserTable;
+export default MonthlyHalfPerfectUserTable;

@@ -3,9 +3,11 @@ import DateSelector from "./DateSelector";
 import MonthlyUserInfo from "./MonthlyUserInfo";
 import MonthlyUserTable from "./MonthlyUserTable";
 import MonthlyPerfectUserTable from "./MonthlyPerfectUserTable";
+import MonthlyHalfPerfectUserTable from "./MonthlyHalfPerfectUserTable";
 import UserAttendanceDataTable from "./UserAttedanceDataTable";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
+import Stack from "@mui/material/Stack";
 import Alert from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
 import apiManager from "api/apiManager";
@@ -80,8 +82,14 @@ function DashboardPage() {
         {/* EXPLAIN: 이번 달 참여자 목록 테이블 */}
         <MonthlyUserTable data={monthlyStatistic} resultDate={resultDate} />
 
-        {/* EXPLAIN: 이번 달 개근자 목록 테이블 */}
-        <MonthlyPerfectUserTable data={monthlyStatistic} />
+        <Grid item xs={4}>
+          <Stack spacing={2.5}>
+            {/* EXPLAIN: 이번 달 개근자 목록 테이블 */}
+            <MonthlyPerfectUserTable data={monthlyStatistic} />
+            {/* EXPLAIN: 이번 달 1/2 개근자 목록 테이블 */}
+            <MonthlyHalfPerfectUserTable data={monthlyStatistic} />
+          </Stack>
+        </Grid>
 
         {/* EXPLAIN: 출석 데이터 수정 */}
         <UserAttendanceDataTable data={dateQuery} />
