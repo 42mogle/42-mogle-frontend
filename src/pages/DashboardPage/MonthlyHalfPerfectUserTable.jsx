@@ -32,13 +32,10 @@ function MonthlyHalfPerfectUserTable(props) {
   const { data } = props;
   const rows = [];
   if (data.length > 0) {
-    data.forEach((user) => {
-      if (user.isPerfect) {
-        rows.push({...user, ...user.userInfo});
-      }
+    data.forEach((intraId) => {
+      rows.push({intraId});
     });
   }
-  
   return (
     <Grid item>
       <Card>
@@ -51,7 +48,7 @@ function MonthlyHalfPerfectUserTable(props) {
             <DataGrid
               rows={rows}
               columns={columns}
-              getRowId={(row) => row.userInfo.intraId}
+              getRowId={(row) => row.intraId}
               components={{ Toolbar: CustomToolbar }}
             />
           </Box>
