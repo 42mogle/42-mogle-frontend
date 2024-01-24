@@ -53,14 +53,14 @@ function DashboardPage() {
       const responseMonthlyUsers = await apiManager.get(
         `/statistic/monthly-users/${dateQuery.queryYear}/${dateQuery.queryMonth}`
       );
-      const responseHalfPerfectUserIntraIds = await apiManager.get(
+      const responseHalfPerfectUsers = await apiManager.get(
         `/statistic/monthly-users/half-perfect/${dateQuery.queryYear}/${dateQuery.queryMonth}`
       );
       setMonthlyTotalUser(getMonthlyTotalUser(responseMonthlyUsers.data));
       setMonthlyPerfectUser(getMonthlyPerfectUser(responseMonthlyUsers.data));
-      setMonthlyHalfPerfectUser(getMonthlyHalfPerfectUser(responseHalfPerfectUserIntraIds.data));
+      setMonthlyHalfPerfectUser(getMonthlyHalfPerfectUser(responseHalfPerfectUsers.data));
       setMonthlyStatistic(responseMonthlyUsers.data);
-      setMonthlylHalfPerfectUserIntraIds(responseHalfPerfectUserIntraIds.data);
+      setMonthlylHalfPerfectUserIntraIds(responseHalfPerfectUsers.data);
       setResultDate({ year: dateQuery.queryYear, month: dateQuery.queryMonth });
     } catch (error) {
       setSnackbarOpen(true);

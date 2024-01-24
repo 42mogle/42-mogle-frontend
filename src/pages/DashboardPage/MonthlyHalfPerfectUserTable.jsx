@@ -32,10 +32,11 @@ function MonthlyHalfPerfectUserTable(props) {
   const { data } = props;
   const rows = [];
   if (data.length > 0) {
-    data.forEach((intraId) => {
-      rows.push({intraId});
+    data.forEach((user) => {
+      rows.push({intraId: user.userInfo.intraId});
     });
   }
+
   return (
     <Grid item>
       <Card>
