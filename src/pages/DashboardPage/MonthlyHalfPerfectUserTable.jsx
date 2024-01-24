@@ -16,13 +16,6 @@ const columns = [
     width: 120,
     editable: true,
   },
-  {
-    field: "totalPerfectCount",
-    headerName: "누적 개근 횟수",
-    type: "number",
-    width: 100,
-    editable: true,
-  },
 ];
 
 const csvOptions = { utf8WithBom: true };
@@ -35,30 +28,27 @@ function CustomToolbar() {
   );
 }
 
-function MonthlyPerfectUserTable(props) {
+function MonthlyHalfPerfectUserTable(props) {
   const { data } = props;
   const rows = [];
   if (data.length > 0) {
-    data.forEach((user) => {
-      if (user.isPerfect) {
-        rows.push({...user, ...user.userInfo});
-      }
+    data.forEach((intraId) => {
+      rows.push({intraId});
     });
   }
-  
   return (
     <Grid item>
       <Card>
         <CardContent>
           <Typography variant="h5" component="div">
-            개근자 목록
+            1/2 개근자 목록
           </Typography>
 
           <Box sx={{ mt: 1, height: 450, width: "100%" }}>
             <DataGrid
               rows={rows}
               columns={columns}
-              getRowId={(row) => row.userInfo.intraId}
+              getRowId={(row) => row.intraId}
               components={{ Toolbar: CustomToolbar }}
             />
           </Box>
@@ -68,4 +58,4 @@ function MonthlyPerfectUserTable(props) {
   );
 }
 
-export default MonthlyPerfectUserTable;
+export default MonthlyHalfPerfectUserTable;

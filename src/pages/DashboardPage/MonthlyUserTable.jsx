@@ -62,7 +62,7 @@ function MonthlyUserTable(props) {
             </Typography>
           </Typography>
 
-          <Box sx={{ mt: 1, height: 400, width: "100%" }}>
+          <Box sx={{ mt: 1, height: 1000, width: "100%" }}>
             <DataGrid
               rows={rows}
               getRowId={(row) => row.userInfo.intraId}

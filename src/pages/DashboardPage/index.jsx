@@ -3,9 +3,11 @@ import DateSelector from "./DateSelector";
 import MonthlyUserInfo from "./MonthlyUserInfo";
 import MonthlyUserTable from "./MonthlyUserTable";
 import MonthlyPerfectUserTable from "./MonthlyPerfectUserTable";
+import MonthlyHalfPerfectUserTable from "./MonthlyHalfPerfectUserTable";
 import UserAttendanceDataTable from "./UserAttedanceDataTable";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
+import Stack from "@mui/material/Stack";
 import Alert from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
 import apiManager from "api/apiManager";
@@ -24,8 +26,10 @@ function DashboardPage() {
     month: currentMonth,
   });
   const [monthlyStatistic, setMonthlyStatistic] = useState([]);
+  const [monthlyHalfPerfectUserIntraIds, setMonthlylHalfPerfectUserIntraIds] = useState([]);
   const [monthlyTotalUser, setMonthlyTotalUser] = useState(0);
   const [monthlyPerfectUser, setMonthlyPerfectUser] = useState(0);
+  const [monthlyHalfPerfectUser, setMonthlyHalfPerfectUser] = useState(0);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -40,14 +44,23 @@ function DashboardPage() {
     }, 0);
   };
 
+  const getMonthlyHalfPerfectUser = (data) => {
+    return data.reduce((acc) => (acc += 1), 0);
+  };
+
   const loadCurrentMonthData = async () => {
     try {
-      const response = await apiManager.get(
+      const responseMonthlyUsers = await apiManager.get(
         `/statistic/monthly-users/${dateQuery.queryYear}/${dateQuery.queryMonth}`
       );
-      setMonthlyTotalUser(getMonthlyTotalUser(response.data));
-      setMonthlyPerfectUser(getMonthlyPerfectUser(response.data));
-      setMonthlyStatistic(response.data);
+      const responseHalfPerfectUserIntraIds = await apiManager.get(
+        `/statistic/monthly-users/half-perfect/${dateQuery.queryYear}/${dateQuery.queryMonth}`
+      );
+      setMonthlyTotalUser(getMonthlyTotalUser(responseMonthlyUsers.data));
+      setMonthlyPerfectUser(getMonthlyPerfectUser(responseMonthlyUsers.data));
+      setMonthlyHalfPerfectUser(getMonthlyHalfPerfectUser(responseHalfPerfectUserIntraIds.data));
+      setMonthlyStatistic(responseMonthlyUsers.data);
+      setMonthlylHalfPerfectUserIntraIds(responseHalfPerfectUserIntraIds.data);
       setResultDate({ year: dateQuery.queryYear, month: dateQuery.queryMonth });
     } catch (error) {
       setSnackbarOpen(true);
@@ -76,12 +89,19 @@ function DashboardPage() {
         {/* EXPLAIN: 이번 달 참여 인원 통계  */}
         <MonthlyUserInfo data={monthlyTotalUser} text="참여 인원" />
         <MonthlyUserInfo data={monthlyPerfectUser} text="개근 인원" />
+        <MonthlyUserInfo data={monthlyHalfPerfectUser} text="1/2 개근 인원" />
 
         {/* EXPLAIN: 이번 달 참여자 목록 테이블 */}
         <MonthlyUserTable data={monthlyStatistic} resultDate={resultDate} />
 
-        {/* EXPLAIN: 이번 달 개근자 목록 테이블 */}
-        <MonthlyPerfectUserTable data={monthlyStatistic} />
+        <Grid item xs={4}>
+          <Stack spacing={2.5}>
+            {/* EXPLAIN: 이번 달 개근자 목록 테이블 */}
+            <MonthlyPerfectUserTable data={monthlyStatistic} />
+            {/* EXPLAIN: 이번 달 1/2 개근자 목록 테이블 */}
+            <MonthlyHalfPerfectUserTable data={monthlyHalfPerfectUserIntraIds} />
+          </Stack>
+        </Grid>
 
         {/* EXPLAIN: 출석 데이터 수정 */}
         <UserAttendanceDataTable data={dateQuery} />
