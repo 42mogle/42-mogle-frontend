@@ -19,10 +19,13 @@ import ListItemText from "@mui/material/ListItemText";
 import Avatar from "@mui/material/Avatar";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import SettingsIcon from "@mui/icons-material/Settings";
+import HomeIcon from "@mui/icons-material/Home";
+import LogoutIcon from "@mui/icons-material/Logout";
 import jwt_decode from "jwt-decode";
 
 import OperatorChecker from "./OperatorChecker";
 import apiManager from "@api/apiManager";
+import { Link } from "@mui/material";
 const HTTP_STATUS = require("http-status");
 
 const drawerWidth = 240;
@@ -40,6 +43,13 @@ function DesktopLayout(props) {
     } catch (error) {
       console.log(error);
       setUserPhotoUrl("https://i.ytimg.com/vi/AwrFPJk_BGU/maxresdefault.jpg");
+    }
+  };
+
+  const handleLogout = (event) => {
+    const jwtToken = localStorage.getItem("accessToken");
+    if (jwtToken) {
+      localStorage.removeItem("accessToken");
     }
   };
 
@@ -67,7 +77,7 @@ function DesktopLayout(props) {
         >
           <Toolbar>
             <Typography variant="h6" noWrap component="div">
-              🌻 42 Morning Glory
+              <Link href="/home" color="inherit" underline="none">🌻 42 Morning Glory</Link>
             </Typography>
           </Toolbar>
         </AppBar>
@@ -115,6 +125,24 @@ function DesktopLayout(props) {
                     <SettingsIcon />
                   </ListItemIcon>
                   <ListItemText primary="설정" />
+                </ListItemButton>
+              </ListItem>
+
+              <ListItem>
+                <ListItemButton href="/home">
+                  <ListItemIcon>
+                    <HomeIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="출석 페이지" />
+                </ListItemButton>
+              </ListItem>
+
+              <ListItem>
+                <ListItemButton href="/" onClick={handleLogout}>
+                  <ListItemIcon>
+                    <LogoutIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="로그아웃" />
                 </ListItemButton>
               </ListItem>
             </List>
