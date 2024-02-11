@@ -65,6 +65,13 @@ function Home() {
     }
   };
 
+  const handleLogout = (event) => {
+    const jwtToken = localStorage.getItem("accessToken");
+    if (jwtToken) {
+      localStorage.removeItem("accessToken");
+    }
+  };
+
   useEffect(() => {
     getUserInfo();
   }, []);
@@ -87,6 +94,14 @@ function Home() {
         <AttendanceSummary />
       </AttendanceTable>
       <AttendanceButton />
+      <Button
+        onClick={handleLogout}
+        href="/"
+        align="center"
+        sx={{ mt: 3, width: "auto" }}
+      >
+        로그아웃
+      </Button>
       {isOperator && (
         <>
           <SetTodayWordButton
