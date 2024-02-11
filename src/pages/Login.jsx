@@ -9,15 +9,15 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Alert from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
+import jwt_decode from "jwt-decode";
 import useStore from "../store.js";
 
 const Login = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
-  const { setIntraId } = useStore((state) => state);
+  const { setIntraId, setIsClickedPasswordReset } = useStore((state) => state);
   const [isErrorOccurred, setisErrorOccurred] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const [findPassword, clickFindPassword] = useState(false);
   const [signupSnackbarOpen, setSignupSnackbarOpen] = useState(false);
 
   const handleClose = (event, reason) => {
@@ -32,6 +32,30 @@ const Login = () => {
     if (state && state.isSignupSuccess) {
       setSignupSnackbarOpen(true);
     }
+    setIsClickedPasswordReset(false);
+  }, []);
+
+  const isTokenExpired = (token) => {
+    const decodedToken = jwt_decode(token);
+    const expirationDate = decodedToken.exp * 1000;
+    const currentTimestamp = Date.now();
+    return (expirationDate < currentTimestamp);
+  }
+
+  const checkLoginStatus = () => {
+    const jwtToken = localStorage.getItem("accessToken");
+    if (jwtToken === null)
+      return ;
+    if (isTokenExpired(jwtToken))
+    {
+      localStorage.removeItem("accessToken");
+      return ;
+    }
+    navigate("/home");
+  }
+
+  useEffect(() => {
+    checkLoginStatus();
   }, []);
 
   const handleLoginSubmit = async (event) => {
@@ -102,21 +126,21 @@ const Login = () => {
           id="password"
           autoComplete="current-password"
         />
+
         <Grid container>
           <Grid item xs>
             <Link
               onClick={() => {
-                clickFindPassword(true);
+                setIsClickedPasswordReset(true);
               }}
-              href="#"
+              href={process.env.REACT_APP_OAUTH_URL}
               variant="body2"
             >
-              {findPassword === false
-                ? `비밀번호가 기억나지 않으신가요?`
-                : `죄송합니다! 백엔드에서 기능 구현중입니다!`}
+              비밀번호가 기억나지 않으신가요?
             </Link>
           </Grid>
         </Grid>
+
         <Button
           type="submit"
           fullWidth
