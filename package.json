@@ -26,9 +26,9 @@
     "zustand": "^4.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
     "eject": "react-scripts eject",
     "deploy": "aws s3 sync ./build s3://42mogle.com --profile=susong",
     "invalidate": "aws cloudfront create-invalidation --profile=susong --distribution-id EEKGPFVD0IVMP --paths /*"
@@ -50,5 +50,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@craco/craco": "^7.1.0"
   }
 }

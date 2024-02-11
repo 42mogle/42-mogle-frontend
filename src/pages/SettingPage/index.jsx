@@ -5,9 +5,9 @@ import Grid from "@mui/material/Grid";
 import Alert from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
 
+import apiManager from "@api/apiManager";
 import AttendanceCalendar from "./AttendanceCalendar";
 import OperatorTable from "./OperatorTable";
-import apiManager from "api/apiManager";
 
 function SettingPage() {
   const [userList, setUserList] = useState([]);

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import apiManager from "../../api/apiManager.js";
+
 import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
 import Box from "@mui/material/Box";
@@ -9,7 +9,9 @@ import TableBody from "@mui/material/TableBody";
 import TableHead from "@mui/material/TableHead";
 import { format } from "date-fns";
 import { ko } from "date-fns/locale";
-import useStore from "../../store.js";
+
+import apiManager from "@api/apiManager.js";
+import useStore from "@utils/store.js";
 
 const AttendanceLog = ({ open }) => {
   const { _attendanceCount } = useStore((state) => state);

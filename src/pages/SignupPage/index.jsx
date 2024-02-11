@@ -1,14 +1,14 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router";
 import { useNavigate } from "react-router-dom";
-import apiManager from "../../api/apiManager.js";
+import apiManager from "@api/apiManager.js";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { List, ListItem, ListItemIcon, ListItemText } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
 import Alert from "@mui/material/Alert";
-import useStore from "../../store.js";
+import useStore from "@utils/store.js";
 import IntraIdField from "./IntraIdField.jsx";
 import PasswordField from "./PasswordField.jsx";
 import jwt_decode from "jwt-decode";
@@ -119,22 +119,20 @@ function Signup() {
     const decodedToken = jwt_decode(token);
     const expirationDate = decodedToken.exp * 1000;
     const currentTimestamp = Date.now();
-    return (expirationDate < currentTimestamp);
-  }
+    return expirationDate < currentTimestamp;
+  };
 
   const checkLoginStatus = () => {
     const jwtToken = localStorage.getItem("accessToken");
-    if (jwtToken === null)
-      return ;
-    if (isTokenExpired(jwtToken))
-    {
+    if (jwtToken === null) return;
+    if (isTokenExpired(jwtToken)) {
       localStorage.removeItem("accessToken");
-      return ;
+      return;
     }
     if (_isClickedPasswordReset === false) {
       navigate("/home");
     }
-  }
+  };
 
   useEffect(() => {
     checkLoginStatus();

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import SearchBar from "./SearchBar";
+
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
@@ -9,7 +9,10 @@ import { DataGrid } from "@mui/x-data-grid";
 import { styled } from "@mui/material/styles";
 import { format } from "date-fns";
 import { ko } from "date-fns/locale";
-import apiManager from "api/apiManager";
+
+import apiManager from "@api/apiManager";
+import SearchBar from "./SearchBar";
+
 const HTTP_STATUS = require("http-status");
 
 // TODO: 시간 추가하기
@@ -31,7 +34,9 @@ function UserAttendanceDataTable(props) {
     data: { queryYear, queryMonth },
   } = props;
   const [attendanceLog, setAttendanceLog] = useState([]);
-  const [queryResultMessage, setQueryResultMessage] = useState("검색할 Intra ID 를 입력해주세요.");
+  const [queryResultMessage, setQueryResultMessage] = useState(
+    "검색할 Intra ID 를 입력해주세요."
+  );
   const [searchIntraId, setSearchIntraId] = useState("");
   const [selectionModel, setSelectionModel] = useState([]);
   const [rows, setRows] = useState([]);
@@ -51,25 +56,31 @@ function UserAttendanceDataTable(props) {
   const handleCellClick = async (event) => {
     if (event.field === "__check__") {
       const { date } = event.row;
-      const monthIdx = date.indexOf('월') + 2;
-      const dayIdx = date.indexOf('일');
+      const monthIdx = date.indexOf("월") + 2;
+      const dayIdx = date.indexOf("일");
       const selectedDay = parseInt(date.slice(monthIdx, dayIdx), 10);
       const body = {
-        "year": queryYear,
-        "month": queryMonth,
-        "day": selectedDay,
-        "intraId": searchIntraId
+        year: queryYear,
+        month: queryMonth,
+        day: selectedDay,
+        intraId: searchIntraId,
       };
       if (event.value === false) {
         try {
-          const response = await apiManager.post("operator/attendance-add", body);
+          const response = await apiManager.post(
+            "operator/attendance-add",
+            body
+          );
           console.log(response);
         } catch (error) {
           console.log(error);
         }
       } else {
         try {
-          const response = await apiManager.post("operator/attendance-delete", body);
+          const response = await apiManager.post(
+            "operator/attendance-delete",
+            body
+          );
           console.log(response);
         } catch (error) {
           console.log(error);
@@ -93,8 +104,7 @@ function UserAttendanceDataTable(props) {
       console.log(error);
       if (error.response.status === HTTP_STATUS.NOT_FOUND)
         setQueryResultMessage("존재하지 않는 유저입니다.");
-      else
-        setQueryResultMessage(error.response.data.message);
+      else setQueryResultMessage(error.response.data.message);
       setAttendanceLog([]);
     }
   };

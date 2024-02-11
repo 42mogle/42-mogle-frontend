@@ -1,16 +1,18 @@
 import { useState, useEffect } from "react";
+
+import Container from "@mui/material/Container";
+import Grid from "@mui/material/Grid";
+import Stack from "@mui/material/Stack";
+import Alert from "@mui/material/Alert";
+import Snackbar from "@mui/material/Snackbar";
+
+import apiManager from "@api/apiManager";
 import DateSelector from "./DateSelector";
 import MonthlyUserInfo from "./MonthlyUserInfo";
 import MonthlyUserTable from "./MonthlyUserTable";
 import MonthlyPerfectUserTable from "./MonthlyPerfectUserTable";
 import MonthlyHalfPerfectUserTable from "./MonthlyHalfPerfectUserTable";
 import UserAttendanceDataTable from "./UserAttedanceDataTable";
-import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
-import Stack from "@mui/material/Stack";
-import Alert from "@mui/material/Alert";
-import Snackbar from "@mui/material/Snackbar";
-import apiManager from "api/apiManager";
 
 const date = new Date();
 const currentYear = date.getFullYear();
@@ -26,7 +28,8 @@ function DashboardPage() {
     month: currentMonth,
   });
   const [monthlyStatistic, setMonthlyStatistic] = useState([]);
-  const [monthlyHalfPerfectUserIntraIds, setMonthlylHalfPerfectUserIntraIds] = useState([]);
+  const [monthlyHalfPerfectUserIntraIds, setMonthlylHalfPerfectUserIntraIds] =
+    useState([]);
   const [monthlyTotalUser, setMonthlyTotalUser] = useState(0);
   const [monthlyPerfectUser, setMonthlyPerfectUser] = useState(0);
   const [monthlyHalfPerfectUser, setMonthlyHalfPerfectUser] = useState(0);
@@ -58,7 +61,9 @@ function DashboardPage() {
       );
       setMonthlyTotalUser(getMonthlyTotalUser(responseMonthlyUsers.data));
       setMonthlyPerfectUser(getMonthlyPerfectUser(responseMonthlyUsers.data));
-      setMonthlyHalfPerfectUser(getMonthlyHalfPerfectUser(responseHalfPerfectUsers.data));
+      setMonthlyHalfPerfectUser(
+        getMonthlyHalfPerfectUser(responseHalfPerfectUsers.data)
+      );
       setMonthlyStatistic(responseMonthlyUsers.data);
       setMonthlylHalfPerfectUserIntraIds(responseHalfPerfectUsers.data);
       setResultDate({ year: dateQuery.queryYear, month: dateQuery.queryMonth });
@@ -99,7 +104,9 @@ function DashboardPage() {
             {/* EXPLAIN: 이번 달 개근자 목록 테이블 */}
             <MonthlyPerfectUserTable data={monthlyStatistic} />
             {/* EXPLAIN: 이번 달 1/2 개근자 목록 테이블 */}
-            <MonthlyHalfPerfectUserTable data={monthlyHalfPerfectUserIntraIds} />
+            <MonthlyHalfPerfectUserTable
+              data={monthlyHalfPerfectUserIntraIds}
+            />
           </Stack>
         </Grid>
 

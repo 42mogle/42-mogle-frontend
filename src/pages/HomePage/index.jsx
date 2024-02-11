@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from "react";
-import apiManager from "../../api/apiManager";
-import LoginChecker from "../../components/LoginChecker";
+
+import { Button } from "@mui/material";
+import Link from "@mui/material/Link";
+
+import apiManager from "@api/apiManager";
+import LoginChecker from "@components/LoginChecker";
+import useStore from "@utils/store.js";
 import AttendanceTable from "./AttendanceTable";
 import AttendanceButton from "./AttendanceButton";
 import SetTodayWordButton from "./SetTodayWordButton";
 import UserProfile from "./UserProfile";
 import TodayDate from "./TodayDate";
 import AttendanceSummary from "./AttendanceSummary";
-import useStore from "../../store.js";
 import TodayWord from "./TodayWord";
-import { Button } from "@mui/material";
-import Link from "@mui/material/Link";
 const HTTP_STATUS = require("http-status");
 
 function Home() {
@@ -63,6 +65,13 @@ function Home() {
     }
   };
 
+  const handleLogout = (event) => {
+    const jwtToken = localStorage.getItem("accessToken");
+    if (jwtToken) {
+      localStorage.removeItem("accessToken");
+    }
+  };
+
   useEffect(() => {
     getUserInfo();
   }, []);
@@ -85,9 +94,20 @@ function Home() {
         <AttendanceSummary />
       </AttendanceTable>
       <AttendanceButton />
+      <Button
+        onClick={handleLogout}
+        href="/"
+        align="center"
+        sx={{ mt: 3, width: "auto" }}
+      >
+        로그아웃
+      </Button>
       {isOperator && (
         <>
-          <SetTodayWordButton todayWord={todayWord} setTodayWord={setTodayWord} />
+          <SetTodayWordButton
+            todayWord={todayWord}
+            setTodayWord={setTodayWord}
+          />
           <Button
             component={Link}
             href="/dashboard"

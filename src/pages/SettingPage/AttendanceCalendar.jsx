@@ -13,7 +13,7 @@ import Typography from "@mui/material/Typography";
 
 import { format } from "date-fns";
 
-import apiManager from "api/apiManager";
+import apiManager from "@api/apiManager";
 
 const DateType = {
   WEEKDAY: 0,

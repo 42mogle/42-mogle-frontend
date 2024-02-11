@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import apiManager from "../api/apiManager.js";
+
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Link from "@mui/material/Link";
@@ -10,7 +10,9 @@ import Typography from "@mui/material/Typography";
 import Alert from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
 import jwt_decode from "jwt-decode";
-import useStore from "../store.js";
+
+import apiManager from "@api/apiManager.js";
+import useStore from "@utils/store.js";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -39,20 +41,18 @@ const Login = () => {
     const decodedToken = jwt_decode(token);
     const expirationDate = decodedToken.exp * 1000;
     const currentTimestamp = Date.now();
-    return (expirationDate < currentTimestamp);
-  }
+    return expirationDate < currentTimestamp;
+  };
 
   const checkLoginStatus = () => {
     const jwtToken = localStorage.getItem("accessToken");
-    if (jwtToken === null)
-      return ;
-    if (isTokenExpired(jwtToken))
-    {
+    if (jwtToken === null) return;
+    if (isTokenExpired(jwtToken)) {
       localStorage.removeItem("accessToken");
-      return ;
+      return;
     }
     navigate("/home");
-  }
+  };
 
   useEffect(() => {
     checkLoginStatus();

@@ -1,6 +1,7 @@
-import apiManager from "../../api/apiManager.js";
 import { Button } from "@mui/material";
-import useStore from "../../store.js";
+
+import apiManager from "@api/apiManager.js";
+import useStore from "@utils/store.js";
 
 function TestButtons() {
   const { _intraId } = useStore((state) => state);
