@@ -1,11 +1,13 @@
 import React from "react";
-import apiManager from "../api/apiManager.js";
 import { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+
 import { Typography } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
-import useStore from "../store.js";
 import jwt_decode from "jwt-decode";
+import apiManager from "@api/apiManager.js";
+import useStore from "@utils/store.js";
+
 const HTTP_STATUS = require("http-status");
 
 const Auth = () => {

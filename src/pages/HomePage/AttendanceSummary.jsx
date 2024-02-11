@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
-import apiManager from "../../api/apiManager";
-import AttendanceLog from "./AttendanceLog";
+
 import IconButton from "@mui/material/IconButton";
 import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import useStore from "../../store.js";
+
+import apiManager from "@api/apiManager";
+import useStore from "@utils/store.js";
+import AttendanceLog from "./AttendanceLog";
 
 function AttendanceSummary() {
   const { _summary, setSummary, _attendanceCount, setAttendanceCount } =
@@ -42,9 +44,11 @@ function AttendanceSummary() {
         <TableCell component="th" scope="row" align="center">
           {_summary.attendanceCount}
         </TableCell>
-        <TableCell align="center">{_summary.isPerfectAttendance ? "✅" : "❌"}</TableCell>
+        <TableCell align="center">
+          {_summary.isPerfectAttendance ? "✅" : "❌"}
+        </TableCell>
       </TableRow>
-      
+
       <AttendanceLog open={open} />
     </React.Fragment>
   );

@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import OperatorChecker from "./OperatorChecker";
 import { Outlet } from "react-router-dom";
+
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -20,7 +20,9 @@ import Avatar from "@mui/material/Avatar";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import SettingsIcon from "@mui/icons-material/Settings";
 import jwt_decode from "jwt-decode";
-import apiManager from "api/apiManager";
+
+import OperatorChecker from "./OperatorChecker";
+import apiManager from "@api/apiManager";
 const HTTP_STATUS = require("http-status");
 
 const drawerWidth = 240;

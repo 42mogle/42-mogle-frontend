@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import apiManager from "../../api/apiManager.js";
+
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -8,7 +8,9 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import Alert from "@mui/material/Alert";
-import useStore from "../../store.js";
+
+import apiManager from "@api/apiManager.js";
+import useStore from "@utils/store.js";
 
 const AttendanceButton = () => {
   const [open, setOpen] = useState(false);
@@ -16,7 +18,9 @@ const AttendanceButton = () => {
   const [buttonLetter, setButtonLetter] = useState("출석체크");
   const [isSameWithTodayWord, setIsSameWithTodayWord] = useState(true);
   const _attendanceCount = useStore((state) => state);
-  const increaseAttendanceCount = useStore((state) => state.increaseAttendanceCount);
+  const increaseAttendanceCount = useStore(
+    (state) => state.increaseAttendanceCount
+  );
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -58,8 +62,7 @@ const AttendanceButton = () => {
       const response = await apiManager.get("/attendance/buttonStatus/");
       setButtonStatus(response.data);
 
-      if (response.data === 1)
-        setButtonLetter("출석가능 시간이 아닙니다.");
+      if (response.data === 1) setButtonLetter("출석가능 시간이 아닙니다.");
       else if (response.data === 2)
         setButtonLetter("이미 출석체크를 완료했습니다.");
       else if (response.data === 3)

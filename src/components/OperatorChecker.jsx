@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
@@ -8,7 +9,9 @@ import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
 import Link from "@mui/material/Link";
 import jwt_decode from "jwt-decode";
-import apiManager from "api/apiManager";
+
+import apiManager from "@api/apiManager";
+
 const HTTP_STATUS = require("http-status");
 
 /*

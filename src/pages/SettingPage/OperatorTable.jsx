@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
@@ -7,7 +8,8 @@ import Alert from "@mui/material/Alert";
 import Typography from "@mui/material/Typography";
 import { DataGrid } from "@mui/x-data-grid";
 import { styled } from "@mui/material/styles";
-import apiManager from "api/apiManager";
+
+import apiManager from "@api/apiManager";
 
 const columns = [
   { field: "intraId", headerName: "인트라 ID", width: 200 },
