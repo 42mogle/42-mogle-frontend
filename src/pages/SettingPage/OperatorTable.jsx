@@ -1,11 +1,7 @@
 import { useEffect, useState } from "react";
 
-import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
 import Alert from "@mui/material/Alert";
-import Typography from "@mui/material/Typography";
 import { DataGrid } from "@mui/x-data-grid";
 import { styled } from "@mui/material/styles";
 
@@ -64,33 +60,28 @@ function OperatorTable(props) {
   }, [data]);
 
   return (
-    <Grid item xs={12}>
-      <Card>
-        <CardContent>
-          <Typography variant="h5" component="div">
-            오퍼레이터 권한 수정
-          </Typography>
-          <Alert severity="warning">오퍼레이터 권한 제거 시, 자기 자신은 가장 마지막에 제거하시기 바랍니다.</Alert>
-          <Box sx={{ mt: 1, height: 700, width: "100%" }}>
-            <CustomDataGrid
-              rows={data}
-              columns={columns}
-              getRowId={(row) => row.intraId}
-              initialState={{
-                sorting: { sortModel: [{ field: "isOperator", sort: "asc" }] },
-              }}
-              checkboxSelection
-              disableSelectionOnClick
-              onCellClick={handleCellClick}
-              selectionModel={selectionModel}
-              onSelectionModelChange={(event) => {
-                setSelectionModel(event);
-              }}
-            />
-          </Box>
-        </CardContent>
-      </Card>
-    </Grid>
+    <>
+      <Alert severity="warning">
+        오퍼레이터 권한 제거 시, 자기 자신은 가장 마지막에 제거하시기 바랍니다.
+      </Alert>
+      <Box sx={{ mt: 1, height: 700, width: "100%" }}>
+        <CustomDataGrid
+          rows={data}
+          columns={columns}
+          getRowId={(row) => row.intraId}
+          initialState={{
+            sorting: { sortModel: [{ field: "isOperator", sort: "asc" }] },
+          }}
+          checkboxSelection
+          disableSelectionOnClick
+          onCellClick={handleCellClick}
+          selectionModel={selectionModel}
+          onSelectionModelChange={(event) => {
+            setSelectionModel(event);
+          }}
+        />
+      </Box>
+    </>
   );
 }
 

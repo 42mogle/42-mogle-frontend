@@ -11,7 +11,7 @@ import { format } from "date-fns";
 import { ko } from "date-fns/locale";
 
 import apiManager from "@api/apiManager";
-import SearchBar from "./SearchBar";
+import SearchBar from "@components/SearchBar";
 
 const HTTP_STATUS = require("http-status");
 
@@ -51,7 +51,7 @@ function UserAttendanceDataTable(props) {
       result.push({ id: day, date: row });
     }
     setRows(result);
-  }, [queryYear, queryMonth, searchIntraId]);
+  }, [queryYear, queryMonth]);
 
   const handleCellClick = async (event) => {
     if (event.field === "__check__") {
@@ -63,7 +63,7 @@ function UserAttendanceDataTable(props) {
         year: queryYear,
         month: queryMonth,
         day: selectedDay,
-        intraId: searchIntraId,
+        intraId: searchIntraId.toLowerCase(),
       };
       if (event.value === false) {
         try {
@@ -93,7 +93,7 @@ function UserAttendanceDataTable(props) {
     if (searchIntraId.length === 0) return;
     try {
       const response = await apiManager.get(
-        `/operator/attendance-list/${queryYear}/${queryMonth}/${searchIntraId}`
+        `/operator/attendance-list/${queryYear}/${queryMonth}/${searchIntraId.toLocaleLowerCase()}`
       );
       setAttendanceLog(
         response.data.map((log) => {
@@ -111,7 +111,7 @@ function UserAttendanceDataTable(props) {
 
   useEffect(() => {
     loadUserAttendanceData();
-  }, [queryYear, queryMonth, searchIntraId]);
+  }, [queryYear, queryMonth]);
 
   useEffect(() => {
     setSelectionModel(
@@ -135,8 +135,7 @@ function UserAttendanceDataTable(props) {
           <SearchBar
             searchQuery={searchIntraId}
             setSearchQuery={setSearchIntraId}
-            year={queryYear}
-            month={queryMonth}
+            onSubmit={loadUserAttendanceData}
           />
           <Box sx={{ mt: 1, height: 400, width: "100%" }}>
             {attendanceLog.length === 0 ? (
